@@ -77,4 +77,28 @@
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>Java集合详解</title>
+    <url>/2020/10/24/Java-CollectionsFramework/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Java programming</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Summary of knowledge</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络面试题摘要</title>
+    <url>/2020/10/25/Computer-network-interview-questions/</url>
+    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1>]]></content>
+      <categories>
+        <category>basis of computer engineering</category>
+      </categories>
+      <tags>
+        <tag>Reading Books</tag>
+        <tag>Computer Network</tag>
+      </tags>
+  </entry>
 </search>

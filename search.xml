@@ -40,6 +40,7 @@
 </ol>
 ]]></content>
       <categories>
+        <category>The Hadoop Ecosystem</category>
         <category>Learning Flink</category>
       </categories>
       <tags>
@@ -52,6 +53,7 @@
     <url>/2020/10/24/Framework-of-ApacheFlink/</url>
     <content><![CDATA[<h1 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h1><h3 id="搭建Flink所需组件"><a href="#搭建Flink所需组件" class="headerlink" title="搭建Flink所需组件"></a>搭建Flink所需组件</h3>]]></content>
       <categories>
+        <category>The Hadoop Ecosystem</category>
         <category>Learning Flink</category>
       </categories>
       <tags>
@@ -60,28 +62,58 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/10/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Java集合详解</title>
     <url>/2020/10/24/Java-CollectionsFramework/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h2 id="一-ArrayList和LinkedList的区别以及优缺点"><a href="#一-ArrayList和LinkedList的区别以及优缺点" class="headerlink" title="一.ArrayList和LinkedList的区别以及优缺点"></a>一.ArrayList和LinkedList的区别以及优缺点</h2><ol>
+<li><p> ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表结构。</p>
+</li>
+<li><p> 对于随机访问的get和set方法，ArrayList要优于LinkedList，因为LinkedList要移动指针。</p>
+</li>
+<li><p> 对于新增和删除操作add和remove，LinkedList比较占优势，因为ArrayList要移动数据。</p>
+</li>
+<li><p>对ArrayList和LinkedList而言，在列表末尾增加一个元素所花的开销都是固定的。对ArrayList而言，主要是在内部数组中增加一项，指向所添加的元素，偶尔可能会导致对数组重新进行分配；而对LinkedList而言，这个开销是统一的,分配一个内部Entry对象。</p>
+</li>
+<li><p>在ArrayList集合中添加或者删除一个元素时，当前的列表所所有的元素都会被移动。而LinkedList集合中添加或者删除一个元素的开销是固定的。</p>
+</li>
+<li><p>LinkedList集合不支持高效的随机随机访问（RandomAccess），因为可能产生二次项的行为。</p>
+</li>
+<li><p>ArrayList的空间浪费主要体现在在list列表的结尾预留一定的容量空间，而LinkedList的空间花费则体现在它的每一个元素都需要消耗相当的空间</p>
+</li>
+<li><p>我们进行对元素的增删查操作的时候，进行查操作时用ArrayList，进行增删操作的时候最好用LinkedList。</p>
+</li>
+</ol>
+<h2 id="二-ArrayList的扩容机制"><a href="#二-ArrayList的扩容机制" class="headerlink" title="二.ArrayList的扩容机制"></a>二.ArrayList的扩容机制</h2><h4 id="分析-ArrayList-扩容机制"><a href="#分析-ArrayList-扩容机制" class="headerlink" title="分析 ArrayList 扩容机制"></a>分析 ArrayList 扩容机制</h4><h6 id="add"><a href="#add" class="headerlink" title="add"></a><code>add</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将指定的元素追加到此列表的末尾。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">   <span class="comment">//添加元素之前，先调用ensureCapacityInternal方法</span></span><br><span class="line">        ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">        <span class="comment">//这里看到ArrayList添加元素的实质就相当于为数组赋值</span></span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureCapacityInternal"><a href="#ensureCapacityInternal" class="headerlink" title="ensureCapacityInternal()"></a><code>ensureCapacityInternal()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//得到最小扩容量</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">             <span class="comment">// 获取默认的容量和传入参数的较大值</span></span><br><span class="line">           minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       ensureExplicitCapacity(minCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureExplicitCapacity"><a href="#ensureExplicitCapacity" class="headerlink" title="ensureExplicitCapacity()"></a><code>ensureExplicitCapacity()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//判断是否需要扩容</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       modCount++;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// overflow-conscious code</span></span><br><span class="line">       <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">           <span class="comment">//调用grow方法进行扩容，调用此方法代表已经开始扩容了</span></span><br><span class="line">           grow(minCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="grow"><a href="#grow" class="headerlink" title="grow()"></a><code>grow()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 要分配的最大数组大小</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * ArrayList扩容的核心方法。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// oldCapacity为旧容量，newCapacity为新容量</span></span><br><span class="line">       <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">       <span class="comment">//将oldCapacity 右移一位，其效果相当于oldCapacity /2，</span></span><br><span class="line">       <span class="comment">//我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5倍，</span></span><br><span class="line">       <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">       <span class="comment">//然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作数组的新容量，</span></span><br><span class="line">       <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">           newCapacity = minCapacity;</span><br><span class="line">      <span class="comment">// 如果新容量大于 MAX_ARRAY_SIZE,进入(执行) `hugeCapacity()` 方法来比较 minCapacity 和 MAX_ARRAY_SIZE，</span></span><br><span class="line">      <span class="comment">//如果minCapacity大于最大容量，则新容量则为`Integer.MAX_VALUE`，否则，新容量大小则为 MAX_ARRAY_SIZE 即为 `Integer.MAX_VALUE - 8`。</span></span><br><span class="line">       <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">           newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">       <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">       elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="hugeCapacity"><a href="#hugeCapacity" class="headerlink" title="hugeCapacity()"></a><code>hugeCapacity()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *从上面 grow() 方法源码我们知道： 如果新容量大于 MAX_ARRAY_SIZE,进入(执行) hugeCapacity() 方法来比较 minCapacity 和    *MAX_ARRAY_SIZE，如果 minCapacity 大于最大容量，则新容量则为Integer.MAX_VALUE，否则，新容量大小则为 MAX_ARRAY_SIZE </span></span><br><span class="line"><span class="comment">   *为 Integer.MAX_VALUE - 8</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">        <span class="comment">//对minCapacity和MAX_ARRAY_SIZE进行比较</span></span><br><span class="line">        <span class="comment">//若minCapacity大，将Integer.MAX_VALUE作为新数组的大小</span></span><br><span class="line">        <span class="comment">//若MAX_ARRAY_SIZE大，将MAX_ARRAY_SIZE作为新数组的大小</span></span><br><span class="line">        <span class="comment">//MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;</span></span><br><span class="line">        <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">            Integer.MAX_VALUE :</span><br><span class="line">            MAX_ARRAY_SIZE;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="System-arraycopy"><a href="#System-arraycopy" class="headerlink" title="System.arraycopy()"></a><code>System.arraycopy()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 在此列表中的指定位置插入指定的元素。</span></span><br><span class="line"><span class="comment">    *先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；</span></span><br><span class="line"><span class="comment">    *再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">       rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">       ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">       <span class="comment">//arraycopy()方法实现数组自己复制自己</span></span><br><span class="line">       <span class="comment">//elementData:源数组;index:源数组中的起始位置;elementData：目标数组；index + 1：目标数组中的起始位置； size - index：要复制的数组元素的数量；</span></span><br><span class="line">       System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, size - index);</span><br><span class="line">       elementData[index] = element;</span><br><span class="line">       size++;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+<h6 id="Arrays-copyOf"><a href="#Arrays-copyOf" class="headerlink" title="Arrays.copyOf()"></a><code>Arrays.copyOf()</code></h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     以正确的顺序返回一个包含此列表中所有元素的数组（从第一个到最后一个元素）; 返回的数组的运行时类型是指定数组的运行时类型。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Object[] toArray() &#123;</span><br><span class="line">    <span class="comment">//elementData：要复制的数组；size：要复制的长度</span></span><br><span class="line">        <span class="keyword">return</span> Arrays.copyOf(elementData, size);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureCapacity"><a href="#ensureCapacity" class="headerlink" title="ensureCapacity"></a><code>ensureCapacity</code></h6><p><strong>最好在 add 大量元素之前用 <code>ensureCapacity</code> 方法，以减少增量重新分配的次数</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   如有必要，增加此 ArrayList 实例的容量，以确保它至少可以容纳由minimum capacity参数指定的元素数。</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span>   minCapacity   所需的最小容量</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">           <span class="comment">// any size if not default element table</span></span><br><span class="line">           ? <span class="number">0</span></span><br><span class="line">           <span class="comment">// larger than default for default empty table. It&#x27;s already</span></span><br><span class="line">           <span class="comment">// supposed to be at default size.</span></span><br><span class="line">           : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">           ensureExplicitCapacity(minCapacity);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="三-无序性和不可重复性的含义是什么"><a href="#三-无序性和不可重复性的含义是什么" class="headerlink" title="三.无序性和不可重复性的含义是什么"></a>三.无序性和不可重复性的含义是什么</h2><ul>
+<li><p>无序性：不等于随机性。存储的数据在底层数组中并非按照数组索引的顺序添加，而是根据数组的哈希值决定的</p>
+</li>
+<li><p>不可重复性：保证添加的元素按照equals（）判断时，不能返回true，即相同的元素只能添加一个,需要同时重写equals()方法和hashcode()方法</p>
+</li>
+</ul>
+<h2 id="四-HashMap的长度为什么是2的幂次方"><a href="#四-HashMap的长度为什么是2的幂次方" class="headerlink" title="四.HashMap的长度为什么是2的幂次方"></a>四.HashMap的长度为什么是2的幂次方</h2><h2 id="Arrays-asList-避坑指南"><a href="#Arrays-asList-避坑指南" class="headerlink" title="Arrays.asList()避坑指南"></a>Arrays.asList()避坑指南</h2>]]></content>
       <categories>
+        <category>Programming Language</category>
         <category>Java programming</category>
       </categories>
       <tags>
@@ -92,13 +124,697 @@
   <entry>
     <title>计算机网络面试题摘要</title>
     <url>/2020/10/25/Computer-network-interview-questions/</url>
-    <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title=""></a></h1>]]></content>
+    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h3 id="HTTP基本概念"><a href="#HTTP基本概念" class="headerlink" title="HTTP基本概念"></a>HTTP基本概念</h3><p><strong>HTTP 是超文本传输协议，也就是HyperText Transfer Protocol</strong></p>
+<ul>
+<li><p>HTTP 是一个用在计算机世界里的协议  . 它使用计算机能够理解的语言确立了一种计算机之间交流通信 的规范（两个以上的参与者），以及相关的各种控制和错误处理方式（行为约定和规范）</p>
+</li>
+<li><p>HTTP 是一个在计算机世界里专门用来在两点之间传输数据的约定和规范。(允许中间有中转或接力)</p>
+</li>
+<li><p>HTTP 传输的内容是「超文本」.「超文本」是超越了普通文本的文本，它是文字、图片、视频等的混合体，关键有超 链接，能从一个超文本跳转到另外一个超文本</p>
+</li>
+</ul>
+<p><strong>HTTP 是一个在计算机世界里专门在「两点」之间「传输」文字、图片、音频、视频等「超文本」数据 的「约定和规范」</strong></p>
+<hr>
+<h1 id="全家桶"><a href="#全家桶" class="headerlink" title="全家桶"></a>全家桶</h1><h3 id="IP基础知识"><a href="#IP基础知识" class="headerlink" title="IP基础知识"></a>IP基础知识</h3><p>IP（网络层） 和 MAC （数据链路层）之间的区别和关系?</p>
+<p>IP 的作用是主机之间通信用的，而 MAC 的作用则是实现「直连」 的两个设备之间通信，而 IP 则负责在「没有直连」的两个网络之间进行通信传输</p>
+<h3 id="IP地址的基础知识"><a href="#IP地址的基础知识" class="headerlink" title="IP地址的基础知识"></a>IP地址的基础知识</h3><h3 id="IP协议相关技术"><a href="#IP协议相关技术" class="headerlink" title="IP协议相关技术"></a>IP协议相关技术</h3>]]></content>
       <categories>
-        <category>basis of computer engineering</category>
+        <category>Basis of computer engineering</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>
-        <tag>Computer Network</tag>
+        <tag>basis of computer engineering</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scala集合操作</title>
+    <url>/2020/10/26/Scala-collection-operation/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Programming Language</category>
+        <category>Scala programming</category>
+      </categories>
+      <tags>
+        <tag>Summary of knowledge</tag>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lambda 架构</title>
+    <url>/2020/10/29/Lambda-System-Construction/</url>
+    <content><![CDATA[<h2 id="一-新范式"><a href="#一-新范式" class="headerlink" title="(一).新范式"></a>(一).新范式</h2><h3 id="传统数据库的不足"><a href="#传统数据库的不足" class="headerlink" title="传统数据库的不足"></a>传统数据库的不足</h3><ul>
+<li><p>数据库更不上负载:解决方法-用队列扩展</p>
+</li>
+<li><p>数据库再次超载:解决方法-通过数据库进行分片扩展</p>
+</li>
+<li><p>处理容错问题</p>
+</li>
+<li><p>损坏问题</p>
+<p><strong>系统必须是可以容忍人为错误的</strong></p>
+</li>
+</ul>
+<h3 id="大数据系统应有的属性"><a href="#大数据系统应有的属性" class="headerlink" title="大数据系统应有的属性"></a>大数据系统应有的属性</h3><ul>
+<li><p>鲁棒性和容错性</p>
+</li>
+<li><p>低延迟读取和更新</p>
+</li>
+<li><p>可扩展性</p>
+</li>
+<li><p>通用性</p>
+</li>
+<li><p>延展性(目标实现大规模迁移)</p>
+</li>
+<li><p>及席查询</p>
+</li>
+<li><p>最少维护</p>
+</li>
+<li><p>可调式性</p>
+</li>
+</ul>
+<h3 id="Lambda架构模型"><a href="#Lambda架构模型" class="headerlink" title="Lambda架构模型"></a>Lambda架构模型</h3><h5 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h5><p><strong>数据系统不只是记录和重现信息 你掌握的信息是真实的,只是因为它存在<br>数据系统的通用表达式:</strong><br><strong>query = function(all data)</strong></p>
+<h5 id="Lambda架构总体的函数"><a href="#Lambda架构总体的函数" class="headerlink" title="Lambda架构总体的函数"></a>Lambda架构总体的函数</h5><p><strong>系统抽象函数:</strong></p>
+<p><strong>batch view = function (all data)</strong><br><strong>realtime view = function (realtime view(实时视图) ,new data)</strong><br><strong>query = function (batch view ,realtime view )</strong></p>
+<h5 id="Lambda架构模型的说明"><a href="#Lambda架构模型的说明" class="headerlink" title="Lambda架构模型的说明"></a>Lambda架构模型的说明</h5><ul>
+<li>批处理层:先查询预先计算查询函数(批处理视图)</li>
+<li>速度层:速度层只查看最近的数据,而批处理层要立即查看所有数据,速度层做增量查询.而不是像批处理层那样重写计算</li>
+<li>服务层:一个专门的分布式数据库,用于加载批处理视图,并且可以对它进行随机读取</li>
+</ul>
+<h5 id="示例应用-SuperWebAnalytics-com"><a href="#示例应用-SuperWebAnalytics-com" class="headerlink" title="示例应用:SuperWebAnalytics.com"></a>示例应用:SuperWebAnalytics.com</h5><h2 id="二-批处理层"><a href="#二-批处理层" class="headerlink" title="(二).批处理层"></a>(二).批处理层</h2><h3 id="数据的属性"><a href="#数据的属性" class="headerlink" title="数据的属性"></a>数据的属性</h3><h5 id="数据是原始的"><a href="#数据是原始的" class="headerlink" title="数据是原始的"></a>数据是原始的</h5><ul>
+<li>非结构化的数据比规范化的数据更原始,更多的信息并不意味更原始的数据</li>
+</ul>
+<h5 id="数据是不可变的"><a href="#数据是不可变的" class="headerlink" title="数据是不可变的"></a>数据是不可变的</h5><ul>
+<li>容忍人为错误是数据系统的基本属性,对于可变的数据模型,一个错误会导致数据的丢失.在数据库中值会被覆盖掉;而对于不可变的数据模式,如果人为的写入了坏数据,更早一些的数据单元仍然存在.修复数据系统知识删除损坏的数据单元</li>
+<li>可变数据模式数据必须以某种方式被索引,相反,不可变数据模式不需要,这是巨大的简化</li>
+</ul>
+<h5 id="数据是永远真实的"><a href="#数据是永远真实的" class="headerlink" title="数据是永远真实的"></a>数据是永远真实的</h5><ul>
+<li>删除数据不是对数据真实性的声明,相反,它是对数据价值的声明</li>
+</ul>
+<h3 id="基于事实的数据表示模型"><a href="#基于事实的数据表示模型" class="headerlink" title="基于事实的数据表示模型"></a>基于事实的数据表示模型</h3><h5 id="事实模型的特点"><a href="#事实模型的特点" class="headerlink" title="事实模型的特点"></a>事实模型的特点</h5><ul>
+<li>将原始数据储存为原子事实-原子性(不能再细化成有意义的组件)</li>
+<li>通过时间戳保证事实的不变性和永远正确性</li>
+<li>确保每个事实是可区分的,这样查询过程可以区分重复</li>
+</ul>
+<h5 id="基于事实的模型的优势"><a href="#基于事实的模型的优势" class="headerlink" title="基于事实的模型的优势"></a>基于事实的模型的优势</h5><ul>
+<li><p>任何时刻的历史消息都是可查询的</p>
+</li>
+<li><p>容忍人为错误(删除事实)</p>
+</li>
+<li><p>只需要处理部分信息</p>
+</li>
+<li><p>拥有规范和非规范形式的优点</p>
+<p><strong>规范化-以结构化的方式存储数据-查询效率</strong></p>
+<p><strong>非规范化-保证数据一致性</strong></p>
+</li>
+</ul>
+<h3 id="批处理层的数据存储"><a href="#批处理层的数据存储" class="headerlink" title="批处理层的数据存储"></a>批处理层的数据存储</h3><h5 id="主数据集的存储需求"><a href="#主数据集的存储需求" class="headerlink" title="主数据集的存储需求"></a>主数据集的存储需求</h5><ul>
+<li>写:<ul>
+<li>高效追加数据:简单高效</li>
+<li>可扩展的存储:TB或PB级别的数据,必须很容易扩展存储</li>
+</ul>
+</li>
+<li>读:<ul>
+<li>支持并行处理</li>
+</ul>
+</li>
+<li>读写:<ul>
+<li>可调优存储和处理成本</li>
+<li>强制不变性</li>
+</ul>
+</li>
+</ul>
+<h5 id="分布式文件系统的存储需求"><a href="#分布式文件系统的存储需求" class="headerlink" title="分布式文件系统的存储需求"></a>分布式文件系统的存储需求</h5><p>主要矛盾:处理成本和存储成本</p>
+<p>解决方案:分布式文件系统</p>
+<h5 id="垂直分区-这种存储标准适用全架构的哪一部分的数据集"><a href="#垂直分区-这种存储标准适用全架构的哪一部分的数据集" class="headerlink" title="垂直分区(这种存储标准适用全架构的哪一部分的数据集)"></a>垂直分区(这种存储标准适用全架构的哪一部分的数据集)</h5><p>次要矛盾:查询效率和存储成本</p>
+<p>解决什么问题:提高批处理查询效率</p>
+<p>怎么实现:例如静态分区,动态分区</p>
+<h3 id="批处理层"><a href="#批处理层" class="headerlink" title="批处理层"></a>批处理层</h3><h5 id="视图的标准"><a href="#视图的标准" class="headerlink" title="视图的标准"></a>视图的标准</h5><ul>
+<li>批处理层上计算的一个简单策略;预先计算所以可能的查询,并将结果缓存在服务层中,但这种预先计算不能穷尽所有业务的可能性,对于给定的查询业务,要预先计算的是每一个单元</li>
+</ul>
+<h5 id="重新计算算法"><a href="#重新计算算法" class="headerlink" title="重新计算算法"></a>重新计算算法</h5><ol>
+<li>性能:需要处理整个数据集的计算工作量</li>
+<li>容忍人的错误:批处理视图不断被重建</li>
+<li>通用性:在预先处理阶段解决了算法的复杂性,由此生成了简单的批处理视图和低延迟动态处理</li>
+<li>总结:对于支持鲁棒性的数据处理系统是必不可少的</li>
+</ol>
+<h5 id="增量算法-适用什么场合或者要满足什么要求"><a href="#增量算法-适用什么场合或者要满足什么要求" class="headerlink" title="增量算法(适用什么场合或者要满足什么要求)"></a>增量算法(适用什么场合或者要满足什么要求)</h5><ol>
+<li><p>性能:需要更少的计算资源但可能产生大得多的批处理视图</p>
+</li>
+<li><p>容忍人的错误:不容易修复批处理视图中的错误,修复是暂时的,可能要估算</p>
+</li>
+<li><p>通用性:需要特殊定制.可能将复杂性转移到动态查询的处理中</p>
+</li>
+<li><p>总结:提高系统效率,但只是重新计算算法的补充</p>
+</li>
+</ol>
+<h5 id="一种大数据计算的范式-MapReduce"><a href="#一种大数据计算的范式-MapReduce" class="headerlink" title="一种大数据计算的范式:MapReduce"></a>一种大数据计算的范式:MapReduce</h5><ul>
+<li>优:可扩展性 容错性 通用性</li>
+<li>缺:多步计算 join连接要手动 逻辑和物理执行耦合</li>
+</ul>
+<h5 id="一种关于批处理计算的高级思维方式-管道图"><a href="#一种关于批处理计算的高级思维方式-管道图" class="headerlink" title="一种关于批处理计算的高级思维方式:管道图"></a>一种关于批处理计算的高级思维方式:管道图</h5><h3 id="批处理层示例与实现-业务处理"><a href="#批处理层示例与实现-业务处理" class="headerlink" title="批处理层示例与实现(业务处理)"></a>批处理层示例与实现(业务处理)</h3><h5 id="URL规范化"><a href="#URL规范化" class="headerlink" title="URL规范化"></a>URL规范化</h5><h5 id="用户标识符规范化-迭代图算法"><a href="#用户标识符规范化-迭代图算法" class="headerlink" title="用户标识符规范化(迭代图算法)"></a>用户标识符规范化(迭代图算法)</h5><ul>
+<li>等效边的处理</li>
+</ul>
+<h5 id="页面浏览去重"><a href="#页面浏览去重" class="headerlink" title="页面浏览去重"></a>页面浏览去重</h5><p>改日再写…………</p>
+<h2 id="三-服务层"><a href="#三-服务层" class="headerlink" title="(三).服务层"></a>(三).服务层</h2><h3 id="服务层概述"><a href="#服务层概述" class="headerlink" title="服务层概述"></a>服务层概述</h3><h5 id="服务层的性能指标"><a href="#服务层的性能指标" class="headerlink" title="服务层的性能指标"></a>服务层的性能指标</h5><p>起源:</p>
+<ul>
+<li>层的索引以完全分布式的方式被创建、加载和 服务</li>
+</ul>
+<p>指标:</p>
+<ul>
+<li>延迟:响应单个查询所需 的时间</li>
+<li>吞吐量:给定时间内可以服务的查询数量</li>
+</ul>
+<p>性能的优化:</p>
+<ul>
+<li>的索引促进扫描并限制磁盘寻道,从而改善了延迟和吞吐量</li>
+</ul>
+<h5 id="一致性问题的描述"><a href="#一致性问题的描述" class="headerlink" title="一致性问题的描述"></a>一致性问题的描述</h5><p>解决方案:lambda架构中主数据集和服务层之间是分离的,解决”一个字段的不同副本数据不一致问题”等,重新开始计算服务层</p>
+<h5 id="服务层数据库的需求"><a href="#服务层数据库的需求" class="headerlink" title="服务层数据库的需求"></a>服务层数据库的需求</h5><ul>
+<li><p>写-服务层所用的批处理视图是从头开始产生的,当视图的一个新的版本可以用时,旧版本的视图必须能够完全用新的视图替换</p>
+</li>
+<li><p>展性-服务层数据库必须能够处理任意大小的视图</p>
+</li>
+<li><p>读取-尤对小部分视图的随机读取</p>
+</li>
+<li><p>性-分布式架构必须要容忍机器的故障</p>
+</li>
+</ul>
+<h5 id="设计SuperWebAnalytics-com的服务层"><a href="#设计SuperWebAnalytics-com的服务层" class="headerlink" title="设计SuperWebAnalytics.com的服务层"></a>设计SuperWebAnalytics.com的服务层</h5><p>ElephantDB数据库</p>
+<h5 id="LAMBDA架构服务层的基本概念"><a href="#LAMBDA架构服务层的基本概念" class="headerlink" title="LAMBDA架构服务层的基本概念"></a>LAMBDA架构服务层的基本概念</h5><ul>
+<li><p>视图来优化延迟和吞吐量的能力</p>
+</li>
+<li><p>持随机写的简单形式</p>
+</li>
+<li><p>处理层储存规范化数据并在服务层储存非规范化数据的能力</p>
+</li>
+<li><p>层固有的容错和纠错性.因为可以从主数据集重新计算</p>
+</li>
+</ul>
+<h2 id="四-速度层"><a href="#四-速度层" class="headerlink" title="(四).速度层"></a>(四).速度层</h2><h3 id="实时视图"><a href="#实时视图" class="headerlink" title="实时视图"></a>实时视图</h3><h5 id="存储实时视图"><a href="#存储实时视图" class="headerlink" title="存储实时视图"></a>存储实时视图</h5><ul>
+<li>随机读:实时视图应该支持快速回应查询,这意味着它所包含的数据必须被索引</li>
+<li>随机写:为了支持增量算法,必须低延迟地修改实时视图</li>
+<li>可扩展性</li>
+<li>容错性</li>
+</ul>
+<h5 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h5><ul>
+<li>所有的数据最终都将表示在批处理层和服务层视图中,任何在速度层得到的近似值会被不断修正,这意味着任何近似值知识暂时的,即查询最终展示了准确性</li>
+</ul>
+<h5 id="增量算法的挑战"><a href="#增量算法的挑战" class="headerlink" title="增量算法的挑战"></a>增量算法的挑战</h5><ul>
+<li><p><strong>CAP定理的正确表述:当分布式数据系统被分区时,它可以是一致性的或者可用性的,但不能两者兼而有之.也就是说,如果选择了一致性,那么查询就会收到错误结果而不是正确答案:如果选择可用性,那么在网络分区间,读操作可能返回过时的数据,在高可用性系统中,最好的一致性属性是最终一致性</strong></p>
+</li>
+<li><p><strong>CAP定理</strong></p>
+</li>
+</ul>
+<h3 id="队列和流"><a href="#队列和流" class="headerlink" title="队列和流"></a>队列和流</h3><h5 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h5><ul>
+<li><p>单消费者队列</p>
+<ul>
+<li><strong>设计思想:从队列中读取一个事件时,该事件不会立即被删除,相反,get方法返回的记录包括一个标识符,稍后用它来确认处理事件成功还是失败.只有一个事件被确认成功删除,它才会被从队列中删除,如果事件处理失败或者超时,队列服务器将允许另一个服务器通过一个单独的get方法调用相同的事件.因此使用该方法,一个事件可能被处理多次,但是每个事件至少被处理一次是毋庸置疑的</strong></li>
+<li><strong>缺陷:消除了独立应用程序之间的任何隔离性</strong></li>
+<li><strong>完善:为每个消费者应用程序维护一个单独的队列,但是这种方法的实现大大增加服务器上的负载</strong></li>
+<li><strong>启发:队列系统所需的属性</strong></li>
+</ul>
+</li>
+<li><p>多消费者队列</p>
+<ul>
+<li>Apache Kafka</li>
+</ul>
+</li>
+</ul>
+<h5 id="流处理"><a href="#流处理" class="headerlink" title="流处理"></a>流处理</h5><ul>
+<li><p>storm</p>
+</li>
+<li><p>spark</p>
+</li>
+<li><p>flink</p>
+</li>
+</ul>
+<h3 id="微批量处理"><a href="#微批量处理" class="headerlink" title="微批量处理"></a>微批量处理</h3><h5 id="实现有且仅有一次的语义"><a href="#实现有且仅有一次的语义" class="headerlink" title="实现有且仅有一次的语义"></a>实现有且仅有一次的语义</h5><h5 id="微批量流处理"><a href="#微批量流处理" class="headerlink" title="微批量流处理"></a>微批量流处理</h5><p>每个批次被有序处理,并且每个批次都有唯一的ID,该ID每次回放总是一样的</p>
+<h5 id="微批量流处理的核心概念"><a href="#微批量流处理的核心概念" class="headerlink" title="微批量流处理的核心概念"></a>微批量流处理的核心概念</h5><ul>
+<li>本地批量计算</li>
+<li>有状态的计算</li>
+</ul>
+<h2 id="五-深入lambda架构"><a href="#五-深入lambda架构" class="headerlink" title="(五).深入lambda架构"></a>(五).深入lambda架构</h2><h3 id="定义数据系统"><a href="#定义数据系统" class="headerlink" title="定义数据系统"></a>定义数据系统</h3><p><strong>查询要关注的属性</strong></p>
+<ul>
+<li><p>延迟:运行一个查询的书剑</p>
+</li>
+<li><p>时效性:最新的查询如何</p>
+</li>
+<li><p>准确性:在许多情况下,为了使查询更具有较好的性能和可扩展性,必须在查询的实现中采用近似值</p>
+</li>
+</ul>
+<p><strong>延迟性和及时性的描述</strong></p>
+<ul>
+<li><p>CAP定理表明:在网络分区的情况下,一个系统要么是一致性(查询考虑到所有以前写入的数据),要么是可用的(目前查询可以被回应)</p>
+</li>
+<li><p>一致性只是及时性的一种形式,可用性只意味查询的延迟是有界的.最终一致性的系统选择延迟而不是及时性(查询总是被回应,但可能不会考虑所有先前失败的情况下的数据)</p>
+</li>
+</ul>
+<p><strong>数据系统的基本模型</strong></p>
+<p>为什么如此以及怎样:允许人为错误 易变性   唯一的办法是让核心数据保持不变</p>
+<ul>
+<li>包含不断增长 的数据集合的主数据集</li>
+<li>作为函数的查询将整个主数据集作为输入</li>
+</ul>
+<h3 id="批处理层和服务层"><a href="#批处理层和服务层" class="headerlink" title="批处理层和服务层"></a>批处理层和服务层</h3><h2 id="重要的问题"><a href="#重要的问题" class="headerlink" title="重要的问题"></a>重要的问题</h2><p>1.等效边怎么处理(用户标识符规范化)</p>
+<p>2.垂直分区:假设按照星期来分区?但是我要查询男女???或者其他的需求,我要访问多余的数据,</p>
+<p>3.怎么理解批处理层的数据规划化?是否有索引</p>
+<p>4.假设多个人同时修改处理一块数据,怎么保证正确性,如果加锁,影响性能怎么解决?</p>
+<p>5.hbase是怎么删除数据的?打标签,怎么打?</p>
+<p>6.hdfs上的数据怎么实现修改的???</p>
+<p>7.hbase是按照rowkey来存储的,我的问题是我要查询最近两个星期的数据,hbase的存储方式是不满足我的要求的,问题是,我怎么间接地访问到两个星期的数据???—-查了一下hbase能查,这不是浪费资源吗</p>
+<p>8.hdfs的重名问题</p>
+<p>9.视图和展示数据以及最终的查询结果之间的标准是什么,换句话说怎么理解视图9</p>
+<p>10.批处理层 服务层 速度层 各自处理什么样的数据,生成什么样的数据,之间是如何沟通的,它们的界限???</p>
+<p>11.主数据集是如何更新数据的???0</p>
+]]></content>
+      <categories>
+        <category>The Hadoop Ecosystem</category>
+      </categories>
+      <tags>
+        <tag>Bigdata</tag>
+        <tag>Reading Books</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux常用命令</title>
+    <url>/2020/11/12/Common-Commands-In-Linux/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Basis of computer engineering</category>
+      </categories>
+      <tags>
+        <tag>basis of computer engineering</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Apache-Hive原理强化</title>
+    <url>/2020/11/14/Hive-principle-reinforcement/</url>
+    <content><![CDATA[<h1 id="Apache-Hive实践"><a href="#Apache-Hive实践" class="headerlink" title="Apache-Hive实践"></a>Apache-Hive实践</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><h4 id="集合数据类型"><a href="#集合数据类型" class="headerlink" title="集合数据类型"></a>集合数据类型</h4><ul>
+<li><p><strong>STRUCT:例如: address  struct&lt;street:string, city:string&gt; 可以通过address.street 来访问</strong></p>
+</li>
+<li><p><strong>ARRAY:例如:friends array<string>  可以通过 friend[index] 来访问</strong></p>
+</li>
+<li><p><strong>MAP:例如:children map&lt;string, int&gt;, 可以通过children[key]来访问</strong></p>
+</li>
+</ul>
+<h4 id="类型的转换"><a href="#类型的转换" class="headerlink" title="类型的转换"></a>类型的转换</h4><ul>
+<li><p>INT不会自动转换为TINYINT类型，它会返回错误，除非使用CAST操作</p>
+</li>
+<li><p>任何整数类型都可以隐式地转换为一个范围更广的类型，如TINYINT可以转换成INT，INT可以转换成BIGINT。</p>
+</li>
+<li><p>所有整数类型、FLOAT和STRING类型都可以隐式地转换成DOUBLE。</p>
+</li>
+<li><p>TINYINT、SMALLINT、INT都可以转换为FLOAT。</p>
+</li>
+<li><p>BOOLEAN类型不可以转换为任何其它的类型</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//表达结构</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;MobilePlatform&quot;</span>:<span class="string">&quot;apple&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;APP&quot;</span>:[<span class="string">&quot;jianshu&quot;</span>,<span class="string">&quot;csdn&quot;</span>],</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">              <span class="attr">&quot;xiaoming&quot;</span>:<span class="number">19</span>,</span><br><span class="line">              <span class="attr">&quot;xioahuang&quot;</span>:<span class="number">17</span></span><br><span class="line">         &#125;,</span><br><span class="line">     <span class="attr">&quot;address&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;street&quot;</span>:<span class="string">&quot;1000A&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;city&quot;</span>:<span class="string">&quot;zhongguo&quot;</span></span><br><span class="line">             &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建表语句</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(</span><br><span class="line">    MobilePlatform <span class="keyword">string</span>,</span><br><span class="line">    APP <span class="built_in">array</span>&lt;<span class="keyword">string</span>&gt;,</span><br><span class="line">    <span class="keyword">name</span> <span class="keyword">map</span>&lt;<span class="keyword">string</span>,<span class="built_in">int</span>&gt;,</span><br><span class="line">    address  <span class="keyword">struct</span>&lt;street:<span class="keyword">string</span>, city:<span class="keyword">string</span>&gt;</span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;,&#x27;</span></span><br><span class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;_&#x27;</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;:&#x27;</span></span><br><span class="line"><span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"><span class="comment">#语句的解释</span></span><br><span class="line">1.行列分隔符</span><br><span class="line">2.MAP STRUCT 和 ARRAY 的分隔符(数据分割符号)</span><br><span class="line">3.MAP中的key与value的分隔符</span><br><span class="line">4.行分隔符</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">txt数据与导入hive的语句</span><br><span class="line">apple,jianshu<span class="emphasis">_weibo,xiaoming:19_</span>xiaohua:17,1000A<span class="emphasis">_zhongguo</span></span><br><span class="line"><span class="emphasis">songsong,bingbing_</span>lili,xiao song:18<span class="emphasis">_xiaoxiao song:19,hui long guan_</span>beijing</span><br><span class="line"></span><br><span class="line">load data local inpath &quot;/root/test.txt&quot; into table test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查询语句和结果</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">test</span>;</span><br><span class="line"></span><br><span class="line">apple	[&quot;jianshu&quot;,&quot;weibo&quot;]	&#123;&quot;xiaoming&quot;:19,&quot;xiaohua&quot;:17&#125;	&#123;&quot;street&quot;:&quot;1000A&quot;,&quot;city&quot;:&quot;zhongguo&quot;&#125;</span><br><span class="line">songsong	[&quot;bingbing&quot;,&quot;lili&quot;]	&#123;&quot;xiao song&quot;:18,&quot;xiaoxiao song&quot;:19&#125;	&#123;&quot;street&quot;:&quot;hui long guan&quot;,&quot;city&quot;:&quot;beijing&quot;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> APP[<span class="number">1</span>],<span class="keyword">name</span>[<span class="string">&quot;xiaoming&quot;</span>], address.city <span class="keyword">from</span>  <span class="keyword">test</span>;</span><br><span class="line"></span><br><span class="line">weibo	19	    zhongguo</span><br><span class="line">lili	null	beijing</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="DDL-数据定义语言详解"><a href="#DDL-数据定义语言详解" class="headerlink" title="DDL  数据定义语言详解"></a>DDL  数据定义语言详解</h2><h4 id="库"><a href="#库" class="headerlink" title="库"></a>库</h4><ol>
+<li>数据库创建的标准语法</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  db_demo1; </span><br><span class="line"><span class="comment">#创建一个数据库指定在HDFS位置</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  db_demo1  <span class="string">&quot;/path&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>查询数据库的语法</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1.显示 支持模糊查询</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span> <span class="keyword">like</span> <span class="string">&quot;db_*&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2.查询 显示数据库详细信息 extended </span></span><br><span class="line"><span class="keyword">desc</span> <span class="keyword">database</span> db_demo1;</span><br><span class="line">desc database extended db_demo1;</span><br><span class="line"></span><br><span class="line"><span class="comment">#3.切换</span></span><br><span class="line"><span class="keyword">use</span> db_demo1</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li><p>修改数据库的语法与注意事项</p>
+<p>用户可以使用<code>ALTER DATABASE</code>命令为某个数据库的<code>DBPROPERTIES</code>设置键-值对属性值，来描述这个数据库的属性信息。数据库的其他元数据信息都是不可更改的，包括数据库名和数据库所在的目录位置。</p>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> db_demo1 <span class="keyword">set</span> dbproperties(<span class="string">&#x27;createtime&#x27;</span>=<span class="string">&#x27;20201114&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>删除数据库的标准语法</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#删除</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> <span class="keyword">if</span> <span class="keyword">exists</span> db_demo1 ;</span><br><span class="line"><span class="comment">#强制删除</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> db_demo1  <span class="keyword">cascade</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="表"><a href="#表" class="headerlink" title="表"></a>表</h4><ol>
+<li><p>建表语法的描述</p>
+<p>CREATE TABLE:建表</p>
+<p>EXTERNA:外部表</p>
+<p>COMMENT:为表和列添加注释</p>
+<p>PARTITIONED BY:分区</p>
+<p>CLUSTERED BY:分桶</p>
+<p>SORTED BY:</p>
+<p>ROW FORMAT:在建表的时候可以自定义SerDe或者使用自带的SerDe</p>
+<p>STORED AS :设置存储的类型</p>
+<p>LOCATION :指定表在HDFS上的存储位置</p>
+<p>LIKE:复制现有表的结构,但不复制内容</p>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#普通建表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查询建表(查询结果添加到新表中)</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> student1 <span class="keyword">as</span> <span class="keyword">select</span> <span class="keyword">id</span>, <span class="keyword">name</span> <span class="keyword">from</span> student;</span><br><span class="line"><span class="comment">#根据已经存在的表结构建表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> student2 <span class="keyword">like</span> student;</span><br><span class="line"><span class="comment">#查询类型</span></span><br><span class="line">desc formatted student2;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li><strong>内部表和外部表</strong></li>
+</ol>
+<ul>
+<li><p>默认创建的表都是所谓的管理表，有时也被称为内部表,当我们删除一个管理表时，Hive也会删除这个表中数据。管理表不适合和其他工具共享数据</p>
+</li>
+<li><p>表是外部表，所以Hive并非认为其完全拥有这份数据。删除该表并不会删除掉这份数据，不过描述表的元数据信息会被删除掉</p>
+</li>
+<li><p><strong>删除内部表会直接删除元数据（metadata）及存储数据；删除外部表仅仅会删除元数据，HDFS上的文件并不会被删除；</strong></p>
+</li>
+<li><p>对内部表的修改会将修改直接同步给元数据，而对外部表的表结构和分区进行修改，则需要修复（MSCK REPAIR TABLE<br>table_name;）</p>
+</li>
+<li><p>适用的场合:每天将收集到的网站日志定期流入HDFS文本文件。在外部表（原始日志表）的基础上做大量的统计分析，用到的中间表、结果表使用内部表存储，数据通过SELECT+INSERT进入内部表。</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#内部表和外部表的转换</span></span><br><span class="line"><span class="comment">#把内部表转换为外部表</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student2 <span class="keyword">set</span> tblproperties(<span class="string">&#x27;EXTERNAL&#x27;</span>=<span class="string">&#x27;TRUE&#x27;</span>);</span><br><span class="line"><span class="comment">##把外部表转换为内部表</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student2 <span class="keyword">set</span> tblproperties(<span class="string">&#x27;EXTERNAL&#x27;</span>=<span class="string">&#x27;FALSE&#x27;</span>);</span><br><span class="line"><span class="comment">##注意 &#x27;EXTERNAL&#x27;=&#x27;TRUE&#x27;  &#x27;EXTERNAL&#x27;=&#x27;FALSE&#x27; 是固定写法区分大小写</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li><p><strong>分区表</strong></p>
+<ul>
+<li><p>概念</p>
+<ul>
+<li><p>分区表实际上就是对应一个HDFS文件系统上的独立的文件夹，该文件夹下是该分区所有的数据文件。Hive中的分区就是分目录，把一个大的数据集根据业务需要分割成小的数据集。在查询时通过<strong>WHERE子句</strong>中的表达式选择查询所需要的指定的分区，这样的查询效率会提高很多。</p>
+</li>
+<li><p>查询时Hive自动过滤掉不用于提高性能的分区</p>
+</li>
+<li><p>分为静态分区和动态分区</p>
+</li>
+</ul>
+</li>
+<li><p>操作 (<strong>一级分区、二级分区、</strong>)</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#没有分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span>  tb_order2(</span><br><span class="line"> <span class="keyword">oid</span> <span class="built_in">int</span> ,</span><br><span class="line">dt <span class="keyword">string</span> ,</span><br><span class="line"><span class="keyword">cost</span> <span class="keyword">double</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/6.18.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span>  tb_order2 ;</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/6.19.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span>  tb_order2 ;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_order2 <span class="keyword">where</span> dt=<span class="string">&#x27;2020-06-18&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#一级分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span>  tb_p_order(</span><br><span class="line"><span class="keyword">oid</span> <span class="built_in">int</span> ,</span><br><span class="line">dt <span class="keyword">string</span> ,</span><br><span class="line"><span class="keyword">cost</span> <span class="keyword">double</span></span><br><span class="line">)</span><br><span class="line">partitioned  <span class="keyword">by</span> (dy <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/6.18.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span>  tb_p_order  <span class="keyword">partition</span>(dy=<span class="string">&quot;06-18&quot;</span>);</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/6.19.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span>  tb_p_order  <span class="keyword">partition</span>(dy=<span class="string">&quot;06-19&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_p_order <span class="keyword">where</span>  dy=<span class="string">&quot;06-18&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除分区</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_p_order <span class="keyword">drop</span>  <span class="keyword">partition</span> (dy = <span class="string">&quot;06-18&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#二级分区</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tb_partition2(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">int</span> ,</span><br><span class="line"><span class="keyword">name</span> <span class="keyword">string</span> ,</span><br><span class="line">gender <span class="keyword">string</span> ,</span><br><span class="line">birthday <span class="keyword">string</span></span><br><span class="line">)</span><br><span class="line">partitioned  <span class="keyword">by</span> (y <span class="keyword">string</span> , m <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span>  inpath <span class="string">&quot;/root/a.txt&quot;</span>  <span class="keyword">into</span>  <span class="keyword">table</span> tb_partition2 <span class="keyword">partition</span>(y=<span class="string">&#x27;90&#x27;</span>,m=<span class="string">&#x27;01&#x27;</span>);</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span>  inpath <span class="string">&quot;/root/b.txt&quot;</span>  <span class="keyword">into</span>  <span class="keyword">table</span> tb_partition2 <span class="keyword">partition</span>(y=<span class="string">&#x27;90&#x27;</span>,m=<span class="string">&#x27;02&#x27;</span>);</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span>  inpath <span class="string">&quot;/root/c.txt&quot;</span>  <span class="keyword">into</span>  <span class="keyword">table</span> tb_partition2 <span class="keyword">partition</span>(y=<span class="string">&#x27;95&#x27;</span>,m=<span class="string">&#x27;02&#x27;</span>);</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span>  inpath <span class="string">&quot;/root/d.txt&quot;</span>  <span class="keyword">into</span>  <span class="keyword">table</span> tb_partition2 <span class="keyword">partition</span>(y=<span class="string">&#x27;95&#x27;</span>,m=<span class="string">&#x27;03&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tb_partition2  <span class="keyword">where</span> y=<span class="string">&#x27;90&#x27;</span> <span class="keyword">and</span> m=<span class="string">&#x27;01&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="4">
+<li>修改表和删除表</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#重命名</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">RENAME</span> <span class="keyword">TO</span> new_table_name</span><br><span class="line"><span class="comment">#删除表</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> dept_partition;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="DML-数据操纵语言详解"><a href="#DML-数据操纵语言详解" class="headerlink" title="DML 数据操纵语言详解"></a>DML 数据操纵语言详解</h2><h4 id="数据导入"><a href="#数据导入" class="headerlink" title="数据导入"></a>数据导入</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#向表中装载数据</span><br><span class="line"></span><br><span class="line">#语法</span><br><span class="line">hive&gt; load data [local] inpath &#39;&#x2F;opt&#x2F;module&#x2F;datas&#x2F;student.txt&#39; overwrite | into table student [partition (partcol1&#x3D;val1,…)];</span><br><span class="line">#字段的解释</span><br><span class="line"></span><br><span class="line">load data:表示加载数据</span><br><span class="line">local:表示从本地加载数据到hive表；否则从HDFS加载数据到hive表</span><br><span class="line">inpath:表示加载数据的路径</span><br><span class="line">overwrite:表示覆盖表中已有数据，否则表示追加</span><br><span class="line">into table:表示加载到哪张表</span><br><span class="line">student:表示具体的表</span><br><span class="line">partition:表示上传到指定分区</span><br><span class="line"></span><br><span class="line">#通过查询语句向表中插入数据</span><br><span class="line">insert overwrite table student partition(month&#x3D;&#39;201708&#39;) select id, name from student where month&#x3D;&#39;201709&#39;;</span><br><span class="line"></span><br><span class="line">#查询语句中创建表并加载数据</span><br><span class="line">create table if not exists student3 as select id, name from student;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据导出"><a href="#数据导出" class="headerlink" title="数据导出"></a>数据导出</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查询结果导入到本地</span></span><br><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">local</span> <span class="keyword">directory</span> <span class="string">&#x27;/opt/module/datas/export/student&#x27;</span> <span class="keyword">select</span> * <span class="keyword">from</span> student;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询结果格式化导入本地</span></span><br><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">local</span> <span class="keyword">directory</span> <span class="string">&#x27;/opt/module/datas/export/student1&#x27;</span></span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>             </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student;</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询结果导入到HDFS</span></span><br><span class="line"><span class="keyword">insert</span> overwrite  <span class="keyword">directory</span> <span class="string">&#x27;/opt/module/datas/export/student1&#x27;</span></span><br><span class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>             </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Truncate只能删除管理表，不能删除外部表中数据</span></span><br><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span> student;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="DQL-数据查询语言详解"><a href="#DQL-数据查询语言详解" class="headerlink" title="DQL 数据查询语言详解"></a>DQL 数据查询语言详解</h2><h4 id="基本查询"><a href="#基本查询" class="headerlink" title="基本查询"></a>基本查询</h4><ul>
+<li><p>常用函数</p>
+</li>
+<li><p>算术运算符</p>
+</li>
+<li><p>Limit</p>
+</li>
+<li><p><strong>空值的处理</strong></p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># count( ) count(*) 区别</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>( ) <span class="keyword">from</span> Company <span class="comment">--包括空值</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> Company <span class="comment">--不包括空值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只有count不忽略空值,例如avg函数把空值设置为0</span></span><br><span class="line"> <span class="keyword">avg</span>(<span class="keyword">IsNull</span>(score，<span class="number">0</span>)） <span class="keyword">as</span> ’Average Score‘</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="where语句"><a href="#where语句" class="headerlink" title="where语句"></a>where语句</h4><ul>
+<li><p>between and</p>
+</li>
+<li><p>in is null   exist</p>
+</li>
+<li><p>like rlike</p>
+<ul>
+<li>% 代表零个或多个字符(任意个字符)。</li>
+<li>_ 代表一个字符。</li>
+<li>rlike支持正则表达式</li>
+</ul>
+</li>
+<li><p>逻辑运算符</p>
+</li>
+</ul>
+<h4 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h4><ul>
+<li><p>group by</p>
+</li>
+<li><p>having </p>
+</li>
+</ul>
+<h4 id="join连接"><a href="#join连接" class="headerlink" title="join连接"></a>join连接</h4><ul>
+<li>Hive支持通常的SQL JOIN语句，但是只支持等值连接，不支持非等值连接</li>
+<li>join连接谓词中不支持or</li>
+</ul>
+<h4 id="排序语法"><a href="#排序语法" class="headerlink" title="排序语法"></a>排序语法</h4><ul>
+<li><p>全局排序(order by )</p>
+<ol>
+<li><p>Order By：全局排序，一个Reducer</p>
+</li>
+<li><p>ASC（ascend）: 升序（默认）</p>
+</li>
+<li><p>DESC（descend）: 降序</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>每个MapReduce内部排序（Sort By）</p>
+<ol>
+<li><p>set mapreduce.job.reduces=3;(设置reduce数目)</p>
+</li>
+<li><p>set mapreduce.job.reduces;(查看reduce数目)</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>分区排序（Distribute By）</p>
+<ol>
+<li><p>类似MR中partition，进行分区，结合sort by使用</p>
+</li>
+<li><p>Hive要求DISTRIBUTE BY语句要写在SORT BY语句之前</p>
+</li>
+<li><p>要分配多reduce进行处理，否则无法看到distribute by的效果。</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>Cluster By</p>
+<ol>
+<li><p>当distribute by和sorts by字段相同时，可以使用cluster by方式。</p>
+</li>
+<li><p>cluster by除了具有distribute by的功能外还兼具sort by的功能。但是排序只能是升序排序，不能指定排序规则为ASC或者DESC。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="分桶与抽样查询-未解决"><a href="#分桶与抽样查询-未解决" class="headerlink" title="分桶与抽样查询(未解决)"></a>分桶与抽样查询(未解决)</h4><ul>
+<li><p>概念:</p>
+<ol>
+<li><p><strong>分区针对的是数据的存储路径；分桶针对的是数据文件,</strong></p>
+</li>
+<li><p>分区提供一个隔离数据和优化查询的便利方式。不过，并非所有的数据集都可形成合理的分区，特别是之前所提到过的要确定合适的划分大小这个疑虑</p>
+</li>
+<li><p>分桶对数据的处理比分区更加细粒度化；</p>
+</li>
+<li><p>分桶和分区两者不干扰，可以把分区表进一步分桶；</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">create table stu_buck(id int, name string)</span><br><span class="line">clustered by(id)</span><br><span class="line">into 4 buckets</span><br><span class="line">row format delimited fields terminated by &#39;\t&#39;;</span><br><span class="line"></span><br><span class="line">load data local inpath &#39;&#x2F;root&#x2F;e.txt&#39; into table</span><br><span class="line">stu_buck;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>分桶抽样查询</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#示例</span><br><span class="line">select * from stu_buck tablesample(bucket 1 out of 4 on id);</span><br><span class="line"></span><br><span class="line">#含义的说明</span><br><span class="line"></span><br><span class="line">tablesample是抽样语句，语法：TABLESAMPLE(BUCKET x OUT OF y) </span><br><span class="line">y必须是table总bucket数的倍数或者因子,例如:例如，table总共分了4份，当y&#x3D;2时，抽取(4&#x2F;2&#x3D;)2个bucket的数据，当y&#x3D;8时，抽取(4&#x2F;8&#x3D;)1&#x2F;2个bucket的数据。</span><br><span class="line">x表示从哪个bucket开始抽取，如果需要取多个分区，以后的分区号为当前分区号加上y,例如:table总bucket数为4，tablesample(bucket 1 out of 2)，表示总共抽取（4&#x2F;2&#x3D;）2个bucket的数据，抽取第1(x)个和第3(x y)个bucket的数据。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="动态分区和静态分区详解"><a href="#动态分区和静态分区详解" class="headerlink" title="动态分区和静态分区详解"></a>动态分区和静态分区详解</h2><p>首先是要创建静态分区表；然后将表设置为非严格模式；再次创建动态分区表，并加载数据。</p>
+<p>加载数据的时候，是按照静态分区的模式，将数据加载到动态分区中去。</p>
+<p><strong>注意事项要开启yarn不然报错:org.apache.hadoop.hive.ql.exec.mr.MapRedTask</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#案例</span></span><br><span class="line"><span class="comment">#数据user.txt</span></span><br><span class="line">u001 ZSS 23 M beijing</span><br><span class="line">u002 YMM 33 F nanjing</span><br><span class="line">u003 LSS 43 M beijing</span><br><span class="line">u004 ZY 23 F beijing</span><br><span class="line">u005 ZM 23 M beijing</span><br><span class="line">u006 CL 23 M dongjing</span><br><span class="line">u007 LX 23 F beijing</span><br><span class="line">u008 YZ 23 M beijing</span><br><span class="line">u009 YM 23 F nanjing</span><br><span class="line">u010 XM 23 M beijing</span><br><span class="line">u011 XD 23 F beijing</span><br><span class="line">u012 LH 23 M dongjing</span><br><span class="line"></span><br><span class="line"><span class="comment">#建普通表语句</span></span><br><span class="line"><span class="keyword">create</span>  <span class="keyword">table</span>  <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  tb_user(</span><br><span class="line">uid <span class="keyword">string</span> ,</span><br><span class="line"><span class="keyword">name</span>  <span class="keyword">string</span> ,</span><br><span class="line">age <span class="built_in">int</span> ,</span><br><span class="line">gender <span class="keyword">string</span> ,</span><br><span class="line">address <span class="keyword">string</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span>  <span class="keyword">terminated</span> <span class="keyword">by</span>  <span class="string">&quot; &quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">##加载数据</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span>  inpath  <span class="string">&quot;/root/user.txt&quot;</span>  <span class="keyword">into</span> <span class="keyword">table</span>  tb_user ;</span><br><span class="line"></span><br><span class="line"><span class="comment">##创建目标表</span></span><br><span class="line"><span class="keyword">create</span>  <span class="keyword">table</span>  <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span>  tb_p_user(</span><br><span class="line">uid <span class="keyword">string</span> ,</span><br><span class="line"><span class="keyword">name</span>  <span class="keyword">string</span> ,</span><br><span class="line">age <span class="built_in">int</span> ,</span><br><span class="line">gender <span class="keyword">string</span> ,</span><br><span class="line">address <span class="keyword">string</span></span><br><span class="line">)</span><br><span class="line">partitioned  <span class="keyword">by</span> (addr <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span>  <span class="keyword">terminated</span> <span class="keyword">by</span>  <span class="string">&quot; &quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">#开启动态分区设置</span></span><br><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition=<span class="literal">true</span> ;</span><br><span class="line"><span class="keyword">set</span> hive.exec.dynamic.partition.mode= nonstrict;  可以从普通表中导入数据</span><br><span class="line"></span><br><span class="line"><span class="comment">#插入数据(这里是全部插入,也可以插入普通表的部分字段)</span></span><br><span class="line">普通表5个字段</span><br><span class="line">分区表 5个主字段 1 个分区字段</span><br><span class="line">插入数据的时候字段个数类型一致  最后一个字段就是分区字段 </span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_p_user <span class="keyword">partition</span>(addr) <span class="keyword">select</span> uid , <span class="keyword">name</span> , age , gender , address,address  <span class="keyword">from</span>  tb_user ;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="窗口函数总结"><a href="#窗口函数总结" class="headerlink" title="窗口函数总结"></a>窗口函数总结</h2><h4 id="窗口函数"><a href="#窗口函数" class="headerlink" title="窗口函数"></a>窗口函数</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#窗口函数的语法</span></span><br><span class="line"></span><br><span class="line">over关键字用来指定函数执行的窗口范围，若后面括号中什么都不写，则意味着窗口包含满足WHERE条件的所有行，窗口函数基于所有行进行计算；如果不为空，则支持以下4中语法来设置窗口。</span><br><span class="line">①window_name：给窗口指定一个别名。如果SQL中涉及的窗口较多，采用别名可以看起来更清晰易读；</span><br><span class="line">②PARTITION BY 子句：窗口按照哪些字段进行分组，窗口函数在不同的分组上分别执行；</span><br><span class="line">③ORDER BY子句：按照哪些字段进行排序，窗口函数将按照排序后的记录顺序进行编号；</span><br><span class="line">④FRAME子句：FRAME是当前分区的一个子集，子句用来定义子集的规则，通常用来作为滑动窗口使用</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li> 偏移量函数:lag lead</li>
+</ol>
+<p>​           lag(列名,往前的行数,[行数为null时的默认值，不指定为null])，可以计算用户上次购买时间，或者用户下次购买时间。</p>
+<p>​           lead(列名,往后的行数,[行数为null时的默认值，不指定为null])</p>
+<ol start="2">
+<li>first_value 和 last_value</li>
+</ol>
+<p>​           first_value取分组内排序后，截止到当前行，第一个值<br>​           last_value取分组内排序后，截止到当前行，最后一个值</p>
+<h4 id="序列函数"><a href="#序列函数" class="headerlink" title="序列函数"></a><strong>序列函数</strong></h4><ul>
+<li><p>rank():1,2,2,2,5,6</p>
+</li>
+<li><p>dense_rank():1,2,2,3,4,4,5</p>
+</li>
+<li><p>row_number():1,2,3,4,5,6</p>
+</li>
+<li><p>ntile(n):用于将分组数据按照顺序切分成n片，返回当前切片值</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#ntile(n) 支持over()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="控制窗口大小的使用"><a href="#控制窗口大小的使用" class="headerlink" title="控制窗口大小的使用"></a>控制窗口大小的使用</h4><p><strong>PRECEDING：往前<br>FOLLOWING：往后<br>CURRENT ROW：当前行<br>UNBOUNDED：起点，UNBOUNDED PRECEDING 表示从前面的起点， UNBOUNDED FOLLOWING：表示到后面的终点</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例如</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,orderdate,<span class="keyword">cost</span>,</span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>() <span class="keyword">as</span> fullagg, <span class="comment">--所有行相加</span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span>) <span class="keyword">as</span> fullaggbyname, <span class="comment">--按name分组，组内数据相加</span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> orderdate) <span class="keyword">as</span> fabno, <span class="comment">--按name分组，组内数据累加 </span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> orderdate <span class="keyword">rows</span> <span class="keyword">between</span> <span class="keyword">unbounded</span> <span class="keyword">preceding</span> <span class="keyword">and</span> <span class="keyword">current</span> <span class="keyword">row</span>) <span class="keyword">as</span> mw1   <span class="comment">--和fabno一样,由最前面的起点到当前行的聚合 </span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> orderdate <span class="keyword">rows</span> <span class="keyword">between</span> <span class="number">1</span> <span class="keyword">preceding</span> <span class="keyword">and</span> <span class="keyword">current</span> <span class="keyword">row</span>) <span class="keyword">as</span> mw2,   <span class="comment">--当前行和前面一行做聚合 </span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> orderdate <span class="keyword">rows</span> <span class="keyword">between</span> <span class="number">1</span> <span class="keyword">preceding</span> <span class="keyword">and</span> <span class="number">1</span> <span class="keyword">following</span>) <span class="keyword">as</span> mw3,   <span class="comment">--当前行和前边一行及后面一行 </span></span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">cost</span>) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> orderdate <span class="keyword">rows</span> <span class="keyword">between</span> <span class="keyword">current</span> <span class="keyword">row</span> <span class="keyword">and</span> <span class="keyword">unbounded</span> <span class="keyword">following</span>) <span class="keyword">as</span> mw4  <span class="comment">--当前行及后面所有行 </span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">order</span>; </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="SQL习题-窗口函数-未完成"><a href="#SQL习题-窗口函数-未完成" class="headerlink" title="SQL习题-窗口函数(未完成)"></a>SQL习题-窗口函数(未完成)</h4><h2 id="列转行、行转列"><a href="#列转行、行转列" class="headerlink" title="列转行、行转列"></a>列转行、行转列</h2><h4 id="列转行"><a href="#列转行" class="headerlink" title="列转行"></a>列转行</h4><ul>
+<li>函数的说明:<ul>
+<li><strong>CONCAT(STRING A ,STRINFG B):返回字符串的连接后的结果</strong></li>
+<li><strong>CONCAT_WS(separator, str1, str2,…):这是一个特殊的CONCAT(),第一个参数是分隔符</strong></li>
+<li><strong>COLLECT_SET():函数只接受基本数据类型，它的主要作用是将某字段的值进行去重汇总，产生array类型字段</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#SQL</span></span><br><span class="line"><span class="comment">#数据</span></span><br><span class="line">孙尚香,白羊座,A</span><br><span class="line">司马懿,射手座,A</span><br><span class="line">吕布,白羊座,B</span><br><span class="line">貂蝉,白羊座,A</span><br><span class="line">许褚,射手座,A</span><br><span class="line"></span><br><span class="line"><span class="comment">#需求</span></span><br><span class="line">射手座,A    司马懿|许褚</span><br><span class="line">白羊座,A    孙尚香|貂蝉</span><br><span class="line">白羊座,B    吕布</span><br><span class="line"></span><br><span class="line"><span class="comment">#建表和SQL</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> person_info(</span><br><span class="line"><span class="keyword">name</span> <span class="keyword">string</span>,</span><br><span class="line">constellation <span class="keyword">string</span>,</span><br><span class="line">blood_type <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span>;</span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/f.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span> person_info;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">//<span class="keyword">concat</span>(constellation,<span class="string">&quot;,&quot;</span>,blood_type),</span><br><span class="line"><span class="keyword">concat_ws</span>(<span class="string">&quot;,&quot;</span>,constellation,blood_type) <span class="keyword">as</span> <span class="keyword">list</span>,</span><br><span class="line"><span class="keyword">concat_ws</span>(<span class="string">&quot;|&quot;</span>,collect_set(<span class="keyword">name</span>)) <span class="keyword">as</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">person_info</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span>  constellation,blood_type;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="行转列"><a href="#行转列" class="headerlink" title="行转列"></a>行转列</h4><ul>
+<li>函数的说明<ul>
+<li>EXPLODE(col)：将hive一列中复杂的array或者map结构拆分成多行。</li>
+<li>LATERAL VIEW:用于和split, explode等UDTF一起使用，它能够将一列数据拆成多行数据，在此基础上可以对拆分后的数据进行聚合</li>
+<li>split(str , 分隔符):返回一个数组</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#SQL</span></span><br><span class="line"><span class="comment">#数据</span></span><br><span class="line">《疑犯追踪》 悬疑,动作,科幻,剧情</span><br><span class="line">《Lie to me》	悬疑,警匪,动作,心理,剧情</span><br><span class="line">《战狼2》 战争,动作,灾难</span><br><span class="line"></span><br><span class="line"><span class="comment">#需求</span></span><br><span class="line">《疑犯追踪》      悬疑</span><br><span class="line">《疑犯追踪》      动作</span><br><span class="line">《疑犯追踪》      科幻</span><br><span class="line">《疑犯追踪》      剧情</span><br><span class="line">《Lie to me》   悬疑</span><br><span class="line">《Lie to me》   警匪</span><br><span class="line">《Lie to me》   动作</span><br><span class="line">《Lie to me》   心理</span><br><span class="line">《Lie to me》   剧情</span><br><span class="line">《战狼2》        战争</span><br><span class="line">《战狼2》        动作</span><br><span class="line">《战狼2》        灾难</span><br><span class="line"></span><br><span class="line"><span class="comment">#建表与SQL</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> movie_info(</span><br><span class="line">movie <span class="keyword">string</span>,</span><br><span class="line"><span class="keyword">category</span> <span class="built_in">array</span>&lt;<span class="keyword">string</span>&gt;)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;|&quot;</span></span><br><span class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/g.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span> movie_info;</span><br><span class="line"></span><br><span class="line"><span class="comment">#lateral view explode(category) table_emp相当于一个虚拟表</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">movie</span><br><span class="line"><span class="keyword">result</span></span><br><span class="line"><span class="keyword">from</span> movie_info</span><br><span class="line"><span class="keyword">lateral</span> <span class="keyword">view</span></span><br><span class="line"><span class="keyword">explode</span>(<span class="keyword">category</span>) <span class="keyword">result</span> <span class="keyword">as</span> <span class="keyword">result</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#另一种建表,使用split()切分为数组形式</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="case-when语法、if语法-SQL练习未完成"><a href="#case-when语法、if语法-SQL练习未完成" class="headerlink" title="case when语法、if语法(SQL练习未完成)"></a>case when语法、if语法(SQL练习未完成)</h2><h4 id="case-when的语法"><a href="#case-when的语法" class="headerlink" title="case when的语法"></a>case when的语法</h4><ul>
+<li>CASE 字段  WHEN 值1 THEN 值1 [WHEN 值2 THEN 值2]  [ELSE 值]  END </li>
+<li>CASE WHEN 条件表达式 THEN 值1 [WHEN 条件表达式 [and or] 条件表达式THEN 值2]  [ELSE 值]  END</li>
+</ul>
+<h4 id="if的语法"><a href="#if的语法" class="headerlink" title="if的语法"></a>if的语法</h4><ul>
+<li>if( , , )</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#SQL</span></span><br><span class="line"><span class="comment">#数据</span></span><br><span class="line">悟空,A,男</span><br><span class="line">娜娜,A,男</span><br><span class="line">宋宋,B,男</span><br><span class="line">凤姐,A,女</span><br><span class="line">热巴,B,女</span><br><span class="line">慧慧,B,女</span><br><span class="line"></span><br><span class="line"><span class="comment">#需求</span></span><br><span class="line">dpt   男      女</span><br><span class="line">A     2       1</span><br><span class="line">B     1       2</span><br><span class="line"></span><br><span class="line"><span class="comment">#建表与SQL(一)</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tb_case_when_demo(</span><br><span class="line"><span class="keyword">name</span> <span class="keyword">string</span> ,</span><br><span class="line">dname <span class="keyword">string</span> ,</span><br><span class="line">gender <span class="keyword">string</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&quot;,&quot;</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">&quot;/root/h.txt&quot;</span> <span class="keyword">into</span> <span class="keyword">table</span> tb_case_when_demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">dname,</span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> gender <span class="keyword">when</span> <span class="string">&#x27;男&#x27;</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>) <span class="keyword">as</span>  <span class="keyword">nan</span>,</span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> gender <span class="keyword">when</span> <span class="string">&#x27;女&#x27;</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span> ) <span class="keyword">as</span> nv</span><br><span class="line"><span class="keyword">from</span> tb_case_when_demo</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span>  dname;</span><br><span class="line"></span><br><span class="line"><span class="comment">#SQL(二)</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">dname,</span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> <span class="keyword">when</span> gender =<span class="string">&#x27;男&#x27;</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>) <span class="keyword">as</span> <span class="keyword">nan</span>,</span><br><span class="line"><span class="keyword">sum</span>(<span class="keyword">case</span> <span class="keyword">when</span> gender = <span class="string">&#x27;女&#x27;</span> <span class="keyword">then</span>  <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span> ) <span class="keyword">as</span> nv</span><br><span class="line"><span class="keyword">from</span> tb_case_when_demo</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> dname;</span><br><span class="line"></span><br><span class="line"><span class="comment">#SQL(三)</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">dname,</span><br><span class="line"><span class="keyword">sum</span>(<span class="string">`if`</span>(gender=<span class="string">&#x27;男&#x27;</span>,<span class="number">1</span>,<span class="number">0</span>)) <span class="keyword">as</span> <span class="keyword">nan</span>,</span><br><span class="line"><span class="keyword">sum</span>(<span class="string">`if`</span>(gender = <span class="string">&#x27;女&#x27;</span>,<span class="number">1</span>,<span class="number">0</span>)) <span class="keyword">as</span> nv</span><br><span class="line"><span class="keyword">from</span> tb_case_when_demo</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span>  dname;</span><br><span class="line"></span><br><span class="line"><span class="comment">#SQL练习题</span></span><br><span class="line"><span class="comment">#数据与需求</span></span><br><span class="line">https://blog.csdn.net/qq_37933018/article/details/106878128</span><br><span class="line"><span class="comment">#一个SQL项目</span></span><br><span class="line">https://blog.csdn.net/BeiisBei/article/details/103672522</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="内置函数集合"><a href="#内置函数集合" class="headerlink" title="内置函数集合"></a>内置函数集合</h2><h4 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h4><h4 id="字符函数"><a href="#字符函数" class="headerlink" title="字符函数"></a>字符函数</h4><ul>
+<li><p>substr()</p>
+<p><strong>substr(a,b)：从字符串a中，第b位开始取，取右边所有的字符</strong></p>
+<p><strong>substr(a,b,c)：从字符串a中，第b为开始取，取c个字符</strong></p>
+</li>
+<li><p>填充</p>
+<p><strong>lpad（左填充）rpad（右填充）</strong></p>
+<p>例如:select lpad(‘abc’,10,’<em>‘); 往左填充10个\</em></p>
+</li>
+</ul>
+<h4 id="集合函数"><a href="#集合函数" class="headerlink" title="集合函数"></a>集合函数</h4><ul>
+<li>str_to_map(‘a:1,b:2,c:3’);字符串转map</li>
+<li>select size(str_to_map(‘a:1,b:2,c:3’));返回map的元素个数</li>
+<li>map_keys(str_to_map(‘a:1,b:2’));返回key</li>
+</ul>
+<h4 id="转换函数"><a href="#转换函数" class="headerlink" title="转换函数"></a>转换函数</h4><ul>
+<li>cast():select cast(‘2018-06-28’ as date);字符串转日期类型</li>
+</ul>
+<h4 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h4><h2 id="Hive自定义函数详解"><a href="#Hive自定义函数详解" class="headerlink" title="Hive自定义函数详解"></a>Hive自定义函数详解</h2><p>（UDF、UDAF、UDTF）</p>
+<h2 id="执行流程分析"><a href="#执行流程分析" class="headerlink" title="执行流程分析"></a>执行流程分析</h2><h2 id="解决小文件过多的方案"><a href="#解决小文件过多的方案" class="headerlink" title="解决小文件过多的方案"></a>解决小文件过多的方案</h2><h2 id="面试题摘要"><a href="#面试题摘要" class="headerlink" title="面试题摘要"></a>面试题摘要</h2><p>//concat 、concat_ws 、concat_group 区别</p>
+<p>FROM_UNIXTIME() 和 UNIX_TIMESTAMP（）</p>
+<p>//row_number()、rank()、dense_rank() 序列函数</p>
+<p>//控制窗口大小的使用</p>
+<p>//lead() 、lag() 偏移量函数</p>
+<p>日期函数</p>
+<p>//其他 列转行、行转列、炸裂函数、ntile(n)</p>
+<p>//内置函数集合</p>
+<p>//分区分桶详解</p>
+<p>执行流程分析</p>
+<p>解决小文件过多的方案</p>
+<p>优化策略</p>
+]]></content>
+      <categories>
+        <category>The Hadoop Ecosystem</category>
+        <category>Learning Hive</category>
+      </categories>
+      <tags>
+        <tag>Bigdata</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统面试题摘要</title>
+    <url>/2020/11/12/Operating-System/</url>
+    <content><![CDATA[<h2 id="操作系统基础"><a href="#操作系统基础" class="headerlink" title="操作系统基础"></a>操作系统基础</h2><h4 id="1-什么是操作系统"><a href="#1-什么是操作系统" class="headerlink" title="1.什么是操作系统"></a>1.什么是操作系统</h4><ul>
+<li><p>操作系统（Operating System，简称 OS）是管理计算机硬件与软件资源的程序，是计算机的基石</p>
+</li>
+<li><p>操作系统屏蔽了软件层的复杂性</p>
+</li>
+<li><p>操作系统的内核（Kernel）是操作系统的核心部分，它负责系统的内存管理，硬件设备的管理，文件系统的管理以及应用程序的管理,内核是连接应用程序和硬件的桥梁，决定着系统的性能和稳定性</p>
+</li>
+</ul>
+<h4 id="2-系统调用"><a href="#2-系统调用" class="headerlink" title="2.系统调用"></a>2.系统调用</h4><h6 id="根据进程访问资源的特点，我们可以把进程在系统上的运行分为两个级别："><a href="#根据进程访问资源的特点，我们可以把进程在系统上的运行分为两个级别：" class="headerlink" title="根据进程访问资源的特点，我们可以把进程在系统上的运行分为两个级别："></a>根据进程访问资源的特点，我们可以把进程在系统上的运行分为两个级别：</h6><ol>
+<li>用户态(user mode) : 用户态运行的进程或可以直接读取用户程序的数据。</li>
+<li>系统态(kernel mode):可以简单的理解系统态运行的进程或程序几乎可以访问计算机的任何资源，不受限制。</li>
+</ol>
+<h6 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h6><ul>
+<li>我们运行的用户程序中，凡是与系统态级别的资源有关的操作（如文件管理、进程控制、内存管理等)，都必须通过系统调用方式向操作系统提出服务请求，并由操作系统代为完成</li>
+</ul>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h4 id="线程间的同步的方式有哪些呢"><a href="#线程间的同步的方式有哪些呢" class="headerlink" title="线程间的同步的方式有哪些呢?"></a>线程间的同步的方式有哪些呢?</h4><ol>
+<li><p>**互斥量(Mutex)**：采用互斥对象机制，只有拥有互斥对象的线程才有访问公共资源的权限。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问。比如 Java 中的 synchronized 关键词和各种 Lock 都是这种机制。</p>
+</li>
+<li><p><strong>信号量(Semphares)</strong> ：它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量</p>
+</li>
+<li><p><strong>事件(Event)</strong> :Wait/Notify：通过通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作</p>
+</li>
+</ol>
+<h4 id="进程间的通信方式"><a href="#进程间的通信方式" class="headerlink" title="进程间的通信方式"></a>进程间的通信方式</h4><h4 id="操作系统中进程的调度算法"><a href="#操作系统中进程的调度算法" class="headerlink" title="操作系统中进程的调度算法"></a>操作系统中进程的调度算法</h4><ul>
+<li><strong>先到先服务(FCFS)调度算法</strong> : 从就绪队列中选择一个最先进入该队列的进程为之分配资源，使它立即执行并一直执行到完成或发生某事件而被阻塞放弃占用 CPU 时再重新调度。</li>
+<li><strong>短作业优先(SJF)的调度算法</strong> : 从就绪队列中选出一个估计运行时间最短的进程为之分配资源，使它立即执行并一直执行到完成或发生某事件而被阻塞放弃占用 CPU 时再重新调度。</li>
+<li><strong>时间片轮转调度算法</strong> : 时间片轮转调度是一种最古老，最简单，最公平且使用最广的算法，又称 RR(Round robin)调度。每个进程被分配一个时间段，称作它的时间片，即该进程允许运行的时间。</li>
+<li><strong>多级反馈队列调度算法</strong> ：前面介绍的几种进程调度的算法都有一定的局限性。如<strong>短进程优先的调度算法，仅照顾了短进程而忽略了长进程</strong> 。多级反馈队列调度算法既能使高优先级的作业得到响应又能使短作业（进程）迅速完成。，因而它是目前<strong>被公认的一种较好的进程调度算法</strong>，UNIX 操作系统采取的便是这种调度算法。</li>
+<li><strong>优先级调度</strong> ： 为每个流程分配优先级，首先执行具有最高优先级的进程，依此类推。具有相同优先级的进程以 FCFS 方式执行。可以根据内存要求，时间要求或任何其他资源要求来确定优先级。</li>
+</ul>
+<h2 id="操作系统内存管理系统"><a href="#操作系统内存管理系统" class="headerlink" title="操作系统内存管理系统"></a>操作系统内存管理系统</h2><h4 id="CPU-寻址了解吗-为什么需要虚拟地址空间"><a href="#CPU-寻址了解吗-为什么需要虚拟地址空间" class="headerlink" title="CPU 寻址了解吗?为什么需要虚拟地址空间?"></a>CPU 寻址了解吗?为什么需要虚拟地址空间?</h4><ul>
+<li>现代处理器使用的是一种称为 虚拟寻址(Virtual Addressing)*的寻址方式。使用虚拟寻址，CPU 需要将虚拟地址翻译成物理地址，这样才能访问到真实的物理内存。 实际上完成虚拟地址转换为物理地址转换的硬件是 CPU 中含有一个被称为 内存管理单元</li>
+<li>如果直接把物理地址暴露出来的话会带来严重问题，比如可能对操作系统造成伤害以及给同时运行多个程序造成困难</li>
+<li></li>
+</ul>
+<h4 id="缓存-内存-虚拟内存"><a href="#缓存-内存-虚拟内存" class="headerlink" title="缓存 内存 虚拟内存"></a>缓存 内存 虚拟内存</h4><ul>
+<li> 缓存是为了解决CPU速度和内存速度的速度差异问题 内存中被CPU访问最频繁的数据和指令被复制入CPU中的缓存</li>
+<li> 虚拟内存是WINDOWS操作系统用来管理内存的一种方法 虚拟内存说穿了就是把内存中的信息分出去一部分存在硬盘上 这样从表面上看就扩大了内存容量</li>
+<li> 缓存是一种硬件，是CPU的一部分；而虚拟内存并不是一种硬件，而是存在于硬盘上的一个文件，是根据WINDOWS的要求生成的（二者中的信息都是随时变化的） </li>
+<li> 缓存的目的是加快系统的速度，而虚拟内存技术是为了使更多的程序能够在有限的内存中运行</li>
+</ul>
+<p>未完成</p>
+]]></content>
+      <categories>
+        <category>Basis of computer engineering</category>
+      </categories>
+      <tags>
+        <tag>Reading Books</tag>
       </tags>
   </entry>
 </search>

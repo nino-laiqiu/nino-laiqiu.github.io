@@ -86,13 +86,15 @@
 
 
 
+<meta name="description" content="一.ArrayList和LinkedList的区别以及优缺点  ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表结构。   对于随机访问的get和set方法，ArrayList要优于LinkedList，因为LinkedList要移动指针。   对于新增和删除操作add和remove，LinkedList比较占优势，因为ArrayList要移动数据。  对Array">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java集合详解">
 <meta property="og:url" content="http://example.com/2020/10/24/Java-CollectionsFramework/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
+<meta property="og:description" content="一.ArrayList和LinkedList的区别以及优缺点  ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表结构。   对于随机访问的get和set方法，ArrayList要优于LinkedList，因为LinkedList要移动指针。   对于新增和删除操作add和remove，LinkedList比较占优势，因为ArrayList要移动数据。  对Array">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-10-24T13:16:32.000Z">
-<meta property="article:modified_time" content="2020-10-25T02:17:34.244Z">
+<meta property="article:modified_time" content="2020-10-26T15:23:58.858Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Summary of knowledge">
@@ -355,7 +357,18 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java-programming/" itemprop="url" rel="index">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Language</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/Java-programming/" itemprop="url" rel="index">
                     <span itemprop="name">Java programming</span>
                   </a>
                 </span>
@@ -392,7 +405,54 @@
       
 
       
-        
+        <h2 id="一-ArrayList和LinkedList的区别以及优缺点"><a href="#一-ArrayList和LinkedList的区别以及优缺点" class="headerlink" title="一.ArrayList和LinkedList的区别以及优缺点"></a>一.ArrayList和LinkedList的区别以及优缺点</h2><ol>
+<li><p> ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表结构。</p>
+</li>
+<li><p> 对于随机访问的get和set方法，ArrayList要优于LinkedList，因为LinkedList要移动指针。</p>
+</li>
+<li><p> 对于新增和删除操作add和remove，LinkedList比较占优势，因为ArrayList要移动数据。</p>
+</li>
+<li><p>对ArrayList和LinkedList而言，在列表末尾增加一个元素所花的开销都是固定的。对ArrayList而言，主要是在内部数组中增加一项，指向所添加的元素，偶尔可能会导致对数组重新进行分配；而对LinkedList而言，这个开销是统一的,分配一个内部Entry对象。</p>
+</li>
+<li><p>在ArrayList集合中添加或者删除一个元素时，当前的列表所所有的元素都会被移动。而LinkedList集合中添加或者删除一个元素的开销是固定的。</p>
+</li>
+<li><p>LinkedList集合不支持高效的随机随机访问（RandomAccess），因为可能产生二次项的行为。</p>
+</li>
+<li><p>ArrayList的空间浪费主要体现在在list列表的结尾预留一定的容量空间，而LinkedList的空间花费则体现在它的每一个元素都需要消耗相当的空间</p>
+</li>
+<li><p>我们进行对元素的增删查操作的时候，进行查操作时用ArrayList，进行增删操作的时候最好用LinkedList。</p>
+</li>
+</ol>
+<h2 id="二-ArrayList的扩容机制"><a href="#二-ArrayList的扩容机制" class="headerlink" title="二.ArrayList的扩容机制"></a>二.ArrayList的扩容机制</h2><h4 id="分析-ArrayList-扩容机制"><a href="#分析-ArrayList-扩容机制" class="headerlink" title="分析 ArrayList 扩容机制"></a>分析 ArrayList 扩容机制</h4><h6 id="add"><a href="#add" class="headerlink" title="add"></a><code>add</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将指定的元素追加到此列表的末尾。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">   <span class="comment">//添加元素之前，先调用ensureCapacityInternal方法</span></span><br><span class="line">        ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">        <span class="comment">//这里看到ArrayList添加元素的实质就相当于为数组赋值</span></span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureCapacityInternal"><a href="#ensureCapacityInternal" class="headerlink" title="ensureCapacityInternal()"></a><code>ensureCapacityInternal()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//得到最小扩容量</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">             <span class="comment">// 获取默认的容量和传入参数的较大值</span></span><br><span class="line">           minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       ensureExplicitCapacity(minCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureExplicitCapacity"><a href="#ensureExplicitCapacity" class="headerlink" title="ensureExplicitCapacity()"></a><code>ensureExplicitCapacity()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断是否需要扩容</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       modCount++;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// overflow-conscious code</span></span><br><span class="line">       <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">           <span class="comment">//调用grow方法进行扩容，调用此方法代表已经开始扩容了</span></span><br><span class="line">           grow(minCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="grow"><a href="#grow" class="headerlink" title="grow()"></a><code>grow()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 要分配的最大数组大小</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * ArrayList扩容的核心方法。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// oldCapacity为旧容量，newCapacity为新容量</span></span><br><span class="line">       <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">       <span class="comment">//将oldCapacity 右移一位，其效果相当于oldCapacity /2，</span></span><br><span class="line">       <span class="comment">//我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5倍，</span></span><br><span class="line">       <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">       <span class="comment">//然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作数组的新容量，</span></span><br><span class="line">       <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">           newCapacity = minCapacity;</span><br><span class="line">      <span class="comment">// 如果新容量大于 MAX_ARRAY_SIZE,进入(执行) `hugeCapacity()` 方法来比较 minCapacity 和 MAX_ARRAY_SIZE，</span></span><br><span class="line">      <span class="comment">//如果minCapacity大于最大容量，则新容量则为`Integer.MAX_VALUE`，否则，新容量大小则为 MAX_ARRAY_SIZE 即为 `Integer.MAX_VALUE - 8`。</span></span><br><span class="line">       <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">           newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">       <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">       elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="hugeCapacity"><a href="#hugeCapacity" class="headerlink" title="hugeCapacity()"></a><code>hugeCapacity()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *从上面 grow() 方法源码我们知道： 如果新容量大于 MAX_ARRAY_SIZE,进入(执行) hugeCapacity() 方法来比较 minCapacity 和    *MAX_ARRAY_SIZE，如果 minCapacity 大于最大容量，则新容量则为Integer.MAX_VALUE，否则，新容量大小则为 MAX_ARRAY_SIZE </span></span><br><span class="line"><span class="comment">   *为 Integer.MAX_VALUE - 8</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">        <span class="comment">//对minCapacity和MAX_ARRAY_SIZE进行比较</span></span><br><span class="line">        <span class="comment">//若minCapacity大，将Integer.MAX_VALUE作为新数组的大小</span></span><br><span class="line">        <span class="comment">//若MAX_ARRAY_SIZE大，将MAX_ARRAY_SIZE作为新数组的大小</span></span><br><span class="line">        <span class="comment">//MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;</span></span><br><span class="line">        <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">            Integer.MAX_VALUE :</span><br><span class="line">            MAX_ARRAY_SIZE;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="System-arraycopy"><a href="#System-arraycopy" class="headerlink" title="System.arraycopy()"></a><code>System.arraycopy()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 在此列表中的指定位置插入指定的元素。</span></span><br><span class="line"><span class="comment">    *先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方法保证capacity足够大；</span></span><br><span class="line"><span class="comment">    *再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">       rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">       ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">       <span class="comment">//arraycopy()方法实现数组自己复制自己</span></span><br><span class="line">       <span class="comment">//elementData:源数组;index:源数组中的起始位置;elementData：目标数组；index + 1：目标数组中的起始位置； size - index：要复制的数组元素的数量；</span></span><br><span class="line">       System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, size - index);</span><br><span class="line">       elementData[index] = element;</span><br><span class="line">       size++;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+<h6 id="Arrays-copyOf"><a href="#Arrays-copyOf" class="headerlink" title="Arrays.copyOf()"></a><code>Arrays.copyOf()</code></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     以正确的顺序返回一个包含此列表中所有元素的数组（从第一个到最后一个元素）; 返回的数组的运行时类型是指定数组的运行时类型。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Object[] toArray() &#123;</span><br><span class="line">    <span class="comment">//elementData：要复制的数组；size：要复制的长度</span></span><br><span class="line">        <span class="keyword">return</span> Arrays.copyOf(elementData, size);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ensureCapacity"><a href="#ensureCapacity" class="headerlink" title="ensureCapacity"></a><code>ensureCapacity</code></h6><p><strong>最好在 add 大量元素之前用 <code>ensureCapacity</code> 方法，以减少增量重新分配的次数</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   如有必要，增加此 ArrayList 实例的容量，以确保它至少可以容纳由minimum capacity参数指定的元素数。</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span>   minCapacity   所需的最小容量</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">           <span class="comment">// any size if not default element table</span></span><br><span class="line">           ? <span class="number">0</span></span><br><span class="line">           <span class="comment">// larger than default for default empty table. It&#x27;s already</span></span><br><span class="line">           <span class="comment">// supposed to be at default size.</span></span><br><span class="line">           : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">           ensureExplicitCapacity(minCapacity);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="三-无序性和不可重复性的含义是什么"><a href="#三-无序性和不可重复性的含义是什么" class="headerlink" title="三.无序性和不可重复性的含义是什么"></a>三.无序性和不可重复性的含义是什么</h2><ul>
+<li><p>无序性：不等于随机性。存储的数据在底层数组中并非按照数组索引的顺序添加，而是根据数组的哈希值决定的</p>
+</li>
+<li><p>不可重复性：保证添加的元素按照equals（）判断时，不能返回true，即相同的元素只能添加一个,需要同时重写equals()方法和hashcode()方法</p>
+</li>
+</ul>
+<h2 id="四-HashMap的长度为什么是2的幂次方"><a href="#四-HashMap的长度为什么是2的幂次方" class="headerlink" title="四.HashMap的长度为什么是2的幂次方"></a>四.HashMap的长度为什么是2的幂次方</h2><h2 id="Arrays-asList-避坑指南"><a href="#Arrays-asList-避坑指南" class="headerlink" title="Arrays.asList()避坑指南"></a>Arrays.asList()避坑指南</h2>
       
     </div>
     
@@ -493,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -513,7 +582,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -524,7 +593,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -535,7 +604,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -568,6 +637,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-ArrayList%E5%92%8CLinkedList%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">一.ArrayList和LinkedList的区别以及优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-ArrayList%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">二.ArrayList的扩容机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90-ArrayList-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="nav-number">2.0.1.</span> <span class="nav-text">分析 ArrayList 扩容机制</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#add"><span class="nav-number">2.0.1.0.1.</span> <span class="nav-text">add</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ensureCapacityInternal"><span class="nav-number">2.0.1.0.2.</span> <span class="nav-text">ensureCapacityInternal()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ensureExplicitCapacity"><span class="nav-number">2.0.1.0.3.</span> <span class="nav-text">ensureExplicitCapacity()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#grow"><span class="nav-number">2.0.1.0.4.</span> <span class="nav-text">grow()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#hugeCapacity"><span class="nav-number">2.0.1.0.5.</span> <span class="nav-text">hugeCapacity()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#System-arraycopy"><span class="nav-number">2.0.1.0.6.</span> <span class="nav-text">System.arraycopy()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Arrays-copyOf"><span class="nav-number">2.0.1.0.7.</span> <span class="nav-text">Arrays.copyOf()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ensureCapacity"><span class="nav-number">2.0.1.0.8.</span> <span class="nav-text">ensureCapacity</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%97%A0%E5%BA%8F%E6%80%A7%E5%92%8C%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E6%80%A7%E7%9A%84%E5%90%AB%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text">三.无序性和不可重复性的含义是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-HashMap%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2%E7%9A%84%E5%B9%82%E6%AC%A1%E6%96%B9"><span class="nav-number">4.</span> <span class="nav-text">四.HashMap的长度为什么是2的幂次方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arrays-asList-%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97"><span class="nav-number">5.</span> <span class="nav-text">Arrays.asList()避坑指南</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

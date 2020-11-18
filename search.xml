@@ -140,6 +140,7 @@
 <h3 id="IP地址的基础知识"><a href="#IP地址的基础知识" class="headerlink" title="IP地址的基础知识"></a>IP地址的基础知识</h3><h3 id="IP协议相关技术"><a href="#IP协议相关技术" class="headerlink" title="IP协议相关技术"></a>IP协议相关技术</h3>]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>System infrastructure</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>
@@ -411,6 +412,7 @@
     <content><![CDATA[]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>System infrastructure</category>
       </categories>
       <tags>
         <tag>basis of computer engineering</tag>
@@ -924,6 +926,7 @@
 ]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>System infrastructure</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>
@@ -939,6 +942,7 @@
 ]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>Arithmetic</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>
@@ -959,11 +963,12 @@
       </tags>
   </entry>
   <entry>
-    <title>Distributed-Theory</title>
+    <title>分布式理论</title>
     <url>/2020/11/16/Distributed-Theory/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>System infrastructure</category>
       </categories>
       <tags>
         <tag>Bigdata</tag>
@@ -1016,6 +1021,7 @@
 ]]></content>
       <categories>
         <category>Basis of computer engineering</category>
+        <category>Arithmetic</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>

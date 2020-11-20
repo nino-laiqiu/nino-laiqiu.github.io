@@ -86,13 +86,15 @@
 
 
 
+<meta name="description" content="文件管理rmrm filename:删除文件 rm -r :询问删除目录内容或者文件 rm -rf   删除当前目录下的所有文件及目录，并且是直接删除 rm  -r  *  删除当前目录下的所有内容 catcat -n filename:给文件内容添加行号,空行也添加 cat -b filename:给文件内容添加行号,空行跳过 cat &#x2F;dev&#x2F;null &gt; &#x2F;pathname:删除文件的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux常用命令">
 <meta property="og:url" content="http://example.com/2020/11/12/Common-Commands-In-Linux/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
+<meta property="og:description" content="文件管理rmrm filename:删除文件 rm -r :询问删除目录内容或者文件 rm -rf   删除当前目录下的所有文件及目录，并且是直接删除 rm  -r  *  删除当前目录下的所有内容 catcat -n filename:给文件内容添加行号,空行也添加 cat -b filename:给文件内容添加行号,空行跳过 cat &#x2F;dev&#x2F;null &gt; &#x2F;pathname:删除文件的">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-12T15:43:34.000Z">
-<meta property="article:modified_time" content="2020-11-18T13:42:26.984Z">
+<meta property="article:modified_time" content="2020-11-19T10:00:59.339Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="basis of computer engineering">
 <meta name="twitter:card" content="summary">
@@ -402,7 +404,33 @@
       
 
       
-        
+        <h2 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h2><h4 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h4><p>rm filename:删除文件</p>
+<p>rm -r :询问删除目录内容或者文件</p>
+<p>rm -rf   删除当前目录下的所有文件及目录，并且是直接删除</p>
+<p>rm  -r  *  删除当前目录下的所有内容</p>
+<h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><p>cat -n filename:给文件内容添加行号,空行也添加</p>
+<p>cat -b filename:给文件内容添加行号,空行跳过</p>
+<p><strong>cat /dev/null &gt; /pathname:删除文件的内容</strong></p>
+<h4 id="mv-options安全参数"><a href="#mv-options安全参数" class="headerlink" title="mv(options安全参数)"></a>mv(options安全参数)</h4><p>mv /root/a.txt /root/b.txt :目标目录与原目录一致，指定了新文件名，效果就是仅仅重命名</p>
+<p>mv /root/a.txt /root/catalogue/ :目标目录与原目录不一致，没有指定新文件名，效果就是仅仅移动</p>
+<p>mv /root/a.txt /root/aa/b.txt :目标目录与原目录一致, 指定了新文件名，效果就是：移动 + 重命名</p>
+<p>mv /root/* .  :把root目录的所有内容移动到当前目录;需要先执行显示隐藏文件命令，否则隐藏文件以及隐藏文件夹不会被移动到新目录</p>
+<h4 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h4><p>cp a.txt  /catalogue 复制文件到目录</p>
+<p>cp a.txt /b.txt 复制文件到文件,文件存在则是覆盖,不存在则是重命名</p>
+<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><p>touch file :创建一个名为“file”的新的空白文件 </p>
+<p>touch testfile  :修改文件testfile的时间属性</p>
+<h4 id="chgrp、chmod、chown"><a href="#chgrp、chmod、chown" class="headerlink" title="chgrp、chmod、chown"></a>chgrp、chmod、chown</h4><h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><p>find / -name “*.txt” :将目前目录及其子目录下所有延伸档名是txt 的文件列出来。</p>
+<p>find / -type f :将目前目录其其下子目录中所有一般文件列出</p>
+<p>find / ctime -20 :查找最近20天修改过的文件</p>
+<h4 id="less-more"><a href="#less-more" class="headerlink" title="less more"></a>less more</h4><h4 id="awk-未完"><a href="#awk-未完" class="headerlink" title="awk(未完)"></a>awk(未完)</h4><p>awk ‘{print $1,$4}’ b.txt :取文件每一行的第一和第四项打印</p>
+<h2 id="文档编辑"><a href="#文档编辑" class="headerlink" title="文档编辑"></a>文档编辑</h2><h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><p>grep  characters  *txt :查找文件名后缀带有txt内容有characters,并打印该行</p>
+<p>grep  -r words  /root :递归查找路径下内容有words的文件名</p>
+<p>grep -v test  *txt :反向查找</p>
+<p>文件传输</p>
+<h2 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h2><h4 id="cd"><a href="#cd" class="headerlink" title="cd"></a>cd</h4><h4 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h4><p>mkdir -p /filepath :递归创建目录</p>
+<h4 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h4><h4 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h4><p>ls -A  :显示所有文件和目录,包括隐藏文件</p>
+<p>ls -ltr s*:列出目前工作目录下所有名称是 s 开头的文件，越新的排越后面 </p>
+<h2 id="磁盘维护"><a href="#磁盘维护" class="headerlink" title="磁盘维护"></a>磁盘维护</h2><h2 id="网络通讯"><a href="#网络通讯" class="headerlink" title="网络通讯"></a>网络通讯</h2><h2 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h2><h2 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h2>
       
     </div>
     
@@ -501,8 +529,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -576,6 +613,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">文件管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rm"><span class="nav-number">1.0.1.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cat"><span class="nav-number">1.0.2.</span> <span class="nav-text">cat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mv-options%E5%AE%89%E5%85%A8%E5%8F%82%E6%95%B0"><span class="nav-number">1.0.3.</span> <span class="nav-text">mv(options安全参数)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp"><span class="nav-number">1.0.4.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">1.0.5.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chgrp%E3%80%81chmod%E3%80%81chown"><span class="nav-number">1.0.6.</span> <span class="nav-text">chgrp、chmod、chown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find"><span class="nav-number">1.0.7.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#less-more"><span class="nav-number">1.0.8.</span> <span class="nav-text">less more</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#awk-%E6%9C%AA%E5%AE%8C"><span class="nav-number">1.0.9.</span> <span class="nav-text">awk(未完)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">文档编辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#grep"><span class="nav-number">2.0.1.</span> <span class="nav-text">grep</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">磁盘管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cd"><span class="nav-number">3.0.1.</span> <span class="nav-text">cd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir"><span class="nav-number">3.0.2.</span> <span class="nav-text">mkdir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwd"><span class="nav-number">3.0.3.</span> <span class="nav-text">pwd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ls"><span class="nav-number">3.0.4.</span> <span class="nav-text">ls</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%BB%B4%E6%8A%A4"><span class="nav-number">4.</span> <span class="nav-text">磁盘维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E8%AE%AF"><span class="nav-number">5.</span> <span class="nav-text">网络通讯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">系统管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">系统设置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

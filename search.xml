@@ -52,7 +52,6 @@
 ]]></content>
       <categories>
         <category>Computer engineering</category>
-        <category>System-Infrastructure</category>
       </categories>
       <tags>
         <tag>basis of computer engineering</tag>
@@ -77,7 +76,6 @@
 <h3 id="IP地址的基础知识"><a href="#IP地址的基础知识" class="headerlink" title="IP地址的基础知识"></a>IP地址的基础知识</h3><h3 id="IP协议相关技术"><a href="#IP协议相关技术" class="headerlink" title="IP协议相关技术"></a>IP协议相关技术</h3>]]></content>
       <categories>
         <category>Computer engineering</category>
-        <category>System-Infrastructure</category>
       </categories>
       <tags>
         <tag>basis of computer engineering</tag>
@@ -108,7 +106,6 @@
     <content><![CDATA[<h2 id="分布式理论"><a href="#分布式理论" class="headerlink" title="分布式理论"></a>分布式理论</h2>]]></content>
       <categories>
         <category>Computer engineering</category>
-        <category>System-Infrastructure</category>
       </categories>
       <tags>
         <tag>Bigdata</tag>
@@ -470,7 +467,6 @@
 ]]></content>
       <categories>
         <category>Computer engineering</category>
-        <category>System-Infrastructure</category>
       </categories>
       <tags>
         <tag>Reading Books</tag>
@@ -501,7 +497,6 @@
 ]]></content>
       <categories>
         <category>Programming Language</category>
-        <category>Scala Programming</category>
       </categories>
       <tags>
         <tag>Summary of knowledge</tag>
@@ -682,7 +677,6 @@
 <h2 id="Arrays-asList-避坑指南"><a href="#Arrays-asList-避坑指南" class="headerlink" title="Arrays.asList()避坑指南"></a>Arrays.asList()避坑指南</h2>]]></content>
       <categories>
         <category>Programming Language</category>
-        <category>Java Programming</category>
       </categories>
       <tags>
         <tag>Summary of knowledge</tag>

@@ -86,15 +86,15 @@
 
 
 
-<meta name="description" content="Apache HbaseHBase是一个构建在HDFS上的分布式列存储系统；HBase是基于Google BigTable模型开发的，典型的key&#x2F;value系统；HBase是Apache Hadoop生态系统中的重要一员，主要用于海量结构化数据存储；从逻辑上讲，HBase将数据按照表、行和列进行存储。与hadoop一样，Hbase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存">
+<meta name="description" content="Apache HbaseHbaseUtils 12345678910111213141516171819202122232425262728293031323334353637import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.hbase.HBaseConfiguration;import org.apache.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apache-Hbase-API">
 <meta property="og:url" content="http://example.com/2020/11/15/In-common-use-Apache-Hbase-API/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
-<meta property="og:description" content="Apache HbaseHBase是一个构建在HDFS上的分布式列存储系统；HBase是基于Google BigTable模型开发的，典型的key&#x2F;value系统；HBase是Apache Hadoop生态系统中的重要一员，主要用于海量结构化数据存储；从逻辑上讲，HBase将数据按照表、行和列进行存储。与hadoop一样，Hbase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存">
+<meta property="og:description" content="Apache HbaseHbaseUtils 12345678910111213141516171819202122232425262728293031323334353637import org.apache.hadoop.conf.Configuration;import org.apache.hadoop.hbase.HBaseConfiguration;import org.apache.">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-15T15:12:26.000Z">
-<meta property="article:modified_time" content="2020-11-29T01:21:02.675Z">
+<meta property="article:modified_time" content="2020-12-03T13:33:32.901Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -404,8 +404,7 @@
       
 
       
-        <h1 id="Apache-Hbase"><a href="#Apache-Hbase" class="headerlink" title="Apache Hbase"></a>Apache Hbase</h1><p>HBase是一个构建在HDFS上的分布式列存储系统；HBase是基于Google BigTable模型开发的，典型的key/value系统；HBase是Apache Hadoop生态系统中的重要一员，主要用于海量结构化数据存储；从逻辑上讲，HBase将数据按照表、行和列进行存储。与hadoop一样，Hbase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<p>HbaseUtils</p>
+        <h1 id="Apache-Hbase"><a href="#Apache-Hbase" class="headerlink" title="Apache Hbase"></a>Apache Hbase</h1><p>HbaseUtils</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.HBaseConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.Connection;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.ConnectionFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created with IntelliJ IDEA.</span></span><br><span class="line"><span class="comment"> * Description:</span></span><br><span class="line"><span class="comment"> * User: tongyongtao</span></span><br><span class="line"><span class="comment"> * Date: 2020-11-06</span></span><br><span class="line"><span class="comment"> * Time: 20:01</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HbaseUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Configuration configuration;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Connection connection;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line"></span><br><span class="line">        configuration = HBaseConfiguration.create();</span><br><span class="line">        configuration.set(<span class="string">&quot;hbase.zookeeper.quorum&quot;</span>, <span class="string">&quot;linux03,linux04,linux05&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// if (connection.isClosed() &amp;&amp; connection== null)</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                connection = ConnectionFactory.createConnection(configuration);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -439,6 +438,24 @@
 
     
 
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    NINO
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2020/11/15/In-common-use-Apache-Hbase-API/" title="Apache-Hbase-API">http://example.com/2020/11/15/In-common-use-Apache-Hbase-API/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
@@ -556,7 +573,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -567,7 +584,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -578,7 +595,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

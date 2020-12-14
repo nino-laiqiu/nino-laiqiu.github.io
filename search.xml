@@ -749,7 +749,7 @@
 <li><p>BOOLEAN类型不可以转换为任何其它的类型</p>
 </li>
 </ul>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//表达结构</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;MobilePlatform&quot;</span>:<span class="string">&quot;apple&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;APP&quot;</span>:[<span class="string">&quot;jianshu&quot;</span>,<span class="string">&quot;csdn&quot;</span>],</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">              <span class="attr">&quot;xiaoming&quot;</span>:<span class="number">19</span>,</span><br><span class="line">              <span class="attr">&quot;xioahuang&quot;</span>:<span class="number">17</span></span><br><span class="line">         &#125;,</span><br><span class="line">     <span class="attr">&quot;address&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;street&quot;</span>:<span class="string">&quot;1000A&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;city&quot;</span>:<span class="string">&quot;zhongguo&quot;</span></span><br><span class="line">             &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">//一行数据如下</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;MobilePlatform&quot;</span>:<span class="string">&quot;apple&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;APP&quot;</span>:[<span class="string">&quot;jianshu&quot;</span>,<span class="string">&quot;csdn&quot;</span>],</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">              <span class="attr">&quot;xiaoming&quot;</span>:<span class="number">19</span>,</span><br><span class="line">              <span class="attr">&quot;xioahuang&quot;</span>:<span class="number">17</span></span><br><span class="line">         &#125;,</span><br><span class="line">     <span class="attr">&quot;address&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;street&quot;</span>:<span class="string">&quot;1000A&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;city&quot;</span>:<span class="string">&quot;zhongguo&quot;</span></span><br><span class="line">             &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#建表语句</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span>(</span><br><span class="line">    MobilePlatform <span class="keyword">string</span>,</span><br><span class="line">    APP <span class="built_in">array</span>&lt;<span class="keyword">string</span>&gt;,</span><br><span class="line">    <span class="keyword">name</span> <span class="keyword">map</span>&lt;<span class="keyword">string</span>,<span class="built_in">int</span>&gt;,</span><br><span class="line">    address  <span class="keyword">struct</span>&lt;street:<span class="keyword">string</span>, city:<span class="keyword">string</span>&gt;</span><br><span class="line">)</span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;,&#x27;</span></span><br><span class="line">collection items <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;_&#x27;</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">keys</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;:&#x27;</span></span><br><span class="line"><span class="keyword">lines</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"><span class="comment">#语句的解释</span></span><br><span class="line">1.行列分隔符</span><br><span class="line">2.MAP STRUCT 和 ARRAY 的分隔符(数据分割符号)</span><br><span class="line">3.MAP中的key与value的分隔符</span><br><span class="line">4.行分隔符</span><br></pre></td></tr></table></figure>
 
@@ -1306,5 +1306,17 @@
     <url>/2020/12/06/Spark-Simple-Case-Analysis/</url>
     <content><![CDATA[<p>//spark学习过程中写过的案例题,性能分析</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Data-System-Warehouse</title>
+    <url>/2020/12/14/Data-System-Warehouse/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Project practice results</category>
+        <category>TiTan DW</category>
+      </categories>
+      <tags>
+        <tag>Work Systematically</tag>
+      </tags>
   </entry>
 </search>

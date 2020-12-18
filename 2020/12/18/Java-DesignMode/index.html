@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Work Systematically," />
+  <meta name="keywords" content="Summary of knowledge,Java," />
 
 
 
@@ -86,20 +86,19 @@
 
 
 
-<meta name="description" content="RDD案例一:连续登陆1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859object ContinuouslandingRdd &amp;#123;  &#x2F;&#x2F;p1,2020-12-1  &#x2F;&#x2F;p1,2020-12-2  &#x2F;&#x2F;p1,2020-12">
+<meta name="description" content="设计原则类图六大关系dependency(依赖关系)用到了其他类,表现为局部变量association(关联关系)表现与全局变量导航性多重性(一对一 一对多 多对一)是依赖关系的特例generalization(泛化关系)implementation(实现关系)aggregation(聚合关系) 整体和部分可以分开,是关联关系的特例composite(组合关系)(合成) 整体和部分不可分割,是关联">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark数据分析案例">
-<meta property="og:url" content="https://nino-laiqiu.github.io/2020/12/06/Spark-Simple-Case-Analysis/index.html">
+<meta property="og:title" content="学习java设计模式">
+<meta property="og:url" content="https://nino-laiqiu.github.io/2020/12/18/Java-DesignMode/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
-<meta property="og:description" content="RDD案例一:连续登陆1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859object ContinuouslandingRdd &amp;#123;  &#x2F;&#x2F;p1,2020-12-1  &#x2F;&#x2F;p1,2020-12-2  &#x2F;&#x2F;p1,2020-12">
+<meta property="og:description" content="设计原则类图六大关系dependency(依赖关系)用到了其他类,表现为局部变量association(关联关系)表现与全局变量导航性多重性(一对一 一对多 多对一)是依赖关系的特例generalization(泛化关系)implementation(实现关系)aggregation(聚合关系) 整体和部分可以分开,是关联关系的特例composite(组合关系)(合成) 整体和部分不可分割,是关联">
 <meta property="og:locale">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9049859-1abe0dba802b79fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="article:published_time" content="2020-12-06T15:38:17.000Z">
-<meta property="article:modified_time" content="2020-12-18T14:25:29.587Z">
+<meta property="article:published_time" content="2020-12-18T12:53:10.000Z">
+<meta property="article:modified_time" content="2020-12-18T13:40:39.533Z">
 <meta property="article:author" content="NINO">
-<meta property="article:tag" content="Work Systematically">
+<meta property="article:tag" content="Summary of knowledge">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9049859-1abe0dba802b79fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -129,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://nino-laiqiu.github.io/2020/12/06/Spark-Simple-Case-Analysis/"/>
+  <link rel="canonical" href="https://nino-laiqiu.github.io/2020/12/18/Java-DesignMode/"/>
 
 
 
 
 
-  <title>Spark数据分析案例 | tongyongtao's Blog</title>
+  <title>学习java设计模式 | tongyongtao's Blog</title>
   
 
 
@@ -306,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nino-laiqiu.github.io/2020/12/06/Spark-Simple-Case-Analysis/">
+    <link itemprop="mainEntityOfPage" href="https://nino-laiqiu.github.io/2020/12/18/Java-DesignMode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -323,7 +322,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark数据分析案例</h1>
+          <h1 class="post-title" itemprop="name headline">学习java设计模式</h1>
         
 
         <div class="post-meta">
@@ -335,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-06T23:38:17+08:00">
-                2020-12-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-18T20:53:10+08:00">
+                2020-12-18
               </time>
             
 
@@ -358,19 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/The-Hadoop-Ecosystem/" itemprop="url" rel="index">
-                    <span itemprop="name">The Hadoop Ecosystem</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/The-Hadoop-Ecosystem/Learning-Spark/" itemprop="url" rel="index">
-                    <span itemprop="name">Learning Spark</span>
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Language</span>
                   </a>
                 </span>
 
@@ -406,21 +394,59 @@
       
 
       
-        <h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><h5 id="案例一-连续登陆"><a href="#案例一-连续登陆" class="headerlink" title="案例一:连续登陆"></a>案例一:连续登陆</h5><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">ContinuouslandingRdd</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//p1,2020-12-1</span></span><br><span class="line">  <span class="comment">//p1,2020-12-2</span></span><br><span class="line">  <span class="comment">//p1,2020-12-3</span></span><br><span class="line">  <span class="comment">//p1,2020-12-4</span></span><br><span class="line">  <span class="comment">//p1,2020-12-6</span></span><br><span class="line">  <span class="comment">//p1,2020-12-7</span></span><br><span class="line">  <span class="comment">//p1,2020-12-11</span></span><br><span class="line">  <span class="comment">//p1,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-01</span></span><br><span class="line">  <span class="comment">//p2,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-14</span></span><br><span class="line">  <span class="comment">//p2,2020-12-15</span></span><br><span class="line">  <span class="comment">//p3,2020-12-15</span></span><br><span class="line">  <span class="comment">//p4,2020-12-15</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(<span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="keyword">this</span>.getClass.getSimpleName).setMaster(<span class="string">&quot;local[*]&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> rdd = sc.textFile(<span class="string">&quot;src/main/resources/date1.csv&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> maprdd: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">String</span>)] = rdd.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> data = line.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">      (data(<span class="number">0</span>), data(<span class="number">1</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">//思路groupbykey获取去重,按照时间戳排序的组,减去排序的序列化,如果相等就是连续登陆的</span></span><br><span class="line">    <span class="keyword">val</span> etlrdd: <span class="type">RDD</span>[(<span class="type">String</span>, (<span class="type">String</span>, <span class="type">String</span>))] = maprdd.groupByKey().flatMapValues(datas =&gt; &#123;</span><br><span class="line">      <span class="comment">//去重按照时间戳来排序</span></span><br><span class="line">      <span class="keyword">val</span> sort = datas.toSet.toList.sorted</span><br><span class="line">      <span class="keyword">val</span> sdf = <span class="keyword">new</span> <span class="type">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd&quot;</span>)</span><br><span class="line">      <span class="keyword">val</span> calendar = <span class="type">Calendar</span>.getInstance()</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span></span><br><span class="line">      sort.map(data =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> date: <span class="type">Date</span> = sdf.parse(data)</span><br><span class="line">        calendar.setTime(date)</span><br><span class="line">        calendar.add(<span class="type">Calendar</span>.<span class="type">DATE</span>, -index)</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        (data, sdf.format(calendar.getTime))</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取连续登陆的开始时间,结束时间,以及练习登陆的天数</span></span><br><span class="line">   etlrdd.map (&#123;</span><br><span class="line">      <span class="keyword">case</span> (x, (y, z)) =&gt; ((x, z), y)</span><br><span class="line">    &#125;).groupByKey().mapValues(data =&gt; &#123;</span><br><span class="line">     <span class="keyword">val</span> sort = data.toList.sorted</span><br><span class="line">     <span class="keyword">val</span> first_time = sort.head</span><br><span class="line">     <span class="keyword">val</span> last_time = sort.last</span><br><span class="line">     <span class="keyword">val</span> lon = sort.size</span><br><span class="line">     (lon,first_time,last_time)</span><br><span class="line">   &#125;).filter(_._2._1 &gt;= <span class="number">3</span>).map(&#123;<span class="keyword">case</span>((x,y),(z,q,p)) =&gt; (x,q,p) &#125;).collect().foreach(println)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//(p2,2020-12-13,2020-12-15)</span></span><br><span class="line">    <span class="comment">//(p1,2020-12-2,2020-12-4)</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><h3 id="类图六大关系"><a href="#类图六大关系" class="headerlink" title="类图六大关系"></a>类图六大关系</h3><p>dependency(依赖关系)<br>用到了其他类,表现为局部变量<br>association(关联关系)<br>表现与全局变量<br>导航性多重性(一对一 一对多 多对一)<br>是依赖关系的特例<br>generalization(泛化关系)<br>implementation(实现关系)<br>aggregation(聚合关系) 整体和部分可以分开,是关联关系的特例<br>composite(组合关系)(合成) 整体和部分不可分割,是关联关系的特例</p>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例类的职责过重，在一定程度上违背了“单一职责原则<br>不适用于变化的对象,如果同一类型的对象总是要在不同的用例场景发生变化,单例就会引起数据的错误,不能保存彼此的状态<br>单利模式中没有抽象层，因此单例类的扩展有很大的困难。</p>
+<p>双重检验:第一次加载时反应不快，由于java内存模型一些原因偶尔失败<br>一般采用饿汉式，若对资源十分在意可以采用静态内部类，不建议采用懒汉式及双重检测</p>
+<p>单例模式的经典使用场景：</p>
+<ol>
+<li><p>资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。</p>
+</li>
+<li><p>控制资源的情况下，方便资源之间的互相通信。如线程池等。</p>
+</li>
+</ol>
+<h5 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h5><p>饿汉式(静态常量):在类加载的时候就完成实例化,没有达到懒加载的效果,如果自始至终没有用到这个实例,则会造成内存的浪费<br>饿汉单例模式一定要加final？<br>防止反射</p>
+<p>必须加static,不能new</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//加final防止反射</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span>  Singleson INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h5 id="案例二-分组转化"><a href="#案例二-分组转化" class="headerlink" title="案例二:分组转化"></a>案例二:分组转化</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-1abe0dba802b79fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分组转化" style="zoom: 50%;" />
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleson INSTANCE ;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h5><p>//final关键字:其初始化可以在两个地方，一是其定义处，也就是说在final变量定义时直接给其赋值，二是在构造函数中。这两个地方只能选其一，要么在定义时给值，要么在构造函数中给值，不能同时既在定义时给了值</p>
+<p>(线程不安全)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleson INSTANCE;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(线程安全效率低)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleson INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(错误的写法,多线程时,另一个线程已经进入了if-null的判断了,一个线程执行完,另一个线程也要再一次地创建对象把锁加载if那同加载方法那效果一直)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleson INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleson.class) &#123;</span><br><span class="line">                INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="双重检验"><a href="#双重检验" class="headerlink" title="双重检验"></a>双重检验</h5><p>(懒加载)</p>
+<p>(volatile关键字的作用防止指令重排)<br>(解释双重检验:多线程的情形下,两个线程都进入到第一个if判断中了,一个线程进入到锁中,然后创建完对象,释放锁,另一个线程进入到第二个判断,但是已经new了一个对象了,所以不为null 直接出去,对于性能,因为对象已经存在所以第一个判断if都不会进入,并不会影响性能)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleson INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleson.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h5><p>特性:内部静态类不会自动初始化，只有调用静态内部类的方法，静态域，或者构造方法的时候才会加载静态内部类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleson</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SinglesonInstance</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Singleson INSTANCE = <span class="keyword">new</span> Singleson();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleson <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SinglesonInstance.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Singleson instance = Singleson.INSTANCE;</span><br><span class="line">        Singleson instance1 = Singleson.INSTANCE;</span><br><span class="line">        System.out.println(instance.hashCode());</span><br><span class="line">        System.out.println(instance1.hashCode());</span><br><span class="line">        instance.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Singleson</span> </span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span>  <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
 
-<h2 id="SparkSQL"><a href="#SparkSQL" class="headerlink" title="SparkSQL"></a>SparkSQL</h2><h2 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h2><p>//spark学习过程中写过的案例题,性能分析</p>
-<p>//rdd 实现连续登陆和切割案例</p>
-<p>//sql 实现连续登陆和切割案例</p>
-<p>//dsl 实现连续登陆和切割案例</p>
-<p>//闭包问题和多线程问题的处理</p>
+
+
+
+
 
       
     </div>
@@ -441,7 +467,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://nino-laiqiu.github.io/2020/12/06/Spark-Simple-Case-Analysis/" title="Spark数据分析案例">https://nino-laiqiu.github.io/2020/12/06/Spark-Simple-Case-Analysis/</a>
+    <a href="https://nino-laiqiu.github.io/2020/12/18/Java-DesignMode/" title="学习java设计模式">https://nino-laiqiu.github.io/2020/12/18/Java-DesignMode/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -456,7 +482,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Work-Systematically/" rel="tag"># Work Systematically</a>
+            <a href="/tags/Summary-of-knowledge/" rel="tag"># Summary of knowledge</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -469,8 +497,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/29/Common-Spark-operators/" rel="next" title="Spark常用算子分析">
-                <i class="fa fa-chevron-left"></i> Spark常用算子分析
+              <a href="/2020/12/14/Data-System-Warehouse/" rel="next" title="数据仓库1.0">
+                <i class="fa fa-chevron-left"></i> 数据仓库1.0
               </a>
             
           </div>
@@ -478,10 +506,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/12/14/Data-System-Warehouse/" rel="prev" title="数据仓库1.0">
-                数据仓库1.0 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -632,7 +656,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDD"><span class="nav-number">1.</span> <span class="nav-text">RDD</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80-%E8%BF%9E%E7%BB%AD%E7%99%BB%E9%99%86"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">案例一:连续登陆</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C-%E5%88%86%E7%BB%84%E8%BD%AC%E5%8C%96"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">案例二:分组转化</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SparkSQL"><span class="nav-number">2.</span> <span class="nav-text">SparkSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DSL"><span class="nav-number">3.</span> <span class="nav-text">DSL</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE%E5%85%AD%E5%A4%A7%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">类图六大关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A5%BF%E6%B1%89%E5%BC%8F"><span class="nav-number">3.0.1.</span> <span class="nav-text">饿汉式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%87%92%E6%B1%89%E5%BC%8F"><span class="nav-number">3.0.2.</span> <span class="nav-text">懒汉式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8C%E9%87%8D%E6%A3%80%E9%AA%8C"><span class="nav-number">3.0.3.</span> <span class="nav-text">双重检验</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">3.0.4.</span> <span class="nav-text">静态内部类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE"><span class="nav-number">3.0.5.</span> <span class="nav-text">枚举</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

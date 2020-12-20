@@ -93,13 +93,11 @@
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
 <meta property="og:description" content="Abstract项目地址技术选型数据采集传输:Flume Kafka Sqoop 数据存储:Hdfs Mysql  Hbase Redis 数据计算:Hive Spark 数据查询:Presto Kylin 数据可视化:Superset Sersors 任务调度:Azkaban 元数据管理:Atlas ODS -&gt; DWD维度集成方案一:GeoHash编码123456789101112131">
 <meta property="og:locale">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="article:published_time" content="2020-12-14T12:43:31.000Z">
-<meta property="article:modified_time" content="2020-12-20T14:58:44.253Z">
+<meta property="article:modified_time" content="2020-12-20T15:02:29.224Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -479,10 +477,7 @@
 
 
 
-<h3 id="新用户留存分析主题"><a href="#新用户留存分析主题" class="headerlink" title="新用户留存分析主题"></a>新用户留存分析主题</h3><h5 id="新用户留存报表"><a href="#新用户留存报表" class="headerlink" title="新用户留存报表"></a>新用户留存报表</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="report" style="zoom:50%;" />
-
-
-
+<h3 id="新用户留存分析主题"><a href="#新用户留存分析主题" class="headerlink" title="新用户留存分析主题"></a>新用户留存分析主题</h3><h5 id="新用户留存报表"><a href="#新用户留存报表" class="headerlink" title="新用户留存报表"></a>新用户留存报表</h5><p><a target="_blank" rel="noopener" href="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 基于流量/用户活跃度分析主题</span></span><br><span class="line"><span class="comment">-- 今日(2020-12-16)的新用户留存分析(新用户的定义:某人的初次登入日期就是这日的新用户)</span></span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">  <span class="string">&#x27;2020-12-16&#x27;</span> <span class="keyword">as</span> calc_dt, <span class="comment">-- 计算日</span></span><br><span class="line">  first_dt <span class="keyword">as</span> first_dt, <span class="comment">-- 用户第一次登陆日期</span></span><br><span class="line">  <span class="keyword">datediff</span>(<span class="string">&#x27;2020-12-16&#x27;</span>, first_dt) <span class="keyword">as</span> retention_days, <span class="comment">-- 留存日</span></span><br><span class="line">  <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">as</span> user_cnt <span class="comment">-- 留存数</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">  dw.user_act_range</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">  dy = <span class="string">&#x27;2020-12-16&#x27;</span></span><br><span class="line">  <span class="keyword">and</span> range_end = <span class="string">&#x27;9999-12-31&#x27;</span></span><br><span class="line">  <span class="keyword">and</span> <span class="keyword">datediff</span>(<span class="string">&#x27;2020-12-16&#x27;</span>, first_dt) &lt;= <span class="number">30</span> <span class="comment">-- 过滤出超过一个月的情况</span></span><br><span class="line">  <span class="keyword">and</span> first_dt &lt; <span class="string">&#x27;2020-12-16&#x27;</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">  first_dt,</span><br><span class="line">  <span class="keyword">datediff</span>(<span class="string">&#x27;2020-12-16&#x27;</span>, first_dt)</span><br></pre></td></tr></table></figure>
 
 

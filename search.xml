@@ -156,18 +156,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Apache Flink 架构</title>
-    <url>/2020/10/24/Framework-of-ApacheFlink/</url>
-    <content><![CDATA[<h1 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h1><h3 id="搭建Flink所需组件"><a href="#搭建Flink所需组件" class="headerlink" title="搭建Flink所需组件"></a>搭建Flink所需组件</h3>]]></content>
-      <categories>
-        <category>The Hadoop Ecosystem</category>
-        <category>Learning Flink</category>
-      </categories>
-      <tags>
-        <tag>Reading Books</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>流处理基础</title>
     <url>/2020/10/23/Flowprocessing-foundation/</url>
     <content><![CDATA[<blockquote>
@@ -206,6 +194,18 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>The Hadoop Ecosystem</category>
+        <category>Learning Flink</category>
+      </categories>
+      <tags>
+        <tag>Reading Books</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Apache Flink 架构</title>
+    <url>/2020/10/24/Framework-of-ApacheFlink/</url>
+    <content><![CDATA[<h1 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h1><h3 id="搭建Flink所需组件"><a href="#搭建Flink所需组件" class="headerlink" title="搭建Flink所需组件"></a>搭建Flink所需组件</h3>]]></content>
       <categories>
         <category>The Hadoop Ecosystem</category>
         <category>Learning Flink</category>
@@ -659,7 +659,7 @@
 
 
 
-<h5 id="案例二-分组转化"><a href="#案例二-分组转化" class="headerlink" title="案例二:分组转化"></a>案例二:分组转化</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-1abe0dba802b79fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分组转化" style="zoom: 50%;" />
+<h5 id="案例二-分组转化"><a href="#案例二-分组转化" class="headerlink" title="案例二:分组转化"></a>案例二:分组转化</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-1abe0dba802b79fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Groupedinto" style="zoom: 50%;" />
 
 
 
@@ -757,7 +757,7 @@
 
 
 
-<h3 id="新用户留存分析主题"><a href="#新用户留存分析主题" class="headerlink" title="新用户留存分析主题"></a>新用户留存分析主题</h3><h5 id="新用户留存报表"><a href="#新用户留存报表" class="headerlink" title="新用户留存报表"></a>新用户留存报表</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新用户留存报表" style="zoom:50%;" />
+<h3 id="新用户留存分析主题"><a href="#新用户留存分析主题" class="headerlink" title="新用户留存分析主题"></a>新用户留存分析主题</h3><h5 id="新用户留存报表"><a href="#新用户留存报表" class="headerlink" title="新用户留存报表"></a>新用户留存报表</h5><img src="https://upload-images.jianshu.io/upload_images/9049859-9d842ed8cabc5770.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="report" style="zoom:50%;" />
 
 
 

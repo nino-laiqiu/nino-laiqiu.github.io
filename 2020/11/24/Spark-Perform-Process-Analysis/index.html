@@ -86,15 +86,15 @@
 
 
 
-<meta name="description" content="##spark on yarn  ##Spark-Standalone ##Spark通信分析 ##内存管理 ##spark-submit初始化分析 ##shuffle阶段源码分析 ##sort sample采样分析">
+<meta name="description" content="##spark on yarn  Spark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反向注册 driv">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark执行流程分析">
 <meta property="og:url" content="https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
-<meta property="og:description" content="##spark on yarn  ##Spark-Standalone ##Spark通信分析 ##内存管理 ##spark-submit初始化分析 ##shuffle阶段源码分析 ##sort sample采样分析">
+<meta property="og:description" content="##spark on yarn  Spark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反向注册 driv">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-24T12:32:23.000Z">
-<meta property="article:modified_time" content="2020-12-24T12:44:55.412Z">
+<meta property="article:modified_time" content="2020-12-26T08:08:28.525Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -405,7 +405,21 @@
 
       
         <p>##spark on yarn </p>
-<p>##Spark-Standalone</p>
+<h2 id="Spark-Standalone"><a href="#Spark-Standalone" class="headerlink" title="Spark-Standalone"></a>Spark-Standalone</h2><ol>
+<li>spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑 </li>
+<li>sparksubmit将任务的信息发送给master</li>
+<li>master向worker通信,需要的资源信息,application,driver信息发送给worker</li>
+<li>worker启动executor</li>
+<li>executor跟driver反向注册</li>
+<li>driver创建RDD Action算子会调用runjob触发执行</li>
+<li>根据最后一个RDD往前推,根据依赖关系stage,RDD递归类似于类似于栈的结构,递归的出口是没有父RDD</li>
+<li>先提交前面的stage,再提交后面的stage,一个stage对应一个stageset,一个stageset有多个task(shuffleMaptask Resulttask),然后把taskset传递给tasksecheduler</li>
+<li>asksecheduler将taskset中的task进行序列化,然后根据executor的资源情况,将序列化的task发送给executor</li>
+<li>将taskdesccription反序列化用taskrunner包装放在线程池中</li>
+<li>调用task的run方法,传入到taskcontext中,然后根据具体的task类型,如果是shufflemaptask,就调用其runtask</li>
+<li>将数据先应用分区器返回ID,然后写入到APPendonlymap的内存中,默认达到5M溢写到磁盘,生成两个文件一个索引文件和数据文件</li>
+<li>mappartitionRDD向shuffledRDD要数据,shuffleRDD获取shuffledReader,从上游拉取属于自己分区的数据,然后进行全局的聚合,最后将聚合的结果写入到hdfs中</li>
+</ol>
 <p>##Spark通信分析</p>
 <p>##内存管理</p>
 <p>##spark-submit初始化分析</p>
@@ -469,7 +483,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/11/29/Spark-Common-Operators/" rel="prev" title="Spark常用算子分析">
+              <a href="/2020/11/25/Spark-Common-Operators/" rel="prev" title="Spark常用算子分析">
                 Spark常用算子分析 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -528,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -603,6 +626,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Standalone"><span class="nav-number">1.</span> <span class="nav-text">Spark-Standalone</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

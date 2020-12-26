@@ -94,7 +94,7 @@
 <meta property="og:description" content="操作系统基础1.什么是操作系统 操作系统（Operating System，简称 OS）是管理计算机硬件与软件资源的程序，是计算机的基石  操作系统屏蔽了软件层的复杂性  操作系统的内核（Kernel）是操作系统的核心部分，它负责系统的内存管理，硬件设备的管理，文件系统的管理以及应用程序的管理,内核是连接应用程序和硬件的桥梁，决定着系统的性能和稳定性   2.系统调用根据进程访问资源的特点，我们可">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-07-12T15:33:22.000Z">
-<meta property="article:modified_time" content="2020-12-24T12:44:32.111Z">
+<meta property="article:modified_time" content="2020-12-24T13:30:24.867Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Reading Books">
 <meta name="twitter:card" content="summary">
@@ -409,11 +409,11 @@
 <li>我们运行的用户程序中，凡是与系统态级别的资源有关的操作（如文件管理、进程控制、内存管理等)，都必须通过系统调用方式向操作系统提出服务请求，并由操作系统代为完成</li>
 </ul>
 <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h4 id="线程间的同步的方式有哪些呢"><a href="#线程间的同步的方式有哪些呢" class="headerlink" title="线程间的同步的方式有哪些呢?"></a>线程间的同步的方式有哪些呢?</h4><ol>
-<li><p>**互斥量(Mutex)**：采用互斥对象机制，只有拥有互斥对象的线程才有访问公共资源的权限。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问。比如 Java 中的 synchronized 关键词和各种 Lock 都是这种机制。</p>
+<li><p><strong>互斥量</strong>(Mutex)：采用互斥对象机制，只有拥有互斥对象的线程才有访问公共资源的权限。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问。比如 Java 中的 synchronized 关键词和各种 Lock 都是这种机制。</p>
 </li>
-<li><p><strong>信号量(Semphares)</strong> ：它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量</p>
+<li><p><strong>信号量</strong>(Semphares) ：它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量</p>
 </li>
-<li><p><strong>事件(Event)</strong> :Wait/Notify：通过通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作</p>
+<li><p><strong>事件</strong>(Event) :Wait/Notify通过通知操作的方式来保持多线程同步，还可以方便的实现多线程优先级的比较操作</p>
 </li>
 </ol>
 <h4 id="进程间的通信方式"><a href="#进程间的通信方式" class="headerlink" title="进程间的通信方式"></a>进程间的通信方式</h4><h4 id="操作系统中进程的调度算法"><a href="#操作系统中进程的调度算法" class="headerlink" title="操作系统中进程的调度算法"></a>操作系统中进程的调度算法</h4><ul>
@@ -426,7 +426,6 @@
 <h2 id="操作系统内存管理系统"><a href="#操作系统内存管理系统" class="headerlink" title="操作系统内存管理系统"></a>操作系统内存管理系统</h2><h4 id="CPU-寻址了解吗-为什么需要虚拟地址空间"><a href="#CPU-寻址了解吗-为什么需要虚拟地址空间" class="headerlink" title="CPU 寻址了解吗?为什么需要虚拟地址空间?"></a>CPU 寻址了解吗?为什么需要虚拟地址空间?</h4><ul>
 <li>现代处理器使用的是一种称为 虚拟寻址(Virtual Addressing)*的寻址方式。使用虚拟寻址，CPU 需要将虚拟地址翻译成物理地址，这样才能访问到真实的物理内存。 实际上完成虚拟地址转换为物理地址转换的硬件是 CPU 中含有一个被称为 内存管理单元</li>
 <li>如果直接把物理地址暴露出来的话会带来严重问题，比如可能对操作系统造成伤害以及给同时运行多个程序造成困难</li>
-<li></li>
 </ul>
 <h4 id="缓存-内存-虚拟内存"><a href="#缓存-内存-虚拟内存" class="headerlink" title="缓存 内存 虚拟内存"></a>缓存 内存 虚拟内存</h4><ul>
 <li> 缓存是为了解决CPU速度和内存速度的速度差异问题 内存中被CPU访问最频繁的数据和指令被复制入CPU中的缓存</li>

@@ -86,13 +86,15 @@
 
 
 
+<meta name="description" content="Data仓库中的Data是细节的、集成的、面向主题的,以OLAPSystam的分析需求为目的 构建Data仓库五步法确定主题 例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数value型 Data(量度)之间的关系 确定量度 我们将考虑要分析的技术指标,诸如年销售额之类.它们一般为数value型Data.我们或者将该Data汇总,或">
 <meta property="og:type" content="article">
 <meta property="og:title" content="维度建模">
 <meta property="og:url" content="https://nino-laiqiu.github.io/2020/12/12/Dimensional-modeling/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
+<meta property="og:description" content="Data仓库中的Data是细节的、集成的、面向主题的,以OLAPSystam的分析需求为目的 构建Data仓库五步法确定主题 例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数value型 Data(量度)之间的关系 确定量度 我们将考虑要分析的技术指标,诸如年销售额之类.它们一般为数value型Data.我们或者将该Data汇总,或">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-12-12T00:51:26.000Z">
-<meta property="article:modified_time" content="2020-12-25T00:28:20.909Z">
+<meta property="article:modified_time" content="2020-12-26T13:07:07.612Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -402,7 +404,30 @@
       
 
       
-        
+        <p>Data仓库中的Data是细节的、集成的、面向主题的,以OLAPSystam的分析需求为目的</p>
+<h2 id="构建Data仓库五步法"><a href="#构建Data仓库五步法" class="headerlink" title="构建Data仓库五步法"></a>构建Data仓库五步法</h2><p>确定主题</p>
+<p>例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数value型</p>
+<p>Data(量度)之间的关系</p>
+<p>确定量度</p>
+<p>我们将考虑要分析的技术指标,诸如年销售额之类.它们一般为数value型Data.我们或者将该Data汇总,或者将该Data取次数、独立次数或取</p>
+<p>最大最小value等,这样的Data称为量度</p>
+<p>确定粒度</p>
+<p>在确定了量度之后,我们要考虑到该量度的汇总情况和不同维度下量度的聚合情况.考虑到量度的聚合程度不同,我们将采用“最小粒度原则”,即将量度的粒度设置到最小</p>
+<p>确定维度</p>
+<p>维度是指分析的各个角度.例如我们希望按照时间,或者按照地区,或者按照产品进行分析,那么这里的时间、地区、产品就是相应的维度.基于不同的维度,我们可以看到各量度的汇总情况,也可以基于所有的维度进行交叉分析</p>
+<p>确定事实</p>
+<p>数据聚合后依据某个维度生成的结果表</p>
+<h4 id="缓慢变化维度的三种处理方法"><a href="#缓慢变化维度的三种处理方法" class="headerlink" title="缓慢变化维度的三种处理方法"></a>缓慢变化维度的三种处理方法</h4><p>历史Data需要修改.这种情况下,我们使用UPDATE method来修改维度表中的Data.例如：产品的ID号码为123,后来发现ID号码错了,需</p>
+<p>要改写成456,那么,我们就在ETL处理时,直接修改维度表中原来的ID号码为456</p>
+<p>历史Data保留,新增Data也要保留.这时,要将原Data更新,将新Data插入,我们使用UPDATE / INSERT.比如:某一员工2005年在A部门,2006</p>
+<p>年时他调到了B部门.那么在统计2005年的Data时就应该将该员工定位到A部门;而在统计2006年Data时就应该定位到B部门,然后再有新的</p>
+<p>Data插入时,将按照新部门(B部门)进行处理,这样我们的做法是将该维度成员列表加入标识列,将历史的Data标识为“过期”,将目前的Data标</p>
+<p>识为“当前的”.另一种method是将该维度打上时间戳,即将历史Data生效的时间段作为它的一个属性,在与原始表匹配生成事实表时将按照</p>
+<p>时间段进行关联,这种method的好处是该维度成员生效时间明确</p>
+<p>新增Data维度成员改变了属性.例如:某一维度成员新加入了一列,该列在历史Data中不能基于它浏览,而在目前Data和将来Data中可</p>
+<p>以按照它浏览,那么此时我们需要改变维度表属性,即加入新的字段列,那么,我们将使用存储过程或程式生成新的维度属性,在后续的</p>
+<p>Data中将基于新的属性进行查看</p>
+
       
     </div>
     
@@ -460,6 +485,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/12/27/Data-Driven-Computation/" rel="prev" title="数据驱动摘要(神策)">
+                数据驱动摘要(神策) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -515,8 +544,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -535,7 +573,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,6 +628,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BAData%E4%BB%93%E5%BA%93%E4%BA%94%E6%AD%A5%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">构建Data仓库五步法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E5%BA%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.1.</span> <span class="nav-text">缓慢变化维度的三种处理方法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

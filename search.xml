@@ -176,9 +176,19 @@
       </tags>
   </entry>
   <entry>
-    <title>学习java设计模式</title>
+    <title>java设计模式</title>
     <url>/2020/12/02/Java-DesignMode/</url>
-    <content><![CDATA[<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><h3 id="类图六大关系"><a href="#类图六大关系" class="headerlink" title="类图六大关系"></a>类图六大关系</h3><p>dependency(依赖关系)<br>用到了其他类,表现为局部变量<br>association(关联关系)<br>表现与全局变量<br>导航性多重性(一对一 一对多 多对一)<br>是依赖关系的特例<br>generalization(泛化关系)<br>implementation(实现关系)<br>aggregation(聚合关系) 整体和部分可以分开,是关联关系的特例<br>composite(组合关系)(合成) 整体和部分不可分割,是关联关系的特例</p>
+    <content><![CDATA[<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><h5 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h5><p>不要存在多于一个导致类变更的原因</p>
+<h5 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h5><p>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上</p>
+<h5 id="依赖倒转原则"><a href="#依赖倒转原则" class="headerlink" title="依赖倒转原则"></a>依赖倒转原则</h5><p>抽象不应该依赖于细节，细节应当依赖于抽象</p>
+<h5 id="里式替换原则"><a href="#里式替换原则" class="headerlink" title="里式替换原则"></a>里式替换原则</h5><p>所有引用基类（父类）的地方必须能透明地使用其子类的对象</p>
+<h5 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h5><p>一个软件实体应当对扩展开放，对修改关闭</p>
+<h5 id="迪米特原则"><a href="#迪米特原则" class="headerlink" title="迪米特原则"></a>迪米特原则</h5><p>一个软件实体应当尽可能少地与其他实体发生相互作用</p>
+<h5 id="合成复用原则"><a href="#合成复用原则" class="headerlink" title="合成复用原则"></a>合成复用原则</h5><p>要尽量使用合成和聚合，尽量不要使用继承</p>
+<h3 id="类图六大关系"><a href="#类图六大关系" class="headerlink" title="类图六大关系"></a>类图六大关系</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">-- dependency(依赖关系)</span><br><span class="line">用到了其他类,表现为局部变量</span><br><span class="line">-- association(关联关系)</span><br><span class="line">表现与全局变量</span><br><span class="line">导航性多重性(一对一 一对多 多对一)</span><br><span class="line">是依赖关系的特例</span><br><span class="line">-- generalization(泛化关系)</span><br><span class="line">-- implementation(实现关系)</span><br><span class="line">-- aggregation(聚合关系) 整体和部分可以分开,是关联关系的特例</span><br><span class="line">-- composite(组合关系)(合成) 整体和部分不可分割,是关联关系的特例</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例类的职责过重，在一定程度上违背了“单一职责原则<br>不适用于变化的对象,如果同一类型的对象总是要在不同的用例场景发生变化,单例就会引起数据的错误,不能保存彼此的状态<br>单利模式中没有抽象层，因此单例类的扩展有很大的困难。</p>
 <p>双重检验:第一次加载时反应不快，由于java内存模型一些原因偶尔失败<br>一般采用饿汉式，若对资源十分在意可以采用静态内部类，不建议采用懒汉式及双重检测</p>
 <p>单例模式的经典使用场景：</p>
@@ -225,7 +235,33 @@
 
 
 
-<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h5 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h5><h5 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h5><h5 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h5>]]></content>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h5 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Product a = Factory.newProduct(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">        Product b = Factory.newProduct(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            a.show();</span><br><span class="line">            b.show();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProductA</span> <span class="keyword">implements</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;A产品&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProductB</span> <span class="keyword">implements</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;B产品&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Product <span class="title">newProduct</span><span class="params">(String product)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (product) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;A&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ProductA();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> <span class="string">&quot;B&quot;</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ProductB();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">&quot;没有该产品&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>工厂类包含必要的判断逻辑，可以决定在什么时候创建哪一个产品类的实例，客户端可以免除直接创建产品对象的职责，而仅仅“消费”产</p>
+<p>品，简单工厂模式实现了对象创建和使用的分离。</p>
+<p>会导致系统扩展困难，一旦添加新产品就不得不修改工厂逻辑，在产品类型较多时，有可能造成工厂逻辑过于复杂，不利于系统的扩展和</p>
+<p>维护，且违背开闭原则</p>
+<p>适用的场合:工厂类负责创建的对象比较少，由于创建的对象较少，不会造成工厂方法中的业务逻辑太过复杂</p>
+<h5 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Factory jFactory = <span class="keyword">new</span> JFactory();</span><br><span class="line">        jFactory.operation();</span><br><span class="line">        Factory xFactory = <span class="keyword">new</span> XFactory();</span><br><span class="line">        xFactory.operation();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span>  <span class="title">Factory</span></span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">void</span>  <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">JFactory</span> <span class="keyword">implements</span>  <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">XFactory</span> <span class="keyword">implements</span>  <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span>  <span class="title">CFactory</span> <span class="keyword">implements</span>  <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类，工厂方法使一个类的实例化延迟到其子类</p>
+<p>工厂一旦需要生产新产品就需要修改工厂类的方法逻辑，违背了“开放 - 关闭原则,工厂方法新增一种产品时，只需要增加相应的具体产品</p>
+<p>类和相应的工厂子类即可,</p>
+<p>工厂模式可以说是简单工厂模式的进一步抽象和拓展，在保留了简单工厂的封装优点的同时，让扩展变得简单，让继承变得可行，增加了</p>
+<p>多态性的体现</p>
+<p>每次我们为工厂方法添加新的产品时就要编写一个新的产品类，同时还要引入抽象层，当产品种类非常多时，会出现大量的与之对应的工</p>
+<p>厂对象，这必然会导致类结构的复杂化</p>
+<h5 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//测试</span></span><br><span class="line">        XMProductFactory xmProductFactory = <span class="keyword">new</span> XMProductFactory();</span><br><span class="line">        xmProductFactory.phoneProduct().open();</span><br><span class="line">        xmProductFactory.routerProduct().open();</span><br><span class="line">        PGProductFactory pgProductFactory = <span class="keyword">new</span> PGProductFactory();</span><br><span class="line">        pgProductFactory.phoneProduct().open();</span><br><span class="line">        pgProductFactory.routerProduct().open();</span><br><span class="line">        <span class="comment">//如果往产品中添加功能要修改代码复杂,如果要,如果要添加产品则要修改工厂方法复杂不适用</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//产品接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PhoneProduct</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">open</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PouterProduct</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">open</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//小米和苹果实现类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XMPhoneProduct</span> <span class="keyword">implements</span> <span class="title">PhoneProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;打开小米手机&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;关闭小米手机&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PGPhoneProduct</span> <span class="keyword">implements</span> <span class="title">PhoneProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;打开苹果手机&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;关闭苹果手机&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XMPouterProduct</span> <span class="keyword">implements</span> <span class="title">PouterProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;打开小米路由器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;关闭小米路由器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PGPouterProduct</span> <span class="keyword">implements</span> <span class="title">PouterProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;打开苹果路由器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;打开苹果路由器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//抽象工厂</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ProductFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//生产手机</span></span><br><span class="line">    <span class="function">PhoneProduct <span class="title">phoneProduct</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//生成路由器</span></span><br><span class="line">    <span class="function">PouterProduct <span class="title">routerProduct</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//小米工厂和苹果工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XMProductFactory</span> <span class="keyword">implements</span> <span class="title">ProductFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PhoneProduct <span class="title">phoneProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> XMPhoneProduct();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PouterProduct <span class="title">routerProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> XMPouterProduct();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PGProductFactory</span> <span class="keyword">implements</span> <span class="title">ProductFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PhoneProduct <span class="title">phoneProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PGPhoneProduct();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PouterProduct <span class="title">routerProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PGPouterProduct();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 抽象工厂模式是所有工厂模式的一般形式,当抽象工厂模式退化到只有一个产品登级结构时,就变成了工厂方法模式。当工厂方法模式的工</p>
+<p>厂类只有一个时,且工厂方法为静态方法时,则又变成了简单工厂模式。与工厂方法模式相似,抽象工厂模式隔离了具体类的生成,让客户端不</p>
+<p>清楚具体什么样的对象被创建</p>
+<p>但是产品族扩展非常困难，要增加一个系列的某一产品，既要修改工厂抽象类里加代码，又修改具体的实现类里面加代码</p>
+<p>增加了系统的抽象性和理解难度</p>
+<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><p>浅拷贝和深拷贝</p>
+]]></content>
       <categories>
         <category>Programming Language</category>
       </categories>
@@ -608,7 +644,7 @@
   </entry>
   <entry>
     <title>Spark数据案例分析</title>
-    <url>/2020/11/22/Spark-Simple-Case-Analysis/</url>
+    <url>/2020/10/20/Spark-Simple-Case-Analysis/</url>
     <content><![CDATA[<h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><h5 id="案例一-连续登陆"><a href="#案例一-连续登陆" class="headerlink" title="案例一:连续登陆"></a>案例一:连续登陆</h5><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">ContinuouslandingRdd</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//p1,2020-12-1</span></span><br><span class="line">  <span class="comment">//p1,2020-12-2</span></span><br><span class="line">  <span class="comment">//p1,2020-12-3</span></span><br><span class="line">  <span class="comment">//p1,2020-12-4</span></span><br><span class="line">  <span class="comment">//p1,2020-12-6</span></span><br><span class="line">  <span class="comment">//p1,2020-12-7</span></span><br><span class="line">  <span class="comment">//p1,2020-12-11</span></span><br><span class="line">  <span class="comment">//p1,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-01</span></span><br><span class="line">  <span class="comment">//p2,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-13</span></span><br><span class="line">  <span class="comment">//p2,2020-12-14</span></span><br><span class="line">  <span class="comment">//p2,2020-12-15</span></span><br><span class="line">  <span class="comment">//p3,2020-12-15</span></span><br><span class="line">  <span class="comment">//p4,2020-12-15</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(<span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="keyword">this</span>.getClass.getSimpleName).setMaster(<span class="string">&quot;local[*]&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> rdd = sc.textFile(<span class="string">&quot;src/main/resources/date1.csv&quot;</span>)</span><br><span class="line">    <span class="keyword">val</span> maprdd: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">String</span>)] = rdd.map(line =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> data = line.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">      (data(<span class="number">0</span>), data(<span class="number">1</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">//思路groupbykey获取去重,按照时间戳排序的组,减去排序的序列化,如果相等就是连续登陆的</span></span><br><span class="line">    <span class="keyword">val</span> etlrdd: <span class="type">RDD</span>[(<span class="type">String</span>, (<span class="type">String</span>, <span class="type">String</span>))] = maprdd.groupByKey().flatMapValues(datas =&gt; &#123;</span><br><span class="line">      <span class="comment">//去重按照时间戳来排序</span></span><br><span class="line">      <span class="keyword">val</span> sort = datas.toSet.toList.sorted</span><br><span class="line">      <span class="keyword">val</span> sdf = <span class="keyword">new</span> <span class="type">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd&quot;</span>)</span><br><span class="line">      <span class="keyword">val</span> calendar = <span class="type">Calendar</span>.getInstance()</span><br><span class="line">      <span class="keyword">var</span> index = <span class="number">0</span></span><br><span class="line">      sort.map(data =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> date: <span class="type">Date</span> = sdf.parse(data)</span><br><span class="line">        calendar.setTime(date)</span><br><span class="line">        calendar.add(<span class="type">Calendar</span>.<span class="type">DATE</span>, -index)</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        (data, sdf.format(calendar.getTime))</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取连续登陆的开始时间,结束时间,以及练习登陆的天数</span></span><br><span class="line">   etlrdd.map (&#123;</span><br><span class="line">      <span class="keyword">case</span> (x, (y, z)) =&gt; ((x, z), y)</span><br><span class="line">    &#125;).groupByKey().mapValues(data =&gt; &#123;</span><br><span class="line">     <span class="keyword">val</span> sort = data.toList.sorted</span><br><span class="line">     <span class="keyword">val</span> first_time = sort.head</span><br><span class="line">     <span class="keyword">val</span> last_time = sort.last</span><br><span class="line">     <span class="keyword">val</span> lon = sort.size</span><br><span class="line">     (lon,first_time,last_time)</span><br><span class="line">   &#125;).filter(_._2._1 &gt;= <span class="number">3</span>).map(&#123;<span class="keyword">case</span>((x,y),(z,q,p)) =&gt; (x,q,p) &#125;).collect().foreach(println)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//(p2,2020-12-13,2020-12-15)</span></span><br><span class="line">    <span class="comment">//(p1,2020-12-2,2020-12-4)</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -662,7 +698,7 @@
 <p><a href="https://github.com/nino-laiqiu/TiTan">https://github.com/nino-laiqiu/TiTan</a></p>
 </blockquote>
 <h3 id="个人博客"><a href="#个人博客" class="headerlink" title="个人博客"></a>个人博客</h3><blockquote>
-<p><a href="https://www.jianshu.com/writer#/notebooks/48594133">https://www.jianshu.com/writer#/notebooks/48594133</a></p>
+<p><a href="https://www.jianshu.com/u/231b91963a0e">https://www.jianshu.com/u/231b91963a0e</a></p>
 </blockquote>
 <h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>数据采集传输:Flume Kafka Sqoop</p>
 <p>数据存储:Hdfs Mysql  Hbase Redis</p>
@@ -782,8 +818,7 @@
 
 
 
-
-
+<h1 id="用户画像"><a href="#用户画像" class="headerlink" title="用户画像"></a>用户画像</h1><p>朴素贝叶斯示例</p>
 ]]></content>
       <categories>
         <category>Project practice results</category>
@@ -1510,7 +1545,30 @@
   <entry>
     <title>维度建模</title>
     <url>/2020/12/12/Dimensional-modeling/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>Data仓库中的Data是细节的、集成的、面向主题的,以OLAPSystam的分析需求为目的</p>
+<h2 id="构建Data仓库五步法"><a href="#构建Data仓库五步法" class="headerlink" title="构建Data仓库五步法"></a>构建Data仓库五步法</h2><p>确定主题</p>
+<p>例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数value型</p>
+<p>Data(量度)之间的关系</p>
+<p>确定量度</p>
+<p>我们将考虑要分析的技术指标,诸如年销售额之类.它们一般为数value型Data.我们或者将该Data汇总,或者将该Data取次数、独立次数或取</p>
+<p>最大最小value等,这样的Data称为量度</p>
+<p>确定粒度</p>
+<p>在确定了量度之后,我们要考虑到该量度的汇总情况和不同维度下量度的聚合情况.考虑到量度的聚合程度不同,我们将采用“最小粒度原则”,即将量度的粒度设置到最小</p>
+<p>确定维度</p>
+<p>维度是指分析的各个角度.例如我们希望按照时间,或者按照地区,或者按照产品进行分析,那么这里的时间、地区、产品就是相应的维度.基于不同的维度,我们可以看到各量度的汇总情况,也可以基于所有的维度进行交叉分析</p>
+<p>确定事实</p>
+<p>数据聚合后依据某个维度生成的结果表</p>
+<h4 id="缓慢变化维度的三种处理方法"><a href="#缓慢变化维度的三种处理方法" class="headerlink" title="缓慢变化维度的三种处理方法"></a>缓慢变化维度的三种处理方法</h4><p>历史Data需要修改.这种情况下,我们使用UPDATE method来修改维度表中的Data.例如：产品的ID号码为123,后来发现ID号码错了,需</p>
+<p>要改写成456,那么,我们就在ETL处理时,直接修改维度表中原来的ID号码为456</p>
+<p>历史Data保留,新增Data也要保留.这时,要将原Data更新,将新Data插入,我们使用UPDATE / INSERT.比如:某一员工2005年在A部门,2006</p>
+<p>年时他调到了B部门.那么在统计2005年的Data时就应该将该员工定位到A部门;而在统计2006年Data时就应该定位到B部门,然后再有新的</p>
+<p>Data插入时,将按照新部门(B部门)进行处理,这样我们的做法是将该维度成员列表加入标识列,将历史的Data标识为“过期”,将目前的Data标</p>
+<p>识为“当前的”.另一种method是将该维度打上时间戳,即将历史Data生效的时间段作为它的一个属性,在与原始表匹配生成事实表时将按照</p>
+<p>时间段进行关联,这种method的好处是该维度成员生效时间明确</p>
+<p>新增Data维度成员改变了属性.例如:某一维度成员新加入了一列,该列在历史Data中不能基于它浏览,而在目前Data和将来Data中可</p>
+<p>以按照它浏览,那么此时我们需要改变维度表属性,即加入新的字段列,那么,我们将使用存储过程或程式生成新的维度属性,在后续的</p>
+<p>Data中将基于新的属性进行查看</p>
+]]></content>
       <categories>
         <category>Project practice results</category>
         <category>Data Warehouse System</category>
@@ -1520,10 +1578,9 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark执行流程分析</title>
+    <title>Spark执行流程简单分析</title>
     <url>/2020/11/24/Spark-Perform-Process-Analysis/</url>
-    <content><![CDATA[<p>##spark on yarn </p>
-<h2 id="Spark-Standalone"><a href="#Spark-Standalone" class="headerlink" title="Spark-Standalone"></a>Spark-Standalone</h2><ol>
+    <content><![CDATA[<h2 id="spark-on-yarn"><a href="#spark-on-yarn" class="headerlink" title="spark on yarn"></a>spark on yarn</h2><h4 id="Yarn-Cluster"><a href="#Yarn-Cluster" class="headerlink" title="Yarn-Cluster"></a>Yarn-Cluster</h4><h2 id="Spark-Standalone"><a href="#Spark-Standalone" class="headerlink" title="Spark-Standalone"></a>Spark-Standalone</h2><ol>
 <li>spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑 </li>
 <li>sparksubmit将任务的信息发送给master</li>
 <li>master向worker通信,需要的资源信息,application,driver信息发送给worker</li>
@@ -1538,10 +1595,83 @@
 <li>将数据先应用分区器返回ID,然后写入到APPendonlymap的内存中,默认达到5M溢写到磁盘,生成两个文件一个索引文件和数据文件</li>
 <li>mappartitionRDD向shuffledRDD要数据,shuffleRDD获取shuffledReader,从上游拉取属于自己分区的数据,然后进行全局的聚合,最后将聚合的结果写入到hdfs中</li>
 </ol>
-<p>##Spark通信分析</p>
-<p>##内存管理</p>
-<p>##spark-submit初始化分析</p>
-<p>##shuffle阶段源码分析</p>
+<h2 id="Spark通信分析"><a href="#Spark通信分析" class="headerlink" title="Spark通信分析"></a>Spark通信分析</h2><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>作为一个JVM进程,Executor的内存管理建立在JVM的内存管理之上,</p>
+<p>Spark对JVM的堆内（On-heap）空间进行了更为详细的分配,以充分利用内存.</p>
+<p>同时,Spark引入了堆外（Off-heap）内存,</p>
+<p>使之可以直接在工作节点的系统内存中开辟空间,进一步优化了内存的使用.</p>
+<h4 id="堆内内存-On-heap-Memory"><a href="#堆内内存-On-heap-Memory" class="headerlink" title="堆内内存(On-heap Memory)"></a>堆内内存(On-heap Memory)</h4><p>堆内内存的大小,由Spark应用程序启动时的<strong>–executor-memory或spark.executor.memory</strong>参数配置.</p>
+<p>Executor内运行的并发任务共享JVM堆内内存,这些任务在缓存RDD和广播（Broadcast）</p>
+<p>数据时占用的内存被规划为<strong>存储（Storage）</strong>内存,而这些任务在执行Shuffle时占用的内存</p>
+<p>被规划为<strong>执行（Execution）</strong>内存,剩余的部分不做特殊规划,那些Spark内部的对象实例,</p>
+<p>或者用户定义的Spark应用程序中的对象实例,均占用剩余的空间.</p>
+<p>不同的管理模式下,这三部分占用的空间大小各不相同 </p>
+<h4 id="堆内内存分析"><a href="#堆内内存分析" class="headerlink" title="堆内内存分析"></a>堆内内存分析</h4><p>我们知道,堆内内存采用JVM来进行管理.而JVM的对象可以以<strong>序列化</strong>的方式存储,</p>
+<p><strong>序列化的过程是将对象转换为二进制字节流,本质上可以理解为将非连续空间的链式存储转</strong></p>
+<p><strong>化为连续空间或块存储</strong>,在访问时则需要进行序列化的逆过程——反序列化,</p>
+<p>将字节流转化为对象,序列化的方式可以节省存储空间,但增加了存储和读取时候的计算开销.</p>
+<p>对于Spark中序列化的对象,由于是字节流的形式,其占用的内存大小可直接计算.</p>
+<p>对于Spark中非序列化的对象,其占用的内存是通过周期性地采样<strong>近似估算</strong>而得,</p>
+<p>即并不是每次新增的数据项都会计算一次占用的内存大小.但是这种方法</p>
+<p>降低了时间开销但是有可能误差较大,<strong>导致某一时刻的实际内存有可能远远超出预期</strong></p>
+<p>此外,在被Spark标记为释放的对象实例,很有可能在实际上并没有被JVM回收,</p>
+<p>导致实际可用的内存小于Spark记录的可用内存.所以Spark并不能准确记录实际</p>
+<p>可用的堆内内存,从而也就无法完全避免内存溢出（OOM, Out of Memory）的异常.</p>
+<p>虽然不能精准控制堆内内存的申请和释放,但Spark通过对存储内存和执行内存各</p>
+<p>自独立的<strong>规划管理</strong>,可以决定是否要在存储内存里缓存新的RDD,以及是否为新的</p>
+<p>任务分配执行内存,在一定程度上可以提升内存的利用率,减少异常的出现. </p>
+<h4 id="堆外内存-Off-heap-Memory"><a href="#堆外内存-Off-heap-Memory" class="headerlink" title="堆外内存(Off-heap Memory)"></a>堆外内存(Off-heap Memory)</h4><p>默认情况下,Spark 仅仅使用了堆内内存.Executor端的堆内内存区域大致可以分为以下四大块：</p>
+<p><strong>Execution内存</strong>    主要用于存放 Shuffle、Join、Sort、Aggregation 等计算过程中的临时数据</p>
+<p><strong>Storage内存</strong>       主要用于存储 spark 的 cache 数据,例如RDD的缓存、unroll数据</p>
+<p><strong>用户内存（User Memory）</strong>            主要用于存储 RDD 转换操作所需要的数据,例如 RDD 依赖等信息</p>
+<p><strong>预留内存（Reserved Memory）</strong>    系统预留内存,会用来存储Spark内部对象</p>
+<p>Spark 1.6 开始引入了Off-heap memory.这种模式不在JVM 内申请内存,</p>
+<p>而是调用 Java 的 unsafe 相关 API 进行诸如 C 语言里面的malloc() 直接向操作系统申请内存.</p>
+<p>由于这种方式不经过 JVM 内存管理,所以可以避免频繁的 GC,这种内存申请的缺点是必须自己编写内存申请和释放的逻辑.</p>
+<p>利用JDK Unsafe API（从Spark 2.0开始,在管理堆外的存储内存时不再基于</p>
+<p>Tachyon,而是与堆外的执行内存一样,基于JDK Unsafe API实现）,</p>
+<p>Spark可以直接操作系统堆外内存,减少了不必要的内存开销,以及频繁的GC扫描和回收,</p>
+<p>提升了处理性能.堆外内存可以被精确地申请和释放,而且序列化的数据占用的空间</p>
+<p>可以被精确计算,所以相比堆内内存来说降低了管理的难度,也降低了误差.</p>
+<h4 id="动态占用机制"><a href="#动态占用机制" class="headerlink" title="动态占用机制"></a>动态占用机制</h4><p>程序提交的时候我们都会设定基本的Execution内存和</p>
+<p>Storage内存区域（通过 spark.memory.storageFraction 参数设置）;</p>
+<p>在程序运行时,双方的空间都不足时,则存储到硬盘；将内存中的块存储到磁盘的策略是按照 LRU </p>
+<p>规则(Least Recently Used)进行的.若己方空间不足而对方空余时,</p>
+<p>可借用对方的空间;（存储空间不足是指不足以放下一个完整的 Block）</p>
+<p>Execution内存的空间被对方占用后,可让对方将占用的部分转存到硬盘,然后”归还”借用的空间</p>
+<p>Storage内存的空间被对方占用后,目前的实现是无法让对方”归还”,</p>
+<p>因为需要考虑 Shuffle 过程中的很多因素,实现起来较为复杂；而且 </p>
+<p>Shuffle 过程产生的文件在后面一定会被使用到,而 Cache 在内存的数据不一定在后面使用.</p>
+<p>注意,上面说的借用对方的内存需要借用方和被借用方的内存类型都一样,</p>
+<p>都是堆内内存或者都是堆外内存,不存在堆内内存不够去借用堆外内存的空间. </p>
+<h2 id="Spark初始化分析"><a href="#Spark初始化分析" class="headerlink" title="Spark初始化分析"></a>Spark初始化分析</h2><h2 id="shuffle阶段分析"><a href="#shuffle阶段分析" class="headerlink" title="shuffle阶段分析"></a>shuffle阶段分析</h2><h4 id="HashShuffle普通机制"><a href="#HashShuffle普通机制" class="headerlink" title="HashShuffle普通机制:"></a>HashShuffle普通机制:</h4><ol>
+<li><p>每一个map task将不同结果写到不同的buffer中，每个buffer的大小为32K。buffer起到数据缓存的作用</p>
+</li>
+<li><p>每个buffer文件最后对应一个磁盘小文件</p>
+</li>
+<li><p> reduce task来拉取对应的磁盘小文件</p>
+</li>
+<li><p>map task的计算结果会根据分区器（默认是hashPartitioner）来决定写入到哪一个磁盘小文件中去.ReduceTask会去Map端拉取相应的磁盘小文件.  </p>
+</li>
+<li><p>产生的磁盘小文件的个数: M（map task的个数）* R（reducetask的个数）</p>
+</li>
+</ol>
+<h4 id="合并机制"><a href="#合并机制" class="headerlink" title="合并机制"></a>合并机制</h4><p>产生磁盘小文件的个数: C(core的个数)*R（reduce的个数）</p>
+<h4 id="SortShuffle普通机制"><a href="#SortShuffle普通机制" class="headerlink" title="SortShuffle普通机制"></a>SortShuffle普通机制</h4><p>没有开启mapsideconbine &amp;&amp; 分区数小于 spark.shuffle.sort.bypassMergeThreshold的参数值.这个值默认是200   bypass 例如</p>
+<p>groupbykey或者groupby并且分区分区数小于200</p>
+<p>判断Serializer是否relacation,没有聚合器 &amp;&amp; 分区数小于2^24  unsafeshuffle 例如repartitionandsortwithinpartition</p>
+<p>否则 sortshuffle</p>
+<ol>
+<li>每个maptask将计算结果写入内存数据结构中,这个内存默认大小为5M</li>
+<li>会有一个“监控器”来不定时的检查这个内存的大小,如果写满了5M,比如达到了5.01M,那么再给这个内存申请5.02M（5.01M * 2 – 5M = 5.02）的内存,此时这个内存空间的总大小为10.02M</li>
+<li>当“定时器”再次发现数据已经写满了,大小10.05M,会再次给它申请内存,大小为 10.05M * 2 – 10.02M = 10.08M</li>
+<li>假如此时总的内存只剩下5M,不足以再给这个内存分配10.08M,那么这个内存会被锁起来,把里面的数据按照相同的key为一组,进行排序后,分别写到不同的缓存中,然后溢写到不同的小文件中,而map task产生的新的计算结果会写入总内存剩余的5M中</li>
+<li>buffer中的数据（已经排好序）溢写的时候,会分批溢写,默认一次溢写10000条数据,假如最后一部分数据不足10000条,那么剩下多少条就一次性溢写多少条</li>
+<li>每个map task产生的小文件,最终合并成一个大文件来让reduce拉取数据,合成大文件的同时也会生成这个大文件的索引文件,里面记录着分区信息和偏移量（比如：key为hello的数据在第5个字节到第8097个字节）</li>
+<li>最终产生的小文件数为2*m（map task的数量）</li>
+</ol>
+<h4 id="Bypass"><a href="#Bypass" class="headerlink" title="Bypass"></a>Bypass</h4><p>BypassMergeSortShuffleWriter 所有的中间数据都是在磁盘里,并没有利用内存.而且它只保证分区索引的排序,而并不保证数据的排序</p>
+<p>BypassMergeSortShuffleWriter 算法适用于没有聚合,数据量不大的场景.给每个分区分配一个临时文件,对每个 record 的 key 使用分区器</p>
+<p>（模式是hash,如果用户自定义就使用自定义的分区器）找到对应分区的输出文件并写入文件对应的文件</p>
 <p>##sort sample采样分析</p>
 ]]></content>
       <categories>
@@ -1554,7 +1684,7 @@
   </entry>
   <entry>
     <title>Spark常用算子分析</title>
-    <url>/2020/11/25/Spark-Common-Operators/</url>
+    <url>/2020/10/15/Spark-Common-Operators/</url>
     <content><![CDATA[<h2 id="Transformation"><a href="#Transformation" class="headerlink" title="Transformation"></a>Transformation</h2><h6 id="map-and-filter"><a href="#map-and-filter" class="headerlink" title="map and filter"></a>map and filter</h6><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">MapAndFilterDemo</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(<span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">&quot;mapfliter&quot;</span>).setMaster(<span class="string">&quot;local[*]&quot;</span>))</span><br><span class="line">    <span class="keyword">val</span> rdd = sc.makeRDD(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>))</span><br><span class="line">    <span class="keyword">val</span> map: <span class="type">MapPartitionsRDD</span>[<span class="type">Double</span>, <span class="type">Int</span>] = <span class="keyword">new</span> <span class="type">MapPartitionsRDD</span>[<span class="type">Double</span>,<span class="type">Int</span>](rdd, (_, _, iter) =&gt; iter.map(data =&gt; &#123;</span><br><span class="line">      data.toString.toDouble * <span class="number">10</span></span><br><span class="line">    &#125;))</span><br><span class="line">    <span class="keyword">val</span> filter = <span class="keyword">new</span> <span class="type">MapPartitionsRDD</span>[<span class="type">Double</span>, <span class="type">Double</span>](map, (_, _, iter) =&gt; iter.filter(data =&gt; data &gt; <span class="number">4</span>))</span><br><span class="line">    filter.collect().foreach(println)</span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -1597,8 +1727,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Spark性能优化分析</title>
-    <url>/2020/11/23/Spark-Performance-Optimization/</url>
+    <title>Spark性能优化简单分析</title>
+    <url>/2020/11/10/Spark-Performance-Optimization/</url>
     <content><![CDATA[<h2 id="资源调优"><a href="#资源调优" class="headerlink" title="资源调优"></a>资源调优</h2><h4 id="Spark作业运行基本原理"><a href="#Spark作业运行基本原理" class="headerlink" title="Spark作业运行基本原理"></a>Spark作业运行基本原理</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. spark-submit 根据部署模式(本地或集群中某工作节点)启动一个对应的Driver进程,</span><br><span class="line">Driver进程本身会根据我们设置的参数,占有一定数量的内存和CPU core</span><br><span class="line"></span><br><span class="line">2. Driver进程要做的第一件事情就是向sparkstandalone集群也可以是yarn集群申请</span><br><span class="line">spark作业的资源(executor),集群管理器会根据我们为Spark作业设置的资源参数,在各</span><br><span class="line">个工作节点上,启动一定数量的Executor进程,每个Executor进程都占有一定数量的内存和CPU core</span><br><span class="line"></span><br><span class="line">3. 再申请到作业所需的资源,Driver进程就会开始调度和执行编写的作业代码,</span><br><span class="line">Driver进程会将我们编写的Spark作业代码分拆为多个stage,每个stage执行一部分代码片段,并为每个stage创建一批task</span><br><span class="line"></span><br><span class="line">4. Driver将这些task分配到各个executor进程中.task是最小的计算单位,</span><br><span class="line">一个stage中所有的tas   k都执行完毕之后,会在各个节点本地的磁盘文件中</span><br><span class="line">写入计算中间结果,然后Driver就会调度运行下一个stage</span><br><span class="line"></span><br><span class="line">5. 下一个stage的task的输入数据就是上一个stage输出的中间结果。如此循环往复,</span><br><span class="line">直到将我们自己编写的代码逻辑全部执行完,并且计算完所有的数据,得到我们想要的结果为止</span><br><span class="line">(Spark是根据shuffle类算子来进行stage的划分,shuffle算子执行以及之后的代码会被</span><br><span class="line">划分为下一个stage.因此一个stage刚开始执行的时候,它的每个task可能都会从上一个</span><br><span class="line">stage的task所在的节点,去通过网络传输拉取需要自己处理的所有key,然后对拉取到的</span><br><span class="line">所有相同的key使用我们自己编写的算子函数执行聚合操作)</span><br><span class="line"></span><br><span class="line">6. 当我们在代码中执行了cache/persist等持久化操作时,根据我们选择的持久化级别</span><br><span class="line">的不同,每个task计算出来的数据也会保存到Executor进程的内存或者所在节点的磁盘文件</span><br><span class="line">中.executor的内存分为三个部分(task代码执行内存占20%task通过shuffle拉取上游</span><br><span class="line">结果进行聚合等占据20%,RDD持久化占据60%),ask的执行速度是跟每个Executor进程的</span><br><span class="line">CPU core数量有直接关系的.一个CPU core同一时间只能执行一个线程</span><br></pre></td></tr></table></figure>
 
 
@@ -1648,6 +1778,32 @@
       </categories>
       <tags>
         <tag>Work Systematically</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据驱动摘要(神策)</title>
+    <url>/2020/12/27/Data-Driven-Computation/</url>
+    <content><![CDATA[<h1 id="数据思维与数据驱动"><a href="#数据思维与数据驱动" class="headerlink" title="数据思维与数据驱动"></a>数据思维与数据驱动</h1><p>1.大数据的概念<br>大:不是数据量的”大”,而是宏观的,覆盖面广<br>全:强调多种数据源<br>细:细节精准,多维度数据<br>时:实时采集实时分析<br>不是截面的静态的,而是时间序列多维度的</p>
+<p><strong>信息的四个层次</strong><br>经验——&gt;新事物<br>过去——&gt;未来<br>数据—-离散元素<br>信息—-连接元素<br>知识—-组织信息<br>智慧—-应用知识</p>
+<p>2.大数据的本质<br>作者提出了 <strong>数据驱动理念 大数据的本质是消除不确定性</strong></p>
+<p>3.数据驱动的价值<br>驱动决策<br>驱动产品智能</p>
+<p>4.企业内部数据驱动现状<br>1.时间效率低下<br>2.数据可视化问题,仪表盘只能看到宏观数据<br>3.无法跨越数据孤岛藩篱<br>4.理想中数据驱动———&gt;<strong>流的观念</strong></p>
+<p>5.大数据时代到来的条件<br>1.数据采集能力增强<br>2.数据处理能力增强<br>3.数据意识的提升</p>
+<h1 id="数据驱动的环节"><a href="#数据驱动的环节" class="headerlink" title="数据驱动的环节"></a>数据驱动的环节</h1><h3 id="1-数据的采集与埋点"><a href="#1-数据的采集与埋点" class="headerlink" title="1.数据的采集与埋点"></a>1.数据的采集与<strong>埋点</strong></h3><p>困惑:如何采 采哪些 用什么手段<br>传统的三个途径:第三方统计工具 通过业务数据库做统计分析 web日志统计分析<br>数据采集的现状:</p>
+<p>科学的数据采集和埋点方式<br>可视化/全埋点 代码埋点 导入第三方辅助工具<br>数据的准确性:</p>
+<h3 id="2-数据建模"><a href="#2-数据建模" class="headerlink" title="2.数据建模"></a>2.数据建模</h3><p>传统的数据模型<br>多维数据模型——-&gt;数据分层的金字塔模型<br><strong>多维事件模型</strong>:<br>Event实体 :描述了一个用户在某一个时间点及某个地方以某种方式完成了某个具体事情<br>User实体<br>多维事件模型的探索<br>用户行为查询平台 logdata平台 用户行为数据</p>
+<h3 id="3-数据分析方法"><a href="#3-数据分析方法" class="headerlink" title="3.数据分析方法"></a>3.数据分析方法</h3><p>行为事件分析<br>漏斗分析:——&gt;<strong>属性关联</strong><br>用户从起点到终点各个阶段用户转化率<br>留存分析:<br>对产品上线及新功能上线时,用户留存率的分析<br>分布分析<br>点击分析<br>用户路径<br>用户分群(用户信息标签化)<br>属性分析</p>
+<h3 id="4-指标体系的构建"><a href="#4-指标体系的构建" class="headerlink" title="4.指标体系的构建"></a>4.指标体系的构建</h3><p>第一关键指标法<br>第一个阶段:MVP阶段—-确定用户需求<br>第二个阶段:增长阶段—-关注留存指标和引荐指标<br>第三个阶段:营收阶段—-如何规模化及实现快速盈利</p>
+<p>海盗指标法<br>acquisition(获取) activation(激活) retention(留存) revenue(营收) referral(引荐)</p>
+<h1 id="数据驱动产品智能"><a href="#数据驱动产品智能" class="headerlink" title="数据驱动产品智能"></a>数据驱动产品智能</h1><p>1.基于机器学习的用户智能<br>回归算法<br>分类算法:离散<br>聚类算法:聚类的标准<br>关联算法:连续的关联规则挖掘</p>
+<p>2.<strong>用户画像</strong><br>user persona:主要来源于产品和运营对客户的理解调研与认知<br>user profile:基于真实积累的用户行为 结合具体业务场景产生的一系列标签</p>
+<p>3.个性化推荐</p>
+]]></content>
+      <categories>
+        <category>The Hadoop Ecosystem</category>
+      </categories>
+      <tags>
+        <tag>Reading Books</tag>
       </tags>
   </entry>
 </search>

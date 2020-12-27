@@ -86,15 +86,15 @@
 
 
 
-<meta name="description" content="##spark on yarn  Spark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反向注册 driv">
+<meta name="description" content="spark on yarnYarn-ClusterSpark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark执行流程分析">
+<meta property="og:title" content="Spark执行流程简单分析">
 <meta property="og:url" content="https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
-<meta property="og:description" content="##spark on yarn  Spark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反向注册 driv">
+<meta property="og:description" content="spark on yarnYarn-ClusterSpark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-24T12:32:23.000Z">
-<meta property="article:modified_time" content="2020-12-26T08:08:28.525Z">
+<meta property="article:modified_time" content="2020-12-27T08:44:44.014Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
 
 
 
-  <title>Spark执行流程分析 | tongyongtao's Blog</title>
+  <title>Spark执行流程简单分析 | tongyongtao's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spark执行流程分析</h1>
+          <h1 class="post-title" itemprop="name headline">Spark执行流程简单分析</h1>
         
 
         <div class="post-meta">
@@ -404,8 +404,7 @@
       
 
       
-        <p>##spark on yarn </p>
-<h2 id="Spark-Standalone"><a href="#Spark-Standalone" class="headerlink" title="Spark-Standalone"></a>Spark-Standalone</h2><ol>
+        <h2 id="spark-on-yarn"><a href="#spark-on-yarn" class="headerlink" title="spark on yarn"></a>spark on yarn</h2><h4 id="Yarn-Cluster"><a href="#Yarn-Cluster" class="headerlink" title="Yarn-Cluster"></a>Yarn-Cluster</h4><h2 id="Spark-Standalone"><a href="#Spark-Standalone" class="headerlink" title="Spark-Standalone"></a>Spark-Standalone</h2><ol>
 <li>spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑 </li>
 <li>sparksubmit将任务的信息发送给master</li>
 <li>master向worker通信,需要的资源信息,application,driver信息发送给worker</li>
@@ -420,10 +419,83 @@
 <li>将数据先应用分区器返回ID,然后写入到APPendonlymap的内存中,默认达到5M溢写到磁盘,生成两个文件一个索引文件和数据文件</li>
 <li>mappartitionRDD向shuffledRDD要数据,shuffleRDD获取shuffledReader,从上游拉取属于自己分区的数据,然后进行全局的聚合,最后将聚合的结果写入到hdfs中</li>
 </ol>
-<p>##Spark通信分析</p>
-<p>##内存管理</p>
-<p>##spark-submit初始化分析</p>
-<p>##shuffle阶段源码分析</p>
+<h2 id="Spark通信分析"><a href="#Spark通信分析" class="headerlink" title="Spark通信分析"></a>Spark通信分析</h2><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>作为一个JVM进程,Executor的内存管理建立在JVM的内存管理之上,</p>
+<p>Spark对JVM的堆内（On-heap）空间进行了更为详细的分配,以充分利用内存.</p>
+<p>同时,Spark引入了堆外（Off-heap）内存,</p>
+<p>使之可以直接在工作节点的系统内存中开辟空间,进一步优化了内存的使用.</p>
+<h4 id="堆内内存-On-heap-Memory"><a href="#堆内内存-On-heap-Memory" class="headerlink" title="堆内内存(On-heap Memory)"></a>堆内内存(On-heap Memory)</h4><p>堆内内存的大小,由Spark应用程序启动时的<strong>–executor-memory或spark.executor.memory</strong>参数配置.</p>
+<p>Executor内运行的并发任务共享JVM堆内内存,这些任务在缓存RDD和广播（Broadcast）</p>
+<p>数据时占用的内存被规划为<strong>存储（Storage）</strong>内存,而这些任务在执行Shuffle时占用的内存</p>
+<p>被规划为<strong>执行（Execution）</strong>内存,剩余的部分不做特殊规划,那些Spark内部的对象实例,</p>
+<p>或者用户定义的Spark应用程序中的对象实例,均占用剩余的空间.</p>
+<p>不同的管理模式下,这三部分占用的空间大小各不相同 </p>
+<h4 id="堆内内存分析"><a href="#堆内内存分析" class="headerlink" title="堆内内存分析"></a>堆内内存分析</h4><p>我们知道,堆内内存采用JVM来进行管理.而JVM的对象可以以<strong>序列化</strong>的方式存储,</p>
+<p><strong>序列化的过程是将对象转换为二进制字节流,本质上可以理解为将非连续空间的链式存储转</strong></p>
+<p><strong>化为连续空间或块存储</strong>,在访问时则需要进行序列化的逆过程——反序列化,</p>
+<p>将字节流转化为对象,序列化的方式可以节省存储空间,但增加了存储和读取时候的计算开销.</p>
+<p>对于Spark中序列化的对象,由于是字节流的形式,其占用的内存大小可直接计算.</p>
+<p>对于Spark中非序列化的对象,其占用的内存是通过周期性地采样<strong>近似估算</strong>而得,</p>
+<p>即并不是每次新增的数据项都会计算一次占用的内存大小.但是这种方法</p>
+<p>降低了时间开销但是有可能误差较大,<strong>导致某一时刻的实际内存有可能远远超出预期</strong></p>
+<p>此外,在被Spark标记为释放的对象实例,很有可能在实际上并没有被JVM回收,</p>
+<p>导致实际可用的内存小于Spark记录的可用内存.所以Spark并不能准确记录实际</p>
+<p>可用的堆内内存,从而也就无法完全避免内存溢出（OOM, Out of Memory）的异常.</p>
+<p>虽然不能精准控制堆内内存的申请和释放,但Spark通过对存储内存和执行内存各</p>
+<p>自独立的<strong>规划管理</strong>,可以决定是否要在存储内存里缓存新的RDD,以及是否为新的</p>
+<p>任务分配执行内存,在一定程度上可以提升内存的利用率,减少异常的出现. </p>
+<h4 id="堆外内存-Off-heap-Memory"><a href="#堆外内存-Off-heap-Memory" class="headerlink" title="堆外内存(Off-heap Memory)"></a>堆外内存(Off-heap Memory)</h4><p>默认情况下,Spark 仅仅使用了堆内内存.Executor端的堆内内存区域大致可以分为以下四大块：</p>
+<p><strong>Execution内存</strong>    主要用于存放 Shuffle、Join、Sort、Aggregation 等计算过程中的临时数据</p>
+<p><strong>Storage内存</strong>       主要用于存储 spark 的 cache 数据,例如RDD的缓存、unroll数据</p>
+<p><strong>用户内存（User Memory）</strong>            主要用于存储 RDD 转换操作所需要的数据,例如 RDD 依赖等信息</p>
+<p><strong>预留内存（Reserved Memory）</strong>    系统预留内存,会用来存储Spark内部对象</p>
+<p>Spark 1.6 开始引入了Off-heap memory.这种模式不在JVM 内申请内存,</p>
+<p>而是调用 Java 的 unsafe 相关 API 进行诸如 C 语言里面的malloc() 直接向操作系统申请内存.</p>
+<p>由于这种方式不经过 JVM 内存管理,所以可以避免频繁的 GC,这种内存申请的缺点是必须自己编写内存申请和释放的逻辑.</p>
+<p>利用JDK Unsafe API（从Spark 2.0开始,在管理堆外的存储内存时不再基于</p>
+<p>Tachyon,而是与堆外的执行内存一样,基于JDK Unsafe API实现）,</p>
+<p>Spark可以直接操作系统堆外内存,减少了不必要的内存开销,以及频繁的GC扫描和回收,</p>
+<p>提升了处理性能.堆外内存可以被精确地申请和释放,而且序列化的数据占用的空间</p>
+<p>可以被精确计算,所以相比堆内内存来说降低了管理的难度,也降低了误差.</p>
+<h4 id="动态占用机制"><a href="#动态占用机制" class="headerlink" title="动态占用机制"></a>动态占用机制</h4><p>程序提交的时候我们都会设定基本的Execution内存和</p>
+<p>Storage内存区域（通过 spark.memory.storageFraction 参数设置）;</p>
+<p>在程序运行时,双方的空间都不足时,则存储到硬盘；将内存中的块存储到磁盘的策略是按照 LRU </p>
+<p>规则(Least Recently Used)进行的.若己方空间不足而对方空余时,</p>
+<p>可借用对方的空间;（存储空间不足是指不足以放下一个完整的 Block）</p>
+<p>Execution内存的空间被对方占用后,可让对方将占用的部分转存到硬盘,然后”归还”借用的空间</p>
+<p>Storage内存的空间被对方占用后,目前的实现是无法让对方”归还”,</p>
+<p>因为需要考虑 Shuffle 过程中的很多因素,实现起来较为复杂；而且 </p>
+<p>Shuffle 过程产生的文件在后面一定会被使用到,而 Cache 在内存的数据不一定在后面使用.</p>
+<p>注意,上面说的借用对方的内存需要借用方和被借用方的内存类型都一样,</p>
+<p>都是堆内内存或者都是堆外内存,不存在堆内内存不够去借用堆外内存的空间. </p>
+<h2 id="Spark初始化分析"><a href="#Spark初始化分析" class="headerlink" title="Spark初始化分析"></a>Spark初始化分析</h2><h2 id="shuffle阶段分析"><a href="#shuffle阶段分析" class="headerlink" title="shuffle阶段分析"></a>shuffle阶段分析</h2><h4 id="HashShuffle普通机制"><a href="#HashShuffle普通机制" class="headerlink" title="HashShuffle普通机制:"></a>HashShuffle普通机制:</h4><ol>
+<li><p>每一个map task将不同结果写到不同的buffer中，每个buffer的大小为32K。buffer起到数据缓存的作用</p>
+</li>
+<li><p>每个buffer文件最后对应一个磁盘小文件</p>
+</li>
+<li><p> reduce task来拉取对应的磁盘小文件</p>
+</li>
+<li><p>map task的计算结果会根据分区器（默认是hashPartitioner）来决定写入到哪一个磁盘小文件中去.ReduceTask会去Map端拉取相应的磁盘小文件.  </p>
+</li>
+<li><p>产生的磁盘小文件的个数: M（map task的个数）* R（reducetask的个数）</p>
+</li>
+</ol>
+<h4 id="合并机制"><a href="#合并机制" class="headerlink" title="合并机制"></a>合并机制</h4><p>产生磁盘小文件的个数: C(core的个数)*R（reduce的个数）</p>
+<h4 id="SortShuffle普通机制"><a href="#SortShuffle普通机制" class="headerlink" title="SortShuffle普通机制"></a>SortShuffle普通机制</h4><p>没有开启mapsideconbine &amp;&amp; 分区数小于 spark.shuffle.sort.bypassMergeThreshold的参数值.这个值默认是200   bypass 例如</p>
+<p>groupbykey或者groupby并且分区分区数小于200</p>
+<p>判断Serializer是否relacation,没有聚合器 &amp;&amp; 分区数小于2^24  unsafeshuffle 例如repartitionandsortwithinpartition</p>
+<p>否则 sortshuffle</p>
+<ol>
+<li>每个maptask将计算结果写入内存数据结构中,这个内存默认大小为5M</li>
+<li>会有一个“监控器”来不定时的检查这个内存的大小,如果写满了5M,比如达到了5.01M,那么再给这个内存申请5.02M（5.01M * 2 – 5M = 5.02）的内存,此时这个内存空间的总大小为10.02M</li>
+<li>当“定时器”再次发现数据已经写满了,大小10.05M,会再次给它申请内存,大小为 10.05M * 2 – 10.02M = 10.08M</li>
+<li>假如此时总的内存只剩下5M,不足以再给这个内存分配10.08M,那么这个内存会被锁起来,把里面的数据按照相同的key为一组,进行排序后,分别写到不同的缓存中,然后溢写到不同的小文件中,而map task产生的新的计算结果会写入总内存剩余的5M中</li>
+<li>buffer中的数据（已经排好序）溢写的时候,会分批溢写,默认一次溢写10000条数据,假如最后一部分数据不足10000条,那么剩下多少条就一次性溢写多少条</li>
+<li>每个map task产生的小文件,最终合并成一个大文件来让reduce拉取数据,合成大文件的同时也会生成这个大文件的索引文件,里面记录着分区信息和偏移量（比如：key为hello的数据在第5个字节到第8097个字节）</li>
+<li>最终产生的小文件数为2*m（map task的数量）</li>
+</ol>
+<h4 id="Bypass"><a href="#Bypass" class="headerlink" title="Bypass"></a>Bypass</h4><p>BypassMergeSortShuffleWriter 所有的中间数据都是在磁盘里,并没有利用内存.而且它只保证分区索引的排序,而并不保证数据的排序</p>
+<p>BypassMergeSortShuffleWriter 算法适用于没有聚合,数据量不大的场景.给每个分区分配一个临时文件,对每个 record 的 key 使用分区器</p>
+<p>（模式是hash,如果用户自定义就使用自定义的分区器）找到对应分区的输出文件并写入文件对应的文件</p>
 <p>##sort sample采样分析</p>
 
       
@@ -445,7 +517,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/" title="Spark执行流程分析">https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/</a>
+    <a href="https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/" title="Spark执行流程简单分析">https://nino-laiqiu.github.io/2020/11/24/Spark-Perform-Process-Analysis/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -473,8 +545,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/23/Spark-Performance-Optimization/" rel="next" title="Spark性能优化分析">
-                <i class="fa fa-chevron-left"></i> Spark性能优化分析
+              <a href="/2020/11/15/In-common-use-Apache-Hbase-API/" rel="next" title="Apache-Hbase-API">
+                <i class="fa fa-chevron-left"></i> Apache-Hbase-API
               </a>
             
           </div>
@@ -483,8 +555,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/11/25/Spark-Common-Operators/" rel="prev" title="Spark常用算子分析">
-                Spark常用算子分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/12/02/Java-DesignMode/" rel="prev" title="java设计模式">
+                java设计模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -571,7 +643,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -636,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Standalone"><span class="nav-number">1.</span> <span class="nav-text">Spark-Standalone</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-on-yarn"><span class="nav-number">1.</span> <span class="nav-text">spark on yarn</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Yarn-Cluster"><span class="nav-number">1.0.1.</span> <span class="nav-text">Yarn-Cluster</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Standalone"><span class="nav-number">2.</span> <span class="nav-text">Spark-Standalone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E9%80%9A%E4%BF%A1%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">Spark通信分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98-On-heap-Memory"><span class="nav-number">4.0.1.</span> <span class="nav-text">堆内内存(On-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">4.0.2.</span> <span class="nav-text">堆内内存分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98-Off-heap-Memory"><span class="nav-number">4.0.3.</span> <span class="nav-text">堆外内存(Off-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%8D%A0%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.0.4.</span> <span class="nav-text">动态占用机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">Spark初始化分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shuffle%E9%98%B6%E6%AE%B5%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">shuffle阶段分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">6.0.1.</span> <span class="nav-text">HashShuffle普通机制:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">6.0.2.</span> <span class="nav-text">合并机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SortShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">6.0.3.</span> <span class="nav-text">SortShuffle普通机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bypass"><span class="nav-number">6.0.4.</span> <span class="nav-text">Bypass</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

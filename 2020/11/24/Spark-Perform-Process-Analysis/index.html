@@ -94,7 +94,7 @@
 <meta property="og:description" content="spark on yarnYarn-ClusterSpark-Standalone spark-submit执行脚本在client模式下，脚本通过反射调用程序的业务逻辑  sparksubmit将任务的信息发送给master master向worker通信,需要的资源信息,application,driver信息发送给worker worker启动executor executor跟driver反">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-24T12:32:23.000Z">
-<meta property="article:modified_time" content="2020-12-28T15:36:22.144Z">
+<meta property="article:modified_time" content="2021-01-01T05:42:44.683Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -168,7 +168,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">致力于实现数据商业智能系统的建设方案</p>
+        <p class="site-subtitle">致力于数据商业智能系统的建设方案</p>
       
   </div>
 
@@ -485,13 +485,24 @@
 <p>判断Serializer是否relacation,没有聚合器 &amp;&amp; 分区数小于2^24  unsafeshuffle 例如repartitionandsortwithinpartition</p>
 <p>否则 sortshuffle</p>
 <ol>
-<li>每个maptask将计算结果写入内存数据结构中,这个内存默认大小为5M</li>
-<li>会有一个“监控器”来不定时的检查这个内存的大小,如果写满了5M,比如达到了5.01M,那么再给这个内存申请5.02M（5.01M * 2 – 5M = 5.02）的内存,此时这个内存空间的总大小为10.02M</li>
-<li>当“定时器”再次发现数据已经写满了,大小10.05M,会再次给它申请内存,大小为 10.05M * 2 – 10.02M = 10.08M</li>
-<li>假如此时总的内存只剩下5M,不足以再给这个内存分配10.08M,那么这个内存会被锁起来,把里面的数据按照相同的key为一组,进行排序后,分别写到不同的缓存中,然后溢写到不同的小文件中,而map task产生的新的计算结果会写入总内存剩余的5M中</li>
-<li>buffer中的数据（已经排好序）溢写的时候,会分批溢写,默认一次溢写10000条数据,假如最后一部分数据不足10000条,那么剩下多少条就一次性溢写多少条</li>
-<li>每个map task产生的小文件,最终合并成一个大文件来让reduce拉取数据,合成大文件的同时也会生成这个大文件的索引文件,里面记录着分区信息和偏移量（比如：key为hello的数据在第5个字节到第8097个字节）</li>
-<li>最终产生的小文件数为2*m（map task的数量）</li>
+<li><p>每个maptask将计算结果写入内存数据结构中,这个内存默认大小为5M</p>
+</li>
+<li><p>会有一个“监控器”来不定时的检查这个内存的大小,如果写满了5M,比如达到了5.01M,那么再给这个内存申请5.02M（5.01M * 2 – 5M </p>
+<p>= 5.02）的内存,此时这个内存空间的总大小为10.02M</p>
+</li>
+<li><p>当“定时器”再次发现数据已经写满了,大小10.05M,会再次给它申请内存,大小为 10.05M * 2 – 10.02M = 10.08M</p>
+</li>
+<li><p>假如此时总的内存只剩下5M,不足以再给这个内存分配10.08M,那么这个内存会被锁起来,把里面的数据按照相同的key为一组,进行排</p>
+<p>序后,分别写到不同的缓存中,然后溢写到不同的小文件中,而map task产生的新的计算结果会写入总内存剩余的5M中</p>
+</li>
+<li><p>buffer中的数据（已经排好序）溢写的时候,会分批溢写,默认一次溢写10000条数据,假如最后一部分数据不足10000条,那么剩下多少</p>
+<p>条就一次性溢写多少条</p>
+</li>
+<li><p>每个map task产生的小文件,最终合并成一个大文件来让reduce拉取数据,合成大文件的同时也会生成这个大文件的索引文件,里面记录</p>
+<p>着分区信息和偏移量（比如：key为hello的数据在第5个字节到第8097个字节）</p>
+</li>
+<li><p>最终产生的小文件数为2*m（map task的数量）</p>
+</li>
 </ol>
 <h4 id="BypassMergeSortShuffle"><a href="#BypassMergeSortShuffle" class="headerlink" title="BypassMergeSortShuffle"></a>BypassMergeSortShuffle</h4><p>BypassMergeSortShuffleWriter 所有的中间数据都是在磁盘里,并没有利用内存.而且它只保证分区索引的排序,而并不保证数据的排序</p>
 <p>IndexShuffleBlockResolver类负责创建索引文件,存储到ShuffleIndexBlock数据块中.它提供了writeIndexFileAndCommit方法创建索引.</p>
@@ -499,7 +510,7 @@
 <p>致,则删除临时索引文件.如果不一致,则会更新索引文件</p>
 <p>BypassMergeSortShuffleWriter 算法适用于没有聚合,数据量不大的场景.给每个分区分配一个临时文件,对每个 record 的 key 使用分区器</p>
 <p>（模式是hash,如果用户自定义就使用自定义的分区器）找到对应分区的输出文件并写入文件对应的文件</p>
-<h4 id="Shuffle分析"><a href="#Shuffle分析" class="headerlink" title="Shuffle分析"></a>Shuffle分析</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CoarseGrainedExecutorBackend类</span></span><br><span class="line">driverConf.set(<span class="type">EXECUTOR_ID</span>, arguments.executorId)</span><br><span class="line">  <span class="keyword">val</span> env = <span class="type">SparkEnv</span>.createExecutorEnv(driverConf, arguments.executorId, arguments.bindAddress,</span><br><span class="line">    arguments.hostname, arguments.cores, cfg.ioEncryptionKey, isLocal = <span class="literal">false</span>)</span><br><span class="line">  <span class="comment">//注册executor</span></span><br><span class="line">  env.rpcEnv.setupEndpoint(<span class="string">&quot;Executor&quot;</span>,</span><br><span class="line">    backendCreateFn(env.rpcEnv, arguments, env, cfg.resourceProfile))</span><br><span class="line">  arguments.workerUrl.foreach &#123; url =&gt;</span><br><span class="line">    env.rpcEnv.setupEndpoint(<span class="string">&quot;WorkerWatcher&quot;</span>, <span class="keyword">new</span> <span class="type">WorkerWatcher</span>(env.rpcEnv, url))</span><br><span class="line">  &#125;</span><br><span class="line">  env.rpcEnv.awaitTermination()</span><br></pre></td></tr></table></figure>
+<h4 id="Spark-submit分析"><a href="#Spark-submit分析" class="headerlink" title="Spark-submit分析"></a>Spark-submit分析</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CoarseGrainedExecutorBackend类</span></span><br><span class="line">driverConf.set(<span class="type">EXECUTOR_ID</span>, arguments.executorId)</span><br><span class="line">  <span class="keyword">val</span> env = <span class="type">SparkEnv</span>.createExecutorEnv(driverConf, arguments.executorId, arguments.bindAddress,</span><br><span class="line">    arguments.hostname, arguments.cores, cfg.ioEncryptionKey, isLocal = <span class="literal">false</span>)</span><br><span class="line">  <span class="comment">//注册executor</span></span><br><span class="line">  env.rpcEnv.setupEndpoint(<span class="string">&quot;Executor&quot;</span>,</span><br><span class="line">    backendCreateFn(env.rpcEnv, arguments, env, cfg.resourceProfile))</span><br><span class="line">  arguments.workerUrl.foreach &#123; url =&gt;</span><br><span class="line">    env.rpcEnv.setupEndpoint(<span class="string">&quot;WorkerWatcher&quot;</span>, <span class="keyword">new</span> <span class="type">WorkerWatcher</span>(env.rpcEnv, url))</span><br><span class="line">  &#125;</span><br><span class="line">  env.rpcEnv.awaitTermination()</span><br></pre></td></tr></table></figure>
 
 
 
@@ -705,7 +716,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -770,7 +781,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-on-yarn"><span class="nav-number">1.</span> <span class="nav-text">spark on yarn</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Yarn-Cluster"><span class="nav-number">1.0.1.</span> <span class="nav-text">Yarn-Cluster</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Standalone"><span class="nav-number">2.</span> <span class="nav-text">Spark-Standalone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E9%80%9A%E4%BF%A1%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">Spark通信分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98-On-heap-Memory"><span class="nav-number">4.0.1.</span> <span class="nav-text">堆内内存(On-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">4.0.2.</span> <span class="nav-text">堆内内存分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98-Off-heap-Memory"><span class="nav-number">4.0.3.</span> <span class="nav-text">堆外内存(Off-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%8D%A0%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.0.4.</span> <span class="nav-text">动态占用机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shuffle%E9%98%B6%E6%AE%B5%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">shuffle阶段分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.1.</span> <span class="nav-text">HashShuffle普通机制:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.2.</span> <span class="nav-text">合并机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SortShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.3.</span> <span class="nav-text">SortShuffle普通机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BypassMergeSortShuffle"><span class="nav-number">5.0.4.</span> <span class="nav-text">BypassMergeSortShuffle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shuffle%E5%88%86%E6%9E%90"><span class="nav-number">5.0.5.</span> <span class="nav-text">Shuffle分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sort-%E9%87%87%E6%A0%B7%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">Sort 采样分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashPartitioner"><span class="nav-number">6.0.1.</span> <span class="nav-text">HashPartitioner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RangePartitioner"><span class="nav-number">6.0.2.</span> <span class="nav-text">RangePartitioner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%88%86%E5%8C%BA%E5%99%A8"><span class="nav-number">6.0.3.</span> <span class="nav-text">默认分区器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample%E9%87%87%E6%A0%B7"><span class="nav-number">6.0.4.</span> <span class="nav-text">Sample采样</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#spark-on-yarn"><span class="nav-number">1.</span> <span class="nav-text">spark on yarn</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Yarn-Cluster"><span class="nav-number">1.0.1.</span> <span class="nav-text">Yarn-Cluster</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Standalone"><span class="nav-number">2.</span> <span class="nav-text">Spark-Standalone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark%E9%80%9A%E4%BF%A1%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">Spark通信分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98-On-heap-Memory"><span class="nav-number">4.0.1.</span> <span class="nav-text">堆内内存(On-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90"><span class="nav-number">4.0.2.</span> <span class="nav-text">堆内内存分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%A4%96%E5%86%85%E5%AD%98-Off-heap-Memory"><span class="nav-number">4.0.3.</span> <span class="nav-text">堆外内存(Off-heap Memory)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%8D%A0%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.0.4.</span> <span class="nav-text">动态占用机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shuffle%E9%98%B6%E6%AE%B5%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">shuffle阶段分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.1.</span> <span class="nav-text">HashShuffle普通机制:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.2.</span> <span class="nav-text">合并机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SortShuffle%E6%99%AE%E9%80%9A%E6%9C%BA%E5%88%B6"><span class="nav-number">5.0.3.</span> <span class="nav-text">SortShuffle普通机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BypassMergeSortShuffle"><span class="nav-number">5.0.4.</span> <span class="nav-text">BypassMergeSortShuffle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark-submit%E5%88%86%E6%9E%90"><span class="nav-number">5.0.5.</span> <span class="nav-text">Spark-submit分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sort-%E9%87%87%E6%A0%B7%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">Sort 采样分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashPartitioner"><span class="nav-number">6.0.1.</span> <span class="nav-text">HashPartitioner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RangePartitioner"><span class="nav-number">6.0.2.</span> <span class="nav-text">RangePartitioner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%88%86%E5%8C%BA%E5%99%A8"><span class="nav-number">6.0.3.</span> <span class="nav-text">默认分区器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sample%E9%87%87%E6%A0%B7"><span class="nav-number">6.0.4.</span> <span class="nav-text">Sample采样</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -790,7 +801,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

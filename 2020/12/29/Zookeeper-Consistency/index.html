@@ -86,13 +86,15 @@
 
 
 
+<meta name="description" content="在分布式的环境中,存在多个值,需要从中选定出一个值,达成共识 PaxosPrepare 阶段proposer 在提出议案 N 之前,N 是该议案的编号,需要向至少多数的 acceptor 发送 Prepare（N）请求 acceptor 收到 Prepare（N）请求后  如果之前已经接受了其他议案，那么返回接受过的议案。 如果之前收到过Prepare（M）请求,并且 M &gt; N,那么可以忽">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Zookeeper-Consistency">
+<meta property="og:title" content="Zookeeper数据一致性">
 <meta property="og:url" content="https://nino-laiqiu.github.io/2020/12/29/Zookeeper-Consistency/index.html">
 <meta property="og:site_name" content="tongyongtao&#39;s Blog">
+<meta property="og:description" content="在分布式的环境中,存在多个值,需要从中选定出一个值,达成共识 PaxosPrepare 阶段proposer 在提出议案 N 之前,N 是该议案的编号,需要向至少多数的 acceptor 发送 Prepare（N）请求 acceptor 收到 Prepare（N）请求后  如果之前已经接受了其他议案，那么返回接受过的议案。 如果之前收到过Prepare（M）请求,并且 M &gt; N,那么可以忽">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-12-29T09:35:16.000Z">
-<meta property="article:modified_time" content="2020-12-29T09:36:48.007Z">
+<meta property="article:modified_time" content="2021-01-01T13:44:37.752Z">
 <meta property="article:author" content="NINO">
 <meta property="article:tag" content="Work Systematically">
 <meta name="twitter:card" content="summary">
@@ -131,7 +133,7 @@
 
 
 
-  <title>Zookeeper-Consistency | tongyongtao's Blog</title>
+  <title>Zookeeper数据一致性 | tongyongtao's Blog</title>
   
 
 
@@ -166,7 +168,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">致力于实现数据商业智能系统的建设方案</p>
+        <p class="site-subtitle">致力于数据商业智能系统的建设方案</p>
       
   </div>
 
@@ -319,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Zookeeper-Consistency</h1>
+          <h1 class="post-title" itemprop="name headline">Zookeeper数据一致性</h1>
         
 
         <div class="post-meta">
@@ -391,7 +393,54 @@
       
 
       
-        
+        <p>在分布式的环境中,存在多个值,需要从中选定出一个值,达成共识</p>
+<h2 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h2><h5 id="Prepare-阶段"><a href="#Prepare-阶段" class="headerlink" title="Prepare 阶段"></a>Prepare 阶段</h5><p>proposer 在提出议案 N 之前,N 是该议案的编号,需要向至少多数的 acceptor 发送 Prepare（N）请求</p>
+<p>acceptor 收到 Prepare（N）请求后</p>
+<ol>
+<li>如果之前已经接受了其他议案，那么返回接受过的议案。</li>
+<li>如果之前收到过Prepare（M）请求,并且 M &gt; N,那么可以忽略此次请求,也可以返回一个错误</li>
+<li>如果之前收到过Prepare（M）请求,并且 M &lt; N,那么 acceptor 会保证以后不会响应议案编号小于 N 的任何请求,并且返回成功响应</li>
+</ol>
+<h5 id="Accept-阶段"><a href="#Accept-阶段" class="headerlink" title="Accept 阶段"></a>Accept 阶段</h5><p>proposer 在收到多数 acceptor 的成功响应后,,如果这些acceptor中有返回议案,那么就从中选出那个编号最大的议案的值,作为接下来要提</p>
+<p>交的.如果没有返回议案,那么将本身的议案作为提交议案</p>
+<p>在确定好提交议案后,proposer 会向至少多数的 acceptor 发起 ACCEPT 请求,提交议案.注意下这里的多数 acceptor 可以不和 prepare 阶</p>
+<p>段的多数 acceptor 相同</p>
+<p>acceptor 当收到 ACCEPT 请求后,会检查议案编号.因为acceptor 在 prepare 阶段,已经承诺过不会议案编号小于 N 的请求,如果 ACCEPT </p>
+<p>请求的议案编号小于 N,那么就会拒绝接受此议案.否则,就会接受该议案</p>
+<p>当 proposer 收到多数 acceptor 的成功接收议案的响应后,就会认为该议案被选定了</p>
+<h5 id="Learn-阶段"><a href="#Learn-阶段" class="headerlink" title="Learn 阶段"></a>Learn 阶段</h5><p>每当 acceptor 接受了一个议案,就会立即通知 learner。learner 会记录每个 acceptor 接收的议案,如果一个议案被多数 acceptor 接受了</p>
+<p>那么就决定选定该议案.(假设有两个 proposer , proposer 2的议案被接收但是 proposer 1 不能保证 proposer 2 能够正常完成提交议</p>
+<p>案,因为 proposer 2 有可能中途会挂掉,所以 proposer 1 只能继续提交议案,直到确认有一个议案被选定)</p>
+<p>每个议案的编号都是唯一的,但是存在着多个 proposer,如何能保证它们提出的议案编号都不相同</p>
+<p>质数算法：每个 proposer 对应着唯一的质数,每个新增议案,就是该质数的倍数.比如有两个 proposer 对应着 2,3 两个质数,第一个 </p>
+<p>proposer 提出第 i 个议案时,它的编号时 2 * i </p>
+<p>等差算法：假设有 n 个 proposer,那么第 m 个 proposer第 i 次新增的议案编号是 m + i * n </p>
+<h2 id="Zab"><a href="#Zab" class="headerlink" title="Zab"></a>Zab</h2><p>Zab 协议保证了集群在任何时刻,要么只有一个 leader,要么没有 leader.这两种情况称为广播模式和恢复模式：</p>
+<ol>
+<li>处于广播模式的集群,能够正常对外提供服务,客户端可以正常的读写</li>
+<li>处于恢复模式的集群,不能对外提供服务，这时节点有可能处于选举过程,同步过程</li>
+</ol>
+<p>广播模式比较简单,就是和二阶段提交类型,但是允许不超过半数的服务挂掉.客户端的写入请求都会转发给 leader,然后 leader 将消息发送给 follower,如果超过半数的follower响应成功,那么就提交 commit 操作,将数据持久化到磁盘</p>
+<p><strong>消息广播过程</strong>:</p>
+<ol>
+<li>客户端发起写请求</li>
+<li>Leader将客户端请求信息转化为事务Proposal,同时为每个Proposal分配一个事务ID（Zxid）</li>
+<li>Leader为每个Follower单独分配一个FIFO的队列,将需要广播的Proposal依次放入到队列中</li>
+<li>Follower接收到Proposal后,首先将其以事务日志的方式写入到本地磁盘中,写入成功后给Leader反馈一个ACK响应</li>
+<li>Leader接收到半数以上Follower的ACK响应后,即认为消息发送成功,可以发送Commit消息</li>
+<li>Leader向所有Follower广播Commit消息,同时自身也会完成事务提交.Follower接收到Commit消息后也会完成事务的提交</li>
+</ol>
+<p>恢复模式有一点复杂,它会从集群中选举出一个节点作为 leader,这个节点需要具有最新的数据.而且这个 leader 需要被过半节点认同.我们</p>
+<p>回想下 zookeeper 的写操作需要过半的节点完成才能认为成功,而选举也需要过半的节点都同意,那么两个集合之间必定有交叉,就可以保证</p>
+<p>选举出来的是有最新数据的节点</p>
+<p>加载过程: zookeeper 的节点会在本地磁盘持久化数据,启动时会加载这些本地数据,这些数据都是根据事务 id 顺序存储的,这样就可以根据</p>
+<p>最大的事务 id 来判断数据的新旧</p>
+<p>选举过程: 各个节点相同通信,选举出一个共同的 leader 节点.这个 leader 节点的选票必须过半,并且有着最新的数据</p>
+<p>同步过程：当成为 follower 节点后,需要向 leader 节点同步数据,因为 follower 节点的数据可能落后于leader</p>
+<p>处理请求：当同步过程完成后，集群就可以对外提供读写服务了</p>
+<h5 id="FastLeaderElection"><a href="#FastLeaderElection" class="headerlink" title="FastLeaderElection"></a>FastLeaderElection</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FastLeaderElection</span> <span class="keyword">implements</span> <span class="title">Election</span> </span>&#123;</span><br><span class="line">    AtomicLong logicalclock = <span class="keyword">new</span> AtomicLong();  <span class="comment">// 选举轮数</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 自身节点的投票信息</span></span><br><span class="line">    <span class="keyword">long</span> proposedLeader;  <span class="comment">// 哪个节点为leader</span></span><br><span class="line">    <span class="keyword">long</span> proposedZxid;    <span class="comment">// 选举的leader节点的最大事务id</span></span><br><span class="line">    <span class="keyword">long</span> proposedEpoch;   <span class="comment">// 选举的leader节点的最大epoch</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Vote <span class="title">lookForLeader</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 存储着来自同选举轮数，每个节点对应的投票，投票里包含了选举哪个节点作为leader</span></span><br><span class="line">        Map&lt;Long, Vote&gt; recvset = <span class="keyword">new</span> HashMap&lt;Long, Vote&gt;();</span><br><span class="line">        <span class="comment">// 存储着来自leader或者follower的投票</span></span><br><span class="line">        Map&lt;Long, Vote&gt; outofelection = <span class="keyword">new</span> HashMap&lt;Long, Vote&gt;();</span><br><span class="line">        <span class="comment">// 每次选举都会增加选举轮数</span></span><br><span class="line">        logicalclock.incrementAndGet();</span><br><span class="line">        <span class="comment">// 设置自身的投票信息</span></span><br><span class="line">        updateProposal(getInitId(), getInitLastLoggedZxid(), getPeerEpoch());</span><br><span class="line">        <span class="comment">// 发送投票给其余的节点</span></span><br><span class="line">        sendNotifications();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 循环，一直到选出leader为止</span></span><br><span class="line">        <span class="keyword">while</span> ((self.getPeerState() == ServerState.LOOKING) &amp;&amp; (!stop)) &#123;</span><br><span class="line">            <span class="comment">// 从队列里获取其余节点的投票信息</span></span><br><span class="line">            Notification n = recvqueue.poll(notTimeout, TimeUnit.MILLISECONDS);</span><br><span class="line">            <span class="comment">// 根据发送投票的节点的状态，做不同的处理</span></span><br><span class="line">            <span class="keyword">switch</span> (n.state) &#123;</span><br><span class="line">            <span class="keyword">case</span> LOOKING:</span><br><span class="line">                 <span class="comment">// 发送节点的状态为LOOKING</span></span><br><span class="line">                 <span class="comment">// 先比较选举轮数，再比较epoch和事务id</span></span><br><span class="line">                 <span class="keyword">if</span> (n.electionEpoch &gt; logicalclock.get()) &#123;</span><br><span class="line">                     <span class="comment">// 如果自己的选举轮数落后，更新自己的选举轮数</span></span><br><span class="line">                     logicalclock.set(n.electionEpoch);</span><br><span class="line">                     <span class="comment">// 还需要清空旧的投票信息，因为这些都已经过时了</span></span><br><span class="line">                     recvset.clear();</span><br><span class="line">                     <span class="comment">// 比较谁更适合当选leader，如果是别的节点，那么就更新自己的投票信息</span></span><br><span class="line">                     <span class="keyword">if</span> (totalOrderPredicate(n.leader, n.zxid, n.peerEpoch, getInitId(),                 getInitLastLoggedZxid(), getPeerEpoch())) &#123;</span><br><span class="line">                         updateProposal(n.leader, n.zxid, n.peerEpoch);</span><br><span class="line">                     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                         updateProposal(getInitId(), getInitLastLoggedZxid(), getPeerEpoch());</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="comment">// 需要重新发送投票，因为之前的已经过时了</span></span><br><span class="line">                     sendNotifications();</span><br><span class="line">                 &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n.electionEpoch &lt; logicalclock.get()) &#123;</span><br><span class="line">                     <span class="comment">// 如果发送投票的节点，选举轮数落后，那么就不用理睬</span></span><br><span class="line">                     <span class="keyword">break</span>;</span><br><span class="line">                 &#125; <span class="keyword">else</span> <span class="keyword">if</span> (totalOrderPredicate(n.leader, n.zxid, n.peerEpoch, proposedLeader, proposedZxid, proposedEpoch)) &#123;</span><br><span class="line">                     <span class="comment">// 如果别的节点更适合当选leader，那么就更新自己的投票信息，并且重新发送</span></span><br><span class="line">                     updateProposal(n.leader, n.zxid, n.peerEpoch);</span><br><span class="line">                     sendNotifications();</span><br><span class="line">                 &#125;</span><br><span class="line">                 </span><br><span class="line">                 <span class="comment">// 记录投票信息</span></span><br><span class="line">                 recvset.put(n.sid, <span class="keyword">new</span> Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch));</span><br><span class="line">                </span><br><span class="line">                 <span class="comment">// 如果有超过半数的投票一致，那么有可能新的leader被选举出来了</span></span><br><span class="line">                <span class="keyword">if</span> (voteSet.hasAllQuorums()) &#123;</span><br><span class="line">                    <span class="comment">// 检测队列里的剩余投票请求，并且直到等待finalizeWait时间，仍然没有新的请求</span></span><br><span class="line">                    <span class="comment">// 如果有别的节点更适合当选leader，那么就跳到循环开始，来处理投票信息</span></span><br><span class="line">                    <span class="keyword">while</span> ((n = recvqueue.poll(finalizeWait, TimeUnit.MILLISECONDS)) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (totalOrderPredicate(n.leader, n.zxid, n.peerEpoch, proposedLeader, proposedZxid, proposedEpoch)) &#123;</span><br><span class="line">                            recvqueue.put(n);</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 如果仍然没有新请求，那么就认为leader选定出来了</span></span><br><span class="line">                    <span class="comment">// 根据比较节点id，判断是follower角色还是leader角色</span></span><br><span class="line">                    <span class="keyword">if</span> (n == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="comment">// 这里会更新该节点的状态为follower或者leader</span></span><br><span class="line">                        setPeerState(proposedLeader, voteSet);</span><br><span class="line">                        <span class="comment">// 返回最终的选票</span></span><br><span class="line">                        Vote endVote = <span class="keyword">new</span> Vote(proposedLeader, proposedZxid, logicalclock.get(), proposedEpoch);</span><br><span class="line">                        <span class="keyword">return</span> endVote;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">           </span><br><span class="line">            <span class="keyword">case</span> FOLLOWING:</span><br><span class="line">            <span class="keyword">case</span> LEADING:</span><br><span class="line">                <span class="keyword">if</span>(n.electionEpoch == logicalclock.get())&#123;</span><br><span class="line">                    <span class="comment">// 在同一选举轮数中，已经有leader产生并且开始运行了</span></span><br><span class="line">                    recvset.put(n.sid, <span class="keyword">new</span> Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch));</span><br><span class="line">                    <span class="keyword">if</span> (voteSet.hasAllQuorums() &amp;&amp; checkLeader(outofelection, n.leader, n.electionEpoch)) &#123;</span><br><span class="line">                        <span class="comment">// 这里会更新该节点的状态为follower或者leader</span></span><br><span class="line">                        setPeerState(n.leader, voteSet);</span><br><span class="line">                        Vote endVote = <span class="keyword">new</span> Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch);</span><br><span class="line">                        <span class="keyword">return</span> endVote;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 这里不用区分选举轮数，因为follower和leader角色已经稳定运行了</span></span><br><span class="line">                outofelection.put(n.sid, <span class="keyword">new</span> Vote(n.version, n.leader,</span><br><span class="line">                                n.zxid, n.electionEpoch, n.peerEpoch, n.state));</span><br><span class="line">                <span class="comment">// 如果多数节点的投票相同，那么检查该leader节点是否处于leader状态</span></span><br><span class="line">                <span class="keyword">if</span> (voteSet.hasAllQuorums() &amp;&amp; checkLeader(outofelection, n.leader, n.electionEpoch)) &#123;</span><br><span class="line">                    <span class="comment">// 设置选举轮数</span></span><br><span class="line">                    logicalclock.set(n.electionEpoch);</span><br><span class="line">                    <span class="comment">// 这里会更新该节点的状态为follower或者leader</span></span><br><span class="line">                    setPeerState(n.leader, voteSet);</span><br><span class="line">                    <span class="comment">// 返回最终的选票</span></span><br><span class="line">                	Vote endVote = <span class="keyword">new</span> Vote(n.leader, n.zxid, n.electionEpoch, n.peerEpoch);</span><br><span class="line">                	<span class="keyword">return</span> endVote;</span><br><span class="line">                &#125;</span><br><span class="line">           		<span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
     
@@ -411,7 +460,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://nino-laiqiu.github.io/2020/12/29/Zookeeper-Consistency/" title="Zookeeper-Consistency">https://nino-laiqiu.github.io/2020/12/29/Zookeeper-Consistency/</a>
+    <a href="https://nino-laiqiu.github.io/2020/12/29/Zookeeper-Consistency/" title="Zookeeper数据一致性">https://nino-laiqiu.github.io/2020/12/29/Zookeeper-Consistency/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -504,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -524,7 +582,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,6 +638,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Paxos"><span class="nav-number">1.</span> <span class="nav-text">Paxos</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Prepare-%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Prepare 阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Accept-%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Accept 阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Learn-%E9%98%B6%E6%AE%B5"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Learn 阶段</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zab"><span class="nav-number">2.</span> <span class="nav-text">Zab</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#FastLeaderElection"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">FastLeaderElection</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -593,7 +667,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -164,7 +164,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">致力于实现数据商业智能系统的建设方案</p>
+        <p class="site-subtitle">致力于数据商业智能系统的建设方案</p>
       
   </div>
 
@@ -319,7 +319,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/29/Zookeeper-Consistency/" itemprop="url">Zookeeper-Consistency</a></h1>
+                <a class="post-title-link" href="/2020/12/29/Zookeeper-Consistency/" itemprop="url">Zookeeper数据一致性</a></h1>
         
 
         <div class="post-meta">
@@ -393,8 +393,12 @@
       
         
           
-          
-          
+          在分布式的环境中,存在多个值,需要从中选定出一个值,达成共识
+PaxosPrepare 阶段proposer 在提出议案 N 之前,N 是该议案的编号,需要向至少多数的 acceptor 发送 Prepare（N）请求
+acceptor 收到 Prepare（N）请求后
+
+如果之前已经接受了其他议案
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/12/29/Zookeeper-Consistency/#more" rel="contents">
@@ -552,11 +556,8 @@
       
         
           
-          //快排
-//并归
-/
-
-          
+          内排冒泡选择快排1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/12/28/Sort/#more" rel="contents">
@@ -759,165 +760,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nino-laiqiu.github.io/2020/12/20/Spark-Shuffle-Simple-Source-Code-Analysis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://i.loli.net/2020/10/23/1Xl4WEJgHpw8jvN.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tongyongtao's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/20/Spark-Shuffle-Simple-Source-Code-Analysis/" itemprop="url">Spark-Shuffle源码简单分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-20T08:20:01+08:00">
-                2020-12-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/The-Hadoop-Ecosystem/" itemprop="url" rel="index">
-                    <span itemprop="name">The Hadoop Ecosystem</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/The-Hadoop-Ecosystem/Learning-Spark/" itemprop="url" rel="index">
-                    <span itemprop="name">Learning Spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          shuffle注册executor1234567891011// CoarseGrainedExecutorBackend类driverConf.set(EXECUTOR_ID, arguments.executorId)  val env = SparkEnv.createExecutorEnv(
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/12/20/Spark-Shuffle-Simple-Source-Code-Analysis/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://nino-laiqiu.github.io/2020/12/12/Dimensional-modeling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1023,11 +865,9 @@
         
           
           Data仓库中的Data是细节的、集成的、面向主题的,以OLAPSystam的分析需求为目的
+阅读《数据仓库工具箱》并作记录,争取在半年内完成…….
 构建Data仓库五步法确定主题
-例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数value型
-Data(量度)之间的关系
-确定量度
-我们将考
+例如：我们希望分析某年某月某一地区的啤酒销售情况,这就是一个主题.主题要体现出某一方面的各分析角度(维度)和统计数va
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1186,9 +1026,8 @@ Data(量度)之间的关系
       
         
           
-          Abstract项目背景项目背景:随着公司用户量增多,业务量和数据量也随之增多.为了提高公司业务转化率改善公司运营,构建数仓可以更好地管理和维护用户行为数据,同时针对用户的线上访问行为 消费行为 业务行为进行统计分析以支撑公司运营.
-项目地址
-https://github.com/nino-laiq
+          AbstractBackground​    As the number of users increases, the volume of business and data also increases.In order to improve the company’s business 
+co
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1844,6 +1683,165 @@ ARRAY:例如:friends array  可以通过 friend
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nino-laiqiu.github.io/2020/11/10/Spark-Performance-Optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.loli.net/2020/10/23/1Xl4WEJgHpw8jvN.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tongyongtao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/11/10/Spark-Performance-Optimization/" itemprop="url">Spark性能优化简单分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-10T20:31:43+08:00">
+                2020-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/The-Hadoop-Ecosystem/" itemprop="url" rel="index">
+                    <span itemprop="name">The Hadoop Ecosystem</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/The-Hadoop-Ecosystem/Learning-Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Learning Spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          资源调优Spark作业运行基本原理12345678910111213141516171819202122232425261. spark-submit 根据部署模式(本地或集群中某工作节点)启动一个对应的Driver进程,Driver进程本身会根据我们设置的参数,占有一定数量的内存和CPU core
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/10/Spark-Performance-Optimization/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1898,7 +1896,7 @@ ARRAY:例如:friends array  可以通过 friend
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1967,7 +1965,7 @@ ARRAY:例如:friends array  可以通过 friend
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
